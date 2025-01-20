@@ -264,7 +264,7 @@ script = ExtResource("3_vqshy")
 root = NodePath("..")
 enable_prediction = true
 state_properties = Array[String]([":global_position", ":velocity", ":crouchness"])
-input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch", "Input:use", "Input:drop"])
+input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch", "Input:use", "Input:drop", "Input:primary", "Input:secondary"])
 metadata/_custom_type_script = ExtResource("3_vqshy")
 
 [node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]

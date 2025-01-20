@@ -55,7 +55,7 @@ func simulate_drop() -> void:
 	if !multiplayer.is_server() or !$Input.drop: return
 	
 	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
-	if left_item:
+	if left_item and $Input.primary:
 		left_hand_item_name = ""
 		left_item.holder_name = ""
 		left_item.linear_velocity = velocity
@@ -63,7 +63,7 @@ func simulate_drop() -> void:
 		return
 	
 	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
-	if right_item:
+	if right_item and $Input.secondary:
 		right_hand_item_name = ""
 		right_item.holder_name = ""
 		right_item.linear_velocity = velocity
