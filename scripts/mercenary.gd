@@ -75,11 +75,10 @@ func simulate_use() -> void:
 	# Physics related stuff kinda sux, so it's no use.
 	if !multiplayer.is_server() or !$Input.use: return
 	
-	var look := Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch).rotated_local(Vector3.RIGHT, $Input.look_yaw)
-	var viewpoint: Vector3 = $HeadAttachment/Viewpoint.global_position
+	var viewpoint: Node3D = $HeadAttachment/Viewpoint
 	
 	var state := get_world_3d().direct_space_state
-	var params := PhysicsRayQueryParameters3D.create(viewpoint, viewpoint - look.basis.z)
+	var params := PhysicsRayQueryParameters3D.create(viewpoint.global_position, viewpoint.global_position - viewpoint.global_basis.z)
 	params.exclude = [get_rid()]
 	var result := state.intersect_ray(params)
 	if result.is_empty(): return

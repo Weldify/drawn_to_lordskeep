@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://chqyy74rkrt2t"]
+
+[ext_resource type="Script" uid="uid://cr4j1s3eunqkt" path="res://scripts/item.gd" id="1_g4pv6"]
+[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="2_ysa82"]
+
+[node name="BaseItem" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_g4pv6")
+
+[node name="HandleOffset" type="Node3D" parent="."]
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("2_ysa82")
+root = NodePath("..")
+properties = Array[String]([":holder_name", ":is_in_right_hand"])
+metadata/_custom_type_script = ExtResource("2_ysa82")

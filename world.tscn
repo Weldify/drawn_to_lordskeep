@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
+[ext_resource type="PackedScene" uid="uid://ep2mjq8vieyb" path="res://booze.tscn" id="2_ic0uy"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="2_tlwt5"]
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="3_tlwt5"]
 [ext_resource type="Script" uid="uid://chjwo06bi07ye" path="res://scripts/standalone_connect_prompt_displayer.gd" id="7_gbfbk"]
@@ -9,7 +10,6 @@
 [ext_resource type="Script" uid="uid://dg2wof3wmsjts" path="res://scripts/steam_friend_lobbies.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
-[ext_resource type="PackedScene" uid="uid://qipx6wwrird8" path="res://models/mercenary/mercenary.blend" id="11_ic0uy"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://crosshair.png" id="15_hiqwa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic0uy"]
@@ -221,8 +221,11 @@ _spawnable_scenes = PackedStringArray("uid://g33nab5xyq5h")
 spawn_path = NodePath(".")
 
 [node name="Items" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://wqm4wyvrwe1t")
+_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb")
 spawn_path = NodePath(".")
+
+[node name="Booze" parent="Items" instance=ExtResource("2_ic0uy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.479889, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 fov = 90.0
@@ -538,9 +541,6 @@ text = "Join"
 [node name="Hide" type="Button" parent="StandaloneConnectPrompt/VBoxContainer"]
 layout_mode = 2
 text = "Hide"
-
-[node name="Mercenary" parent="." instance=ExtResource("11_ic0uy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.824484, 0.000111818, -2.06418)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.501961)

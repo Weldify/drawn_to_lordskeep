@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ep2mjq8vieyb"]
+
+[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_73vqd"]
+[ext_resource type="Texture2D" uid="uid://c32ajt25gj6xj" path="res://mug.png" id="2_i7h20"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_asegs"]
+height = 0.485
+radius = 0.1
+
+[node name="Booze" instance=ExtResource("1_73vqd")]
+
+[node name="HandleOffset" parent="." index="0"]
+transform = Transform3D(-0.00405515, 0.999831, -0.0179243, -0.220626, -0.0183772, -0.975185, -0.97535, 2.98023e-08, 0.220663, 0.1165, 0.0791415, 0.113299)
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="1"]
+pixel_size = 0.0005
+texture = ExtResource("2_i7h20")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+shape = SubResource("CylinderShape3D_asegs")
