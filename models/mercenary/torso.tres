@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dr8hobmtj6kg6"]
+
+[ext_resource type="Texture2D" uid="uid://bifk1x3q71mph" path="res://models/mercenary/torso.png" id="1_yehdl"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_yehdl")
+texture_filter = 0

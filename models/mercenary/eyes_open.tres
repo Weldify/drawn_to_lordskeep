@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://crru1udi05sp3"]
+
+[ext_resource type="Texture2D" uid="uid://bekbh7n121o6l" path="res://models/mercenary/eyes_open.png" id="1_uw3mk"]
+
+[resource]
+transparency = 1
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_uw3mk")
+texture_filter = 0

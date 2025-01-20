@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ci85xwyhadvqq"]
+
+[ext_resource type="Texture2D" uid="uid://y8j0l4ogyhma" path="res://models/mercenary/pants.png" id="1_6gcn4"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_6gcn4")
+texture_filter = 0
