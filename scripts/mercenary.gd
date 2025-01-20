@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 
 var crouchness := 0.0
+var is_grounded := false
 
 ## Non-owners use this for interpolating the look direction!
 var recorded_look_pitch: float
@@ -28,6 +29,13 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	print($AnimationTree.get("parameters/Right Hand/playback"))
 
+# Needs to be done before checking is_on_floor() in rollback tick.
+func _force_update_is_on_floor():
+	var old_velocity = velocity
+	velocity = Vector3.ZERO
+	move_and_slide()
+	velocity = old_velocity
+
 
 func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 	if $Input.crouch:
@@ -41,10 +49,16 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 	var move_direction := Vector3(move_input.x, 0, move_input.y).normalized()
 	move_direction = horizontal_look * move_direction
 	
-	var max_speed := 1 if crouchness != 0 else 2
+	_force_update_is_on_floor()
+	is_grounded = is_on_floor()
 	
-	_apply_friction(5 * delta)
-	_accelerate(move_direction, 10 * delta, max_speed)
+	if is_grounded:
+		var max_speed := 1 if crouchness != 0 else 2
+		
+		_apply_friction(5 * delta)
+		_accelerate(move_direction, 10 * delta, max_speed)
+	else:
+		velocity += get_gravity() * delta
 	
 	velocity *= NetworkTime.physics_factor
 	move_and_slide()
@@ -55,6 +69,7 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 
 
 func play_footstep() -> void:
+	if !is_grounded: return
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
 

@@ -62,8 +62,9 @@ _data = {
 &"RESET": SubResource("Animation_s636n")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
-size = Vector3(0.5, 1.75, 0.5)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ybq4i"]
+radius = 0.4
+height = 1.75
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_288uk"]
 animation = &"RESET"
@@ -267,7 +268,7 @@ metadata/_custom_type_script = ExtResource("4_k4fjk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
-shape = SubResource("BoxShape3D_gv5m4")
+shape = SubResource("CapsuleShape3D_ybq4i")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 process_priority = -1
