@@ -5,10 +5,12 @@ class_name Item
 
 var holder_name: String
 var is_in_right_hand := true
-var _restarting_interpolation := false
 
 func _ready() -> void:
 	set_multiplayer_authority(1)
+	$StateSynchronizer.process_settings()
+	
+	NetworkTime.on_tick.connect(_tick)
 	
 	# Only item layer
 	collision_layer = 0
@@ -18,7 +20,7 @@ func _ready() -> void:
 		freeze = true
 
 
-func _physics_process(delta: float) -> void:
+func _tick(delta: float, tick: int) -> void:
 	if $/root/world/Mercenaries.get_node_or_null(holder_name):
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		set_collision_layer_value(3, false)

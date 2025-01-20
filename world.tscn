@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=4 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=74 format=4 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
 [ext_resource type="PackedScene" uid="uid://qipx6wwrird8" path="res://models/mercenary/mercenary.blend" id="11_ic0uy"]
-[ext_resource type="PackedScene" uid="uid://wqm4wyvrwe1t" path="res://mace.tscn" id="12_2o6r5"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://crosshair.png" id="15_hiqwa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic0uy"]
@@ -225,12 +224,6 @@ spawn_path = NodePath(".")
 _spawnable_scenes = PackedStringArray("uid://wqm4wyvrwe1t")
 spawn_path = NodePath(".")
 
-[node name="Mace" parent="Items" instance=ExtResource("12_2o6r5")]
-transform = Transform3D(1, 0, 0, 0, 0.576005, -0.817447, 0, 0.817447, 0.576005, 0, 1.69387, 0.597971)
-
-[node name="Mace2" parent="Items" instance=ExtResource("12_2o6r5")]
-transform = Transform3D(1, 0, 0, 0, 0.576005, -0.817447, 0, 0.817447, 0.576005, -0.372367, 1.69387, 0.597971)
-
 [node name="Camera3D" type="Camera3D" parent="."]
 fov = 90.0
 far = 1000.0
@@ -430,6 +423,8 @@ shadow_enabled = true
 
 [node name="GameOpener" type="Area3D" parent="."]
 transform = Transform3D(-0.365608, 0, 0.930769, 0, 1, 0, -0.930769, 0, -0.365608, -2.25515, 1.32495, 2.90591)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("10_wse8f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GameOpener"]
@@ -441,6 +436,8 @@ text = "Walk into me to open
 
 [node name="FriendLobbyShower" type="Area3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.50229, 1.32495, 0.978153)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("7_pkg7o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FriendLobbyShower"]
@@ -452,6 +449,8 @@ your friends' steam lobbies"
 
 [node name="StandaloneConnectPromptDisplayer" type="Area3D" parent="."]
 transform = Transform3D(-0.813527, 0, 0.581527, 0, 1, 0, -0.581527, 0, -0.813527, -1.21607, 1.32495, 4.41955)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("7_gbfbk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StandaloneConnectPromptDisplayer"]

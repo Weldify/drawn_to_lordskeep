@@ -34,12 +34,14 @@ func _ready() -> void:
 	var peer_id := int(name)
 	set_multiplayer_authority(1)
 	$Input.set_multiplayer_authority(peer_id)
+	
 	$RollbackSynchronizer.process_settings()
+	$StateSynchronizer.process_settings()
 	
 	if !$Input.is_multiplayer_authority(): return
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	print($AnimationTree.get("parameters/Right Hand/playback"))
+
 
 # Needs to be done before checking is_on_floor() in rollback tick.
 func _force_update_is_on_floor() -> void:
@@ -77,13 +79,17 @@ func simulate_use() -> void:
 	var viewpoint: Vector3 = $HeadAttachment/Viewpoint.global_position
 	
 	var state := get_world_3d().direct_space_state
-	var params := PhysicsRayQueryParameters3D.create(viewpoint, viewpoint - look.basis.z * 1.5)
+	var params := PhysicsRayQueryParameters3D.create(viewpoint, viewpoint - look.basis.z)
 	params.exclude = [get_rid()]
 	var result := state.intersect_ray(params)
 	if result.is_empty(): return
 	
+	print(result.collider)
 	if !result.collider is Item: return
 	assert(result.collider.get_parent() == $/root/world/Items)
+	
+	var holder := $/root/world/Mercenaries.get_node_or_null(result.collider.holder_name)
+	if holder: return
 	
 	var right_hand_free := $/root/world/Items.get_node_or_null(right_hand_item_name) == null
 	var left_hand_free := $/root/world/Items.get_node_or_null(left_hand_item_name) == null

@@ -31,6 +31,11 @@ func _ready():
 	
 	_spawn_mercenary_for_peer(1)
 	
+	for i in 2:
+		var mace := preload("res://mace.tscn").instantiate()
+		$/root/world/Items.add_child(mace, true)
+		mace.global_position = Vector3(0, 2, 0)
+	
 	DiscordRPC.app_id = 1324092717873106974
 	DiscordRPC.details = "Don't think too hard on it."
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
@@ -39,8 +44,8 @@ func _ready():
 
 ## Call this before joining someone's game!
 func reset_all_multiplayer_things():
-	for merc in $Mercenaries.get_children(): 
-		merc.free()
+	for merc in $Mercenaries.get_children(): merc.free()
+	for item in $Items.get_children(): item.free()
 	
 	# Will be restarted on the next frame!
 	NetworkTime.stop()

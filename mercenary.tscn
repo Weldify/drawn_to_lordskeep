@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=45 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ca16lhkqxuwet" path="res://scripts/mercenary_input.gd" id="2_s636n"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://nsce71epo261" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="3_vqshy"]
 [ext_resource type="Script" uid="uid://bwnme06m7ispq" path="res://addons/netfox/tick-interpolator.gd" id="4_k4fjk"]
 [ext_resource type="PackedScene" uid="uid://qipx6wwrird8" path="res://models/mercenary/mercenary.blend" id="5_qqtx7"]
+[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="6_7qe3q"]
 [ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/foot_step0.wav" id="7_qqtx7"]
 [ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/foot_step1.wav" id="8_7qe3q"]
 [ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/foot_step2.wav" id="9_ybq4i"]
@@ -262,9 +263,15 @@ script = ExtResource("2_s636n")
 script = ExtResource("3_vqshy")
 root = NodePath("..")
 enable_prediction = true
-state_properties = Array[String]([":global_position", ":velocity", ":crouchness", ":right_hand_item_name", ":left_hand_item_name"])
+state_properties = Array[String]([":global_position", ":velocity", ":crouchness"])
 input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch", "Input:use", "Input:drop"])
 metadata/_custom_type_script = ExtResource("3_vqshy")
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("6_7qe3q")
+root = NodePath("..")
+properties = Array[String]([":right_hand_item_name", ":left_hand_item_name"])
+metadata/_custom_type_script = ExtResource("6_7qe3q")
 
 [node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
 process_priority = -1
