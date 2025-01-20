@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=44 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ca16lhkqxuwet" path="res://scripts/mercenary_input.gd" id="2_s636n"]
@@ -9,8 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/foot_step0.wav" id="7_qqtx7"]
 [ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/foot_step1.wav" id="8_7qe3q"]
 [ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/foot_step2.wav" id="9_ybq4i"]
-[ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="10_7qe3q"]
-[ext_resource type="Texture2D" uid="uid://c32ajt25gj6xj" path="res://mug.png" id="11_ybq4i"]
 
 [sub_resource type="Animation" id="Animation_s636n"]
 length = 0.001
@@ -81,11 +79,19 @@ animation = &"mercenary/l_hold_weapon"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p6ykb"]
 advance_mode = 2
 
+[sub_resource type="Curve" id="Curve_ybq4i"]
+_data = [Vector2(0, 0), 0.0, 3.14596, 0, 0, Vector2(1, 1), -0.494488, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5f0r2"]
+xfade_time = 0.3
+xfade_curve = SubResource("Curve_ybq4i")
 advance_mode = 2
 advance_expression = "is_left_holdtype_weapon()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2rkhb"]
+xfade_time = 0.3
+xfade_curve = SubResource("Curve_ybq4i")
 advance_mode = 2
 advance_expression = "!is_left_holdtype_weapon()"
 
@@ -114,10 +120,14 @@ animation = &"mercenary/r_hold_weapon"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ij2o5"]
+xfade_time = 0.3
+xfade_curve = SubResource("Curve_ybq4i")
 advance_mode = 2
 advance_expression = "is_right_holdtype_weapon()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5h5rc"]
+xfade_time = 0.3
+xfade_curve = SubResource("Curve_ybq4i")
 advance_mode = 2
 advance_expression = "!is_right_holdtype_weapon()"
 
@@ -177,7 +187,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-658.805, 3.75467)
+graph_offset = Vector2(-1371.1, 108.667)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_288uk")
 nodes/Animation/position = Vector2(-1000, 60)
 "nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
@@ -213,22 +223,19 @@ stream_1/stream = ExtResource("8_7qe3q")
 stream_2/stream = ExtResource("9_ybq4i")
 
 [node name="Mercenary" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_m6yd2")
 
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
 bones/2/rotation = Quaternion(0.998485, 0.0549266, 0.000180176, -0.00332336)
-bones/2/scale = Vector3(1.00011, 1, 1)
 bones/3/rotation = Quaternion(-0.00332768, -2.65447e-05, 0.103328, 0.994642)
 bones/4/rotation = Quaternion(-9.59388e-06, -2.91439e-07, -0.722388, 0.691488)
-bones/4/scale = Vector3(0.999998, 0.999895, 0.999999)
 bones/5/rotation = Quaternion(0.000180967, 0.00332343, 0.998485, -0.0549246)
-bones/5/scale = Vector3(1.00011, 1, 1)
 bones/6/rotation = Quaternion(-0.00332768, 2.65484e-05, -0.103328, 0.994642)
-bones/6/scale = Vector3(0.999999, 1, 1)
 bones/7/rotation = Quaternion(-9.7435e-06, 4.85588e-07, 0.72239, 0.691486)
-bones/7/scale = Vector3(1, 0.999891, 0.999999)
 bones/8/rotation = Quaternion(-1.61196e-08, 1.61397e-10, -0.0212434, 0.999774)
 bones/9/rotation = Quaternion(7.0572e-09, -9.91657e-10, 0.0104049, 0.999946)
 bones/10/rotation = Quaternion(8.78693e-08, 3.01493e-07, 0.0498882, 0.998755)
@@ -255,8 +262,8 @@ script = ExtResource("2_s636n")
 script = ExtResource("3_vqshy")
 root = NodePath("..")
 enable_prediction = true
-state_properties = Array[String]([":global_position", ":velocity", ":crouchness"])
-input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch"])
+state_properties = Array[String]([":global_position", ":velocity", ":crouchness", ":right_hand_item_name", ":left_hand_item_name"])
+input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch", "Input:use", "Input:drop"])
 metadata/_custom_type_script = ExtResource("3_vqshy")
 
 [node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
@@ -308,19 +315,11 @@ bone_idx = 14
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
-[node name="mace" parent="RightHandAttachment" instance=ExtResource("10_7qe3q")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -8.2946e-10, 0.0662488, 0.0272622)
-
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501133, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521573, 0.733352, 1.31446, -0.00123273)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
-
-[node name="Sprite3D" type="Sprite3D" parent="LeftHandAttachment"]
-transform = Transform3D(-0.123395, -0.990613, 0.0588298, 0.894186, -0.136701, -0.426314, 0.430354, 0, 0.90266, -0.124769, 0.0695312, 0.0365394)
-pixel_size = 0.0002
-texture = ExtResource("11_ybq4i")
 
 [editable path="Model"]

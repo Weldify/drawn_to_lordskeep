@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://wqm4wyvrwe1t"]
+
+[ext_resource type="Script" uid="uid://cr4j1s3eunqkt" path="res://scripts/item.gd" id="1_8gtcb"]
+[ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
+[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="3_w8dml"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2o6r5"]
+size = Vector3(0.2, 1, 0.2)
+
+[node name="Mace" type="RigidBody3D"]
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 4
+script = ExtResource("1_8gtcb")
+
+[node name="mace" parent="." instance=ExtResource("2_3o362")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342114, 0)
+shape = SubResource("BoxShape3D_2o6r5")
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("3_w8dml")
+root = NodePath("..")
+properties = Array[String]([":global_transform", ":holder_name", ":is_in_right_hand"])
+metadata/_custom_type_script = ExtResource("3_w8dml")
+
+[node name="HandleOffset" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.066, 0.027)

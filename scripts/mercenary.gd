@@ -8,14 +8,26 @@ var is_grounded := false
 var recorded_look_pitch: float
 var recorded_look_yaw: float
 
-var left_hold_type := G.HoldType.WEAPON
-var right_hold_type := G.HoldType.WEAPON
+var right_hand_item_name: String
+var left_hand_item_name: String
+
+
+func get_right_holdtype() -> G.HoldType:
+	var item := $/root/world/Items.get_node_or_null(right_hand_item_name)
+	return item.holdtype if item else G.HoldType.NONE
+
+
+func get_left_holdtype() -> G.HoldType:
+	var item := $/root/world/Items.get_node_or_null(left_hand_item_name)
+	return item.holdtype if item else G.HoldType.NONE
+
 
 func is_left_holdtype_weapon() -> bool:
-	return left_hold_type == G.HoldType.WEAPON
+	return get_left_holdtype() == G.HoldType.WEAPON
+
 
 func is_right_holdtype_weapon() -> bool:
-	return right_hold_type == G.HoldType.WEAPON
+	return get_right_holdtype() == G.HoldType.WEAPON
 
 
 func _ready() -> void:
@@ -30,14 +42,67 @@ func _ready() -> void:
 	print($AnimationTree.get("parameters/Right Hand/playback"))
 
 # Needs to be done before checking is_on_floor() in rollback tick.
-func _force_update_is_on_floor():
+func _force_update_is_on_floor() -> void:
 	var old_velocity = velocity
 	velocity = Vector3.ZERO
 	move_and_slide()
 	velocity = old_velocity
 
 
+func simulate_drop() -> void:
+	if !multiplayer.is_server() or !$Input.drop: return
+	
+	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
+	if left_item:
+		left_hand_item_name = ""
+		left_item.holder_name = ""
+		left_item.linear_velocity = velocity
+		left_item.angular_velocity = Vector3.ZERO
+		return
+	
+	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
+	if right_item:
+		right_hand_item_name = ""
+		right_item.holder_name = ""
+		right_item.linear_velocity = velocity
+		right_item.angular_velocity = Vector3.ZERO
+		return
+
+
+func simulate_use() -> void:
+	# Physics related stuff kinda sux, so it's no use.
+	if !multiplayer.is_server() or !$Input.use: return
+	
+	var look := Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch).rotated_local(Vector3.RIGHT, $Input.look_yaw)
+	var viewpoint: Vector3 = $HeadAttachment/Viewpoint.global_position
+	
+	var state := get_world_3d().direct_space_state
+	var params := PhysicsRayQueryParameters3D.create(viewpoint, viewpoint - look.basis.z * 1.5)
+	params.exclude = [get_rid()]
+	var result := state.intersect_ray(params)
+	if result.is_empty(): return
+	
+	if !result.collider is Item: return
+	assert(result.collider.get_parent() == $/root/world/Items)
+	
+	var right_hand_free := $/root/world/Items.get_node_or_null(right_hand_item_name) == null
+	var left_hand_free := $/root/world/Items.get_node_or_null(left_hand_item_name) == null
+	if !right_hand_free and !left_hand_free: return
+	
+	result.collider.holder_name = self.name
+	
+	if right_hand_free:
+		right_hand_item_name = result.collider.name
+		result.collider.is_in_right_hand = true
+	else:
+		left_hand_item_name = result.collider.name
+		result.collider.is_in_right_hand = false
+
+
 func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
+	simulate_drop()
+	simulate_use()
+	
 	if $Input.crouch:
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
 	else:

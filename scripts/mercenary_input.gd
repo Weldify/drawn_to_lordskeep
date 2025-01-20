@@ -4,6 +4,8 @@ var move: Vector2
 var look_pitch: float
 var look_yaw: float
 var crouch := false
+var use := false
+var drop := false
 
 func _ready() -> void:
 	NetworkTime.before_tick_loop.connect(_gather)
@@ -22,3 +24,5 @@ func _gather() -> void:
 	
 	move = Input.get_vector("right", "left", "back", "forward")
 	crouch = Input.is_action_pressed("crouch")
+	use = Input.is_action_pressed("use")
+	drop = Input.is_action_just_pressed("drop")
