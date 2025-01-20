@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=19 format=4 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://jmfdsvng3flh" path="res://scripts/lobby_displayer.gd" id="7_pkg7o"]
 [ext_resource type="Script" uid="uid://dg2wof3wmsjts" path="res://scripts/steam_friend_lobbies.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
+[ext_resource type="Texture2D" uid="uid://c32ajt25gj6xj" path="res://mug.png" id="10_ic0uy"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
@@ -201,6 +202,11 @@ text = "Join"
 [node name="Hide" type="Button" parent="StandaloneConnectPrompt/VBoxContainer"]
 layout_mode = 2
 text = "Hide"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377479, 0)
+pixel_size = 0.0002
+texture = ExtResource("10_ic0uy")
 
 [connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
 [connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]

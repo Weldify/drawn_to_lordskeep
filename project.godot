@@ -26,6 +26,7 @@ NetworkRollback="*res://addons/netfox/rollback/network-rollback.gd"
 NetworkEvents="*res://addons/netfox/network-events.gd"
 NetworkPerformance="*res://addons/netfox/network-performance.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
+G="*res://scripts/g.gd"
 
 [display]
 

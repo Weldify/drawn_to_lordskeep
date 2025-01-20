@@ -7,6 +7,15 @@ var crouchness := 0.0
 var recorded_look_pitch: float
 var recorded_look_yaw: float
 
+var left_hold_type := G.HoldType.WEAPON
+var right_hold_type := G.HoldType.WEAPON
+
+func is_left_holdtype_weapon() -> bool:
+	return left_hold_type == G.HoldType.WEAPON
+
+func is_right_holdtype_weapon() -> bool:
+	return right_hold_type == G.HoldType.WEAPON
+
 
 func _ready() -> void:
 	var peer_id := int(name)
@@ -17,6 +26,7 @@ func _ready() -> void:
 	if !$Input.is_multiplayer_authority(): return
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	print($AnimationTree.get("parameters/Right Hand/playback"))
 
 
 func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
