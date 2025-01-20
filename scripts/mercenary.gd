@@ -78,7 +78,7 @@ func simulate_use() -> void:
 	var viewpoint: Node3D = $HeadAttachment/Viewpoint
 	
 	var state := get_world_3d().direct_space_state
-	var params := PhysicsRayQueryParameters3D.create(viewpoint.global_position, viewpoint.global_position - viewpoint.global_basis.z)
+	var params := PhysicsRayQueryParameters3D.create(viewpoint.global_position, viewpoint.global_position - viewpoint.global_basis.z * 0.5)
 	params.exclude = [get_rid()]
 	var result := state.intersect_ray(params)
 	if result.is_empty(): return
