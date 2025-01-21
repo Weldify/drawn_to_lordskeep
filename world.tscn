@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=4 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=74 format=4 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://dg2wof3wmsjts" path="res://scripts/steam_friend_lobbies.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
-[ext_resource type="PackedScene" uid="uid://cndy7g2esco4j" path="res://placed_satchel.tscn" id="12_k3n1d"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://crosshair.png" id="15_hiqwa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic0uy"]
@@ -558,9 +557,6 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2, 2)
 texture = ExtResource("15_hiqwa")
-
-[node name="PlacedSatchel" parent="." instance=ExtResource("12_k3n1d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55056, 0, 0.86283)
 
 [connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
 [connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]

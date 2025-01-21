@@ -1,7 +1,9 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://bbgy1183dvd0y"]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bbgy1183dvd0y"]
+
+[ext_resource type="Texture2D" uid="uid://cnjc8g7i2nhvy" path="res://models/satchel/satchel.png" id="1_y1x58"]
 
 [resource]
 diffuse_mode = 3
 specular_mode = 2
-albedo_color = Color(0.544042, 0.239818, 0.152011, 1)
+albedo_texture = ExtResource("1_y1x58")
 texture_filter = 0
