@@ -71,12 +71,31 @@ func tick_drop() -> void:
 		return
 
 
-var satchel: Node3D
-func tick_satchel():
-	if !$Input.primary: return
+var satchel: StaticBody3D
+var is_taking_satchel := false
+
+func take_satchel():
+	if is_taking_satchel: return
 	
+	assert(is_instance_valid(satchel))
+	if satchel.global_position.distance_to(global_position) > 1: return
+	is_taking_satchel = true
+	
+	var anim_tree := satchel.get_node("AnimationTree")
+	var playback: AnimationNodeStateMachinePlayback = anim_tree.get("parameters/playback")
+	playback.travel("closing")
+	
+	await get_tree().create_timer(0.8).timeout
+	
+	satchel.free()
+	satchel = null
+	is_taking_satchel = false
+	
+	
+func place_satchel():
 	if satchel:
-		satchel.free()
+		take_satchel()
+		return
 	
 	# NOTE:
 	# Shapecasts in Godot are fucking horrible, whoever was responsible for them
@@ -140,7 +159,6 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 	if multiplayer.is_server() and is_fresh:
 		tick_drop()
 		tick_use()
-		tick_satchel()
 	
 	if $Input.crouch:
 		crouchness = move_toward(crouchness, 1.0, delta * 5)

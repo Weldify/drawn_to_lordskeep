@@ -271,7 +271,7 @@ libraries = {
 }
 
 [node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
-transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 2.66454e-14, 1.2, 1)
+transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1.2, 0.9)
 shape = SubResource("BoxShape3D_ybq4i")
 exclude_parent = false
 target_position = Vector3(0, -1.2, 0)
