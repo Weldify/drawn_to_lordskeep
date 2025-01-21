@@ -7,6 +7,5 @@ func _on_body_entered(body: Node3D) -> void:
 	if !input or !input.is_multiplayer_authority(): return
 	
 	if !is_multiplayer_authority(): return
-	print("CHUD!!")
 	
 	$/root/world.start_hosting()

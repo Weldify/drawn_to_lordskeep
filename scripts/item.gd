@@ -16,8 +16,8 @@ func _ready() -> void:
 	collision_layer = 0
 	set_collision_layer_value(3, true)
 	
-	if !multiplayer.is_server():
-		freeze = true
+	#if !multiplayer.is_server():
+		#freeze = true
 
 
 func _tick(delta: float, tick: int) -> void:

@@ -83,7 +83,6 @@ func simulate_use() -> void:
 	var result := state.intersect_ray(params)
 	if result.is_empty(): return
 	
-	print(result.collider)
 	if !result.collider is Item: return
 	assert(result.collider.get_parent() == $/root/world/Items)
 	
@@ -105,6 +104,10 @@ func simulate_use() -> void:
 
 
 func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
+	# NOTE: I'm pretty sure this isn't enough to make sure the body
+	# ends up in the right place during resimulation...
+	_evaluate_animations()
+	
 	simulate_drop()
 	simulate_use()
 	
@@ -143,7 +146,8 @@ func play_footstep() -> void:
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
 
-func _process(delta: float) -> void:
+
+func _evaluate_animations():
 	var look_yaw := recorded_look_yaw
 	var look_pitch := recorded_look_pitch
 	if $Input.is_multiplayer_authority():
@@ -162,7 +166,10 @@ func _process(delta: float) -> void:
 	$Model.transform = Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	# Otherwise it will be out of sync due to us changing the transform.
 	$HeadAttachment.on_skeleton_update()
-	
+
+
+func _process(delta: float) -> void:
+	_evaluate_animations()
 	if !$Input.is_multiplayer_authority(): return
 	
 	if Input.is_action_just_pressed("ui_cancel"):

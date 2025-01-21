@@ -13,5 +13,5 @@ script = ExtResource("1_g4pv6")
 [node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
 script = ExtResource("2_ysa82")
 root = NodePath("..")
-properties = Array[String]([":holder_name", ":is_in_right_hand"])
+properties = Array[String]([":global_transform", ":holder_name", ":is_in_right_hand"])
 metadata/_custom_type_script = ExtResource("2_ysa82")
