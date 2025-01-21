@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=47 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ca16lhkqxuwet" path="res://scripts/mercenary_input.gd" id="2_s636n"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/foot_step0.wav" id="7_qqtx7"]
 [ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/foot_step1.wav" id="8_7qe3q"]
 [ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/foot_step2.wav" id="9_ybq4i"]
+[ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="11_ybq4i"]
 
 [sub_resource type="Animation" id="Animation_s636n"]
 length = 0.001
@@ -60,6 +61,9 @@ tracks/5/keys = PackedFloat32Array(0, 1, -9.59388e-06, -2.91439e-07, -0.722388, 
 _data = {
 &"RESET": SubResource("Animation_s636n")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
+size = Vector3(0.8, 0.2, 0.6)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ybq4i"]
 radius = 0.4
@@ -188,6 +192,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
+graph_offset = Vector2(-965.717, -101.342)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_288uk")
 nodes/Animation/position = Vector2(-1000, 60)
 "nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
@@ -265,6 +270,14 @@ libraries = {
 &"mercenary": ExtResource("3_s636n")
 }
 
+[node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
+transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 2.66454e-14, 1.2, 1)
+shape = SubResource("BoxShape3D_ybq4i")
+exclude_parent = false
+target_position = Vector3(0, -1.2, 0)
+max_results = 1
+collision_mask = 7
+
 [node name="Input" type="Node" parent="."]
 script = ExtResource("2_s636n")
 
@@ -319,6 +332,12 @@ external_skeleton = NodePath("../Model/Skeleton3D")
 [node name="Viewpoint" type="Node3D" parent="HeadAttachment"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.104693, 0.249147, -4.27925e-08)
 
+[node name="UseRay" type="RayCast3D" parent="HeadAttachment/Viewpoint"]
+enabled = false
+target_position = Vector3(0, 0, -0.5)
+collision_mask = 5
+hit_back_faces = false
+
 [node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_s636n")
 attenuation_model = 3
@@ -337,5 +356,15 @@ bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
+
+[node name="BackAttachment" type="BoneAttachment3D" parent="."]
+transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780585, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -1.08978e-07, 9.4215e-10, 1.18731, 0.0142121)
+bone_name = "torso2"
+bone_idx = 10
+use_external_skeleton = true
+external_skeleton = NodePath("../Model/Skeleton3D")
+
+[node name="satchel" parent="BackAttachment" instance=ExtResource("11_ybq4i")]
+transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.00762183, 0.38637, -0.385322, 0.028445, 0.103528, -0.0754887, 0.0437575, 0.0096081)
 
 [editable path="Model"]

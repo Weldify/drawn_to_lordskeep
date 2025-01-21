@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
 [ext_resource type="PackedScene" uid="uid://ep2mjq8vieyb" path="res://booze.tscn" id="2_ic0uy"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="2_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://ilmk6ljv6m4n" path="res://mace_but_unique.tscn" id="3_k3n1d"]
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="3_tlwt5"]
 [ext_resource type="Script" uid="uid://chjwo06bi07ye" path="res://scripts/standalone_connect_prompt_displayer.gd" id="7_gbfbk"]
 [ext_resource type="Script" uid="uid://jmfdsvng3flh" path="res://scripts/lobby_displayer.gd" id="7_pkg7o"]
 [ext_resource type="Script" uid="uid://dg2wof3wmsjts" path="res://scripts/steam_friend_lobbies.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
+[ext_resource type="PackedScene" uid="uid://cndy7g2esco4j" path="res://placed_satchel.tscn" id="12_k3n1d"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://crosshair.png" id="15_hiqwa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic0uy"]
@@ -222,14 +222,11 @@ _spawnable_scenes = PackedStringArray("uid://g33nab5xyq5h")
 spawn_path = NodePath(".")
 
 [node name="Items" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://ilmk6ljv6m4n")
+_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://be1a0be8ciu4h", "uid://cndy7g2esco4j")
 spawn_path = NodePath(".")
 
 [node name="Booze" parent="Items" instance=ExtResource("2_ic0uy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.479889, 0)
-
-[node name="MaceButUnique" parent="Items" instance=ExtResource("3_k3n1d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97259, 2.5471)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 fov = 90.0
@@ -561,6 +558,9 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2, 2)
 texture = ExtResource("15_hiqwa")
+
+[node name="PlacedSatchel" parent="." instance=ExtResource("12_k3n1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55056, 0, 0.86283)
 
 [connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
 [connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]

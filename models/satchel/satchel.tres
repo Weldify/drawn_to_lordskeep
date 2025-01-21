@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bbgy1183dvd0y"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(0.544042, 0.239818, 0.152011, 1)
+texture_filter = 0

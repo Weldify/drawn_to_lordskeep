@@ -51,7 +51,7 @@ func _force_update_is_on_floor() -> void:
 	velocity = old_velocity
 
 
-func simulate_drop() -> void:
+func tick_drop() -> void:
 	if !multiplayer.is_server() or !$Input.drop: return
 	
 	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
@@ -71,36 +71,63 @@ func simulate_drop() -> void:
 		return
 
 
-func simulate_use() -> void:
+var satchel: Node3D
+func tick_satchel():
+	if !$Input.primary: return
+	
+	if satchel:
+		satchel.free()
+	
+	# NOTE:
+	# Shapecasts in Godot are fucking horrible, whoever was responsible for them
+	# should be banned from working on engines until the end of their damn days.
+	# (I wanted to use a shapecast here if you couldn't tell)
+	var shapecast: ShapeCast3D = $Model/SatchelShapecast
+	shapecast.force_shapecast_update()
+	if !shapecast.is_colliding(): return
+	
+	# Started inside, no good!
+	# !!!! FIX
+	#if shapecast.get_collision_normal(0) == Vector3.ZERO: return
+	
+	var collider: PhysicsBody3D = shapecast.get_collider(0)
+	
+	# Only placeable on nodes that are in the World layer!
+	if collider.get_collision_layer_value(1) != true: return
+	
+	satchel = preload("res://placed_satchel.tscn").instantiate()
+	$/root/world/Items.add_child(satchel, true)
+	
+	var pos := shapecast.global_position + shapecast.target_position * shapecast.get_closest_collision_unsafe_fraction()
+	satchel.global_transform = Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch + PI).translated(pos)
+
+
+func tick_use() -> void:
 	# Physics related stuff kinda sux, so it's no use.
 	if !multiplayer.is_server() or !$Input.use: return
 	
-	var viewpoint: Node3D = $HeadAttachment/Viewpoint
+	var use_ray: RayCast3D = $HeadAttachment/Viewpoint/UseRay
+	use_ray.force_raycast_update()
 	
-	var state := get_world_3d().direct_space_state
-	var params := PhysicsRayQueryParameters3D.create(viewpoint.global_position, viewpoint.global_position - viewpoint.global_basis.z * 0.5)
-	params.exclude = [get_rid()]
-	var result := state.intersect_ray(params)
-	if result.is_empty(): return
+	var item := use_ray.get_collider()
+	if !item is Item: return
+	assert(item.get_parent() == $/root/world/Items)
 	
-	if !result.collider is Item: return
-	assert(result.collider.get_parent() == $/root/world/Items)
-	
-	var holder := $/root/world/Mercenaries.get_node_or_null(result.collider.holder_name)
+	var holder := $/root/world/Mercenaries.get_node_or_null(item.holder_name)
 	if holder: return
 	
 	var right_hand_free := $/root/world/Items.get_node_or_null(right_hand_item_name) == null
 	var left_hand_free := $/root/world/Items.get_node_or_null(left_hand_item_name) == null
 	if !right_hand_free and !left_hand_free: return
 	
-	result.collider.holder_name = self.name
+	item.holder_name = self.name
 	
 	if right_hand_free:
-		right_hand_item_name = result.collider.name
-		result.collider.is_in_right_hand = true
+		right_hand_item_name = item.name
+		item.is_in_right_hand = true
 	else:
-		left_hand_item_name = result.collider.name
-		result.collider.is_in_right_hand = false
+		left_hand_item_name = item.name
+		item.is_in_right_hand = false
 
 
 func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
@@ -108,8 +135,12 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 	# ends up in the right place during resimulation...
 	_evaluate_animations()
 	
-	simulate_drop()
-	simulate_use()
+	# Effectively, this is the same as running this code in on_tick
+	# It's just easier to do this here temporarily!
+	if multiplayer.is_server() and is_fresh:
+		tick_drop()
+		tick_use()
+		tick_satchel()
 	
 	if $Input.crouch:
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
