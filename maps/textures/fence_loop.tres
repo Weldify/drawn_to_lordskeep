@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://4ym4i3rsoubk"]
+
+[ext_resource type="Texture2D" uid="uid://3dycid71he2u" path="res://maps/textures/fence_loop.png" id="1_5lnun"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_5lnun")
+metallic_specular = 0.0
+texture_filter = 0

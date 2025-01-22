@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dx4fvt7bqrpd4"]
+
+[ext_resource type="Texture2D" uid="uid://dnd6tv6yv8xt" path="res://maps/textures/roofing_tiles.png" id="1_tmto5"]
+
+[resource]
+albedo_texture = ExtResource("1_tmto5")
+metallic_specular = 0.0
+texture_filter = 0

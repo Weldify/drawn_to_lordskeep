@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b7r355gtl7xxp"]
+
+[ext_resource type="Texture2D" uid="uid://c5ybsigw7q60a" path="res://maps/textures/fence_tip.png" id="1_skp3s"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_skp3s")
+metallic_specular = 0.0
+texture_filter = 0

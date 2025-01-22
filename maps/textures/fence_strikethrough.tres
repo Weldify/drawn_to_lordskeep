@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ce0om8h8wfq8m"]
+
+[ext_resource type="Texture2D" uid="uid://bjxkquq7u24rx" path="res://maps/textures/fence_strikethrough.png" id="1_sxpgc"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_sxpgc")
+metallic_specular = 0.0
+texture_filter = 0

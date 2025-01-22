@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bfo3gwujj0ovf"]
+
+[ext_resource type="Texture2D" uid="uid://c4uqfmymxj10g" path="res://maps/textures/planks.png" id="1_qq5le"]
+
+[resource]
+albedo_texture = ExtResource("1_qq5le")
+metallic_specular = 0.0
+texture_filter = 0
