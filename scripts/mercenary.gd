@@ -71,28 +71,38 @@ func tick_drop() -> void:
 		return
 
 
-var satchel: StaticBody3D
+var saved_items_in_satchel: Array
+var satchel_name := ""
 var is_taking_satchel := false
 
 func take_satchel():
 	if is_taking_satchel: return
 	
-	assert(is_instance_valid(satchel))
+	var satchel := $/root/world/Items.get_node(satchel_name)
 	if satchel.global_position.distance_to(global_position) > 1: return
 	is_taking_satchel = true
 	
-	var anim_tree := satchel.get_node("AnimationTree")
-	var playback: AnimationNodeStateMachinePlayback = anim_tree.get("parameters/playback")
-	playback.travel("closing")
+	satchel.is_closing = true
+	
+	var area: Area3D = satchel.get_node("Area3D")
+	for item in area.get_overlapping_bodies():
+		assert(item.get_parent() == $/root/world/Items)
+		
+		var transform_relative_to_satchel: Transform3D = satchel.global_transform.inverse() * item.global_transform
+		saved_items_in_satchel.append([item.scene_file_path, transform_relative_to_satchel])
+		item.free()
 	
 	await get_tree().create_timer(0.8).timeout
 	
 	satchel.free()
-	satchel = null
+	satchel_name = ""
 	is_taking_satchel = false
 	
 	
 func place_satchel():
+	assert(multiplayer.is_server())
+	
+	var satchel := $/root/world/Items.get_node_or_null(satchel_name)
 	if satchel:
 		take_satchel()
 		return
@@ -117,8 +127,19 @@ func place_satchel():
 	satchel = preload("res://placed_satchel.tscn").instantiate()
 	$/root/world/Items.add_child(satchel, true)
 	
+	satchel_name = satchel.name
+	
 	var pos := shapecast.global_position + shapecast.target_position * shapecast.get_closest_collision_unsafe_fraction()
 	satchel.global_transform = Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch + PI).translated(pos)
+	
+	for data in saved_items_in_satchel:
+		var node: Node3D = load(data[0]).instantiate()
+		$/root/world/Items.add_child(node, true)
+		
+		var trans: Transform3D = satchel.global_transform * data[1]
+		node.global_transform = trans
+	
+	saved_items_in_satchel.clear()
 
 
 func tick_use() -> void:
@@ -219,6 +240,9 @@ func _evaluate_animations():
 
 func _process(delta: float) -> void:
 	_evaluate_animations()
+	
+	$BackAttachment/Satchel.visible = satchel_name == ""
+	
 	if !$Input.is_multiplayer_authority(): return
 	
 	if Input.is_action_just_pressed("ui_cancel"):

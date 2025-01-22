@@ -9,9 +9,9 @@ var drop := false
 var primary := false
 var secondary := false
 
+
 func _ready() -> void:
 	NetworkTime.before_tick_loop.connect(_gather)
-	NetworkTime.on_tick.connect(_tick)
 
 
 func _input(event: InputEvent) -> void:
@@ -22,8 +22,8 @@ func _input(event: InputEvent) -> void:
 		look_yaw = clamp(look_yaw - event.relative.y * 0.002, -PI/2, PI/2)
 
 
-func _tick(delta: float, tick: int) -> void:
-	if !is_multiplayer_authority: return
+func _process(delta: float) -> void:
+	if !is_multiplayer_authority(): return
 
 	if Input.is_action_just_pressed("place_satchel"):
 		wants_to_place_satchel.rpc_id(1)

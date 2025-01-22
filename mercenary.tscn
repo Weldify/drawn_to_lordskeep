@@ -292,7 +292,7 @@ metadata/_custom_type_script = ExtResource("3_vqshy")
 [node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
 script = ExtResource("6_7qe3q")
 root = NodePath("..")
-properties = Array[String]([":right_hand_item_name", ":left_hand_item_name"])
+properties = Array[String]([":right_hand_item_name", ":left_hand_item_name", ":satchel_name"])
 metadata/_custom_type_script = ExtResource("6_7qe3q")
 
 [node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
@@ -364,7 +364,7 @@ bone_idx = 10
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
-[node name="satchel" parent="BackAttachment" instance=ExtResource("11_ybq4i")]
+[node name="Satchel" parent="BackAttachment" instance=ExtResource("11_ybq4i")]
 transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.00762183, 0.38637, -0.385322, 0.028445, 0.103528, -0.0754887, 0.0437575, 0.0096081)
 
 [editable path="Model"]

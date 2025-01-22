@@ -1,6 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cndy7g2esco4j"]
+[gd_scene load_steps=14 format=3 uid="uid://cndy7g2esco4j"]
 
+[ext_resource type="Script" uid="uid://dgwg7eox1ll40" path="res://scripts/placed_satchel.gd" id="1_02at4"]
 [ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="1_8lrl2"]
+[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="2_ryio6"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8lrl2"]
 animation = &"closing"
@@ -15,13 +17,17 @@ advance_mode = 2
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ryio6"]
+advance_mode = 2
+advance_condition = &"is_closing"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_6mhp4"]
 states/Start/position = Vector2(201, 100)
 states/closing/node = SubResource("AnimationNodeAnimation_8lrl2")
 states/closing/position = Vector2(672, 100)
 states/opening/node = SubResource("AnimationNodeAnimation_02at4")
 states/opening/position = Vector2(355, 100)
-transitions = ["Start", "opening", SubResource("AnimationNodeStateMachineTransition_v72cy"), "closing", "End", SubResource("AnimationNodeStateMachineTransition_8mp10")]
+transitions = ["Start", "opening", SubResource("AnimationNodeStateMachineTransition_v72cy"), "closing", "End", SubResource("AnimationNodeStateMachineTransition_8mp10"), "opening", "closing", SubResource("AnimationNodeStateMachineTransition_ryio6")]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8lrl2"]
 size = Vector3(0.8, 0.2, 0.05)
@@ -32,19 +38,30 @@ size = Vector3(0.05, 0.2, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_02at4"]
 size = Vector3(0.7, 0.05, 0.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_v72cy"]
+size = Vector3(0.7, 0.45, 0.5)
+
 [node name="PlacedSatchel" type="StaticBody3D"]
 collision_layer = 4
 collision_mask = 0
+script = ExtResource("1_02at4")
 
-[node name="satchel" parent="." instance=ExtResource("1_8lrl2")]
+[node name="Model" parent="." instance=ExtResource("1_8lrl2")]
 
-[node name="body" parent="satchel/Skeleton3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.100002)
+[node name="Skeleton3D" parent="Model" index="0"]
+bones/1/rotation = Quaternion(0.201731, -1.16758e-07, -2.40483e-08, 0.979441)
+bones/2/rotation = Quaternion(-0.809371, -1.42109e-14, 1.92969e-07, 0.587298)
+bones/3/rotation = Quaternion(-0.64924, 2.4869e-14, 1.54791e-07, 0.760584)
+bones/4/rotation = Quaternion(-0.00273344, 4.76835e-07, -1.30342e-09, 0.999996)
+bones/5/rotation = Quaternion(-0.0191692, 0.00015776, -3.04292e-06, 0.999816)
+bones/6/rotation = Quaternion(0.24224, -6.48846e-05, 6.04766e-05, 0.970216)
+bones/7/rotation = Quaternion(0.438086, 3.93129e-08, 8.00924e-05, 0.898933)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../satchel")
+root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeStateMachine_6mhp4")
-anim_player = NodePath("../satchel/AnimationPlayer")
+anim_player = NodePath("../Model/AnimationPlayer")
+parameters/conditions/is_closing = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-08, 0.1, 0.275)
@@ -66,4 +83,19 @@ shape = SubResource("BoxShape3D_ryio6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-08, 0.025, -1.49012e-08)
 shape = SubResource("BoxShape3D_02at4")
 
-[editable path="satchel"]
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("2_ryio6")
+root = NodePath("..")
+properties = Array[String]([":global_transform", ":is_closing"])
+metadata/_custom_type_script = ExtResource("2_ryio6")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-08, 0.275, 0)
+shape = SubResource("BoxShape3D_v72cy")
+
+[editable path="Model"]
