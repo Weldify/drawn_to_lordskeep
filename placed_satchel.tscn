@@ -49,13 +49,13 @@ script = ExtResource("1_02at4")
 [node name="Model" parent="." instance=ExtResource("1_8lrl2")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
-bones/1/rotation = Quaternion(0.201731, -1.16758e-07, -2.40483e-08, 0.979441)
-bones/2/rotation = Quaternion(-0.809371, -1.42109e-14, 1.92969e-07, 0.587298)
-bones/3/rotation = Quaternion(-0.64924, 2.4869e-14, 1.54791e-07, 0.760584)
-bones/4/rotation = Quaternion(-0.00273344, 4.76835e-07, -1.30342e-09, 0.999996)
-bones/5/rotation = Quaternion(-0.0191692, 0.00015776, -3.04292e-06, 0.999816)
-bones/6/rotation = Quaternion(0.24224, -6.48846e-05, 6.04766e-05, 0.970216)
-bones/7/rotation = Quaternion(0.438086, 3.93129e-08, 8.00924e-05, 0.898933)
+bones/1/rotation = Quaternion(0.310578, -1.13529e-07, -5.00543e-08, 0.950548)
+bones/2/rotation = Quaternion(0.0693488, 8.40974e-09, -2.03117e-08, 0.997593)
+bones/3/rotation = Quaternion(0.0923756, 1.93662e-10, -2.86801e-08, 0.995724)
+bones/4/rotation = Quaternion(-0.0672335, 4.88335e-07, -5.57642e-08, 0.997737)
+bones/5/rotation = Quaternion(-0.0619593, 0.000157486, -9.83555e-06, 0.998079)
+bones/6/rotation = Quaternion(-0.0613159, -6.67506e-05, -1.5308e-05, 0.998118)
+bones/7/rotation = Quaternion(0.170113, 4.30928e-08, 3.11008e-05, 0.985425)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")

@@ -7,6 +7,8 @@ var holder_name: String
 var is_in_right_hand := true
 
 func _ready() -> void:
+	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")
+	
 	set_multiplayer_authority(1)
 	$StateSynchronizer.process_settings()
 	
@@ -16,8 +18,8 @@ func _ready() -> void:
 	collision_layer = 0
 	set_collision_layer_value(3, true)
 	
-	#if !multiplayer.is_server():
-		#freeze = true
+	if !multiplayer.is_server():
+		freeze = true
 
 
 func _tick(delta: float, tick: int) -> void:

@@ -36,6 +36,15 @@ func _ready():
 		$/root/world/Items.add_child(mace, true)
 		mace.global_position = Vector3(0, 2, 0)
 	
+	for i in 20:
+		var can := preload("res://pepsi_max.tscn").instantiate()
+		$/root/world/Items.add_child(can, true)
+		can.global_position = Vector3(0, 2, 0)
+	
+	var booze := preload("res://booze.tscn").instantiate()
+	$/root/world/Items.add_child(booze, true)
+	booze.global_position = Vector3(0, 2, 0)
+	
 	DiscordRPC.app_id = 1324092717873106974
 	DiscordRPC.details = "Don't think too hard on it."
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
