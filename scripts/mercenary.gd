@@ -224,6 +224,7 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 
 func play_footstep() -> void:
 	if !is_grounded: return
+	#$Footsteps.max_db = remap(velocity.length(), 0, 2, -24, 3)
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
 

@@ -192,7 +192,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-965.717, -101.342)
+graph_offset = Vector2(-731.333, 458.148)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_288uk")
 nodes/Animation/position = Vector2(-1000, 60)
 "nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
@@ -340,7 +340,10 @@ hit_back_faces = false
 [node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_s636n")
 attenuation_model = 3
+unit_size = 1.0
+max_distance = 8.0
 max_polyphony = 2
+attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(0.209695, 0.0240303, 0.977472, -0.0550526, -0.997822, 0.0363409, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122348)
