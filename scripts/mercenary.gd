@@ -1,6 +1,9 @@
 extends CharacterBody3D
 
 
+const SATCHEL_CAST_HEIGHT = 1.2
+
+
 var crouchness := 0.0
 var is_grounded := false
 
@@ -79,7 +82,12 @@ func take_satchel():
 	if is_taking_satchel: return
 	
 	var satchel := $/root/world/Items.get_node(satchel_name)
-	if satchel.global_position.distance_to(global_position) > 1: return
+	
+	var height_diff: float = satchel.global_position.y - global_position.y
+	if height_diff < -0.1 or height_diff > SATCHEL_CAST_HEIGHT+0.1: return
+	
+	var horizontal_diff: Vector3 = (satchel.global_position - global_position) * Vector3(1, 0, 1)
+	if horizontal_diff.length() > 1: return
 	is_taking_satchel = true
 	
 	satchel.is_closing = true
@@ -112,12 +120,15 @@ func place_satchel():
 	# should be banned from working on engines until the end of their damn days.
 	# (I wanted to use a shapecast here if you couldn't tell)
 	var shapecast: ShapeCast3D = $Model/SatchelShapecast
+	shapecast.position.y = SATCHEL_CAST_HEIGHT
+	
+	shapecast.target_position = Vector3.ZERO
+	shapecast.force_shapecast_update()
+	if shapecast.is_colliding(): return
+	
+	shapecast.target_position = Vector3(0, -SATCHEL_CAST_HEIGHT, 0)
 	shapecast.force_shapecast_update()
 	if !shapecast.is_colliding(): return
-	
-	# Started inside, no good!
-	# !!!! FIX
-	#if shapecast.get_collision_normal(0) == Vector3.ZERO: return
 	
 	var collider: PhysicsBody3D = shapecast.get_collider(0)
 	

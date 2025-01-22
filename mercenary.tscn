@@ -271,10 +271,9 @@ libraries = {
 }
 
 [node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
-transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1.2, 0.9)
+transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1, 0.9)
 shape = SubResource("BoxShape3D_ybq4i")
 exclude_parent = false
-target_position = Vector3(0, -1.2, 0)
 max_results = 1
 collision_mask = 7
 
@@ -334,7 +333,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.1046
 
 [node name="UseRay" type="RayCast3D" parent="HeadAttachment/Viewpoint"]
 enabled = false
-target_position = Vector3(0, 0, -0.5)
+target_position = Vector3(0, 0, -0.7)
 collision_mask = 5
 hit_back_faces = false
 

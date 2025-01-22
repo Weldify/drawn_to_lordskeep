@@ -9,9 +9,7 @@ animation = &"closing"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_02at4"]
 animation = &"opening"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_v72cy"]
-advance_mode = 2
+advance_on_start = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8mp10"]
 switch_mode = 2
@@ -21,13 +19,16 @@ advance_mode = 2
 advance_mode = 2
 advance_condition = &"is_closing"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_02at4"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_6mhp4"]
 states/Start/position = Vector2(201, 100)
 states/closing/node = SubResource("AnimationNodeAnimation_8lrl2")
 states/closing/position = Vector2(672, 100)
 states/opening/node = SubResource("AnimationNodeAnimation_02at4")
-states/opening/position = Vector2(355, 100)
-transitions = ["Start", "opening", SubResource("AnimationNodeStateMachineTransition_v72cy"), "closing", "End", SubResource("AnimationNodeStateMachineTransition_8mp10"), "opening", "closing", SubResource("AnimationNodeStateMachineTransition_ryio6")]
+states/opening/position = Vector2(441, 100)
+transitions = ["closing", "End", SubResource("AnimationNodeStateMachineTransition_8mp10"), "opening", "closing", SubResource("AnimationNodeStateMachineTransition_ryio6"), "Start", "opening", SubResource("AnimationNodeStateMachineTransition_02at4")]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8lrl2"]
 size = Vector3(0.8, 0.2, 0.05)
@@ -47,15 +48,6 @@ collision_mask = 0
 script = ExtResource("1_02at4")
 
 [node name="Model" parent="." instance=ExtResource("1_8lrl2")]
-
-[node name="Skeleton3D" parent="Model" index="0"]
-bones/1/rotation = Quaternion(0.310578, -1.13529e-07, -5.00543e-08, 0.950548)
-bones/2/rotation = Quaternion(0.0693488, 8.40974e-09, -2.03117e-08, 0.997593)
-bones/3/rotation = Quaternion(0.0923756, 1.93662e-10, -2.86801e-08, 0.995724)
-bones/4/rotation = Quaternion(-0.0672335, 4.88335e-07, -5.57642e-08, 0.997737)
-bones/5/rotation = Quaternion(-0.0619593, 0.000157486, -9.83555e-06, 0.998079)
-bones/6/rotation = Quaternion(-0.0613159, -6.67506e-05, -1.5308e-05, 0.998118)
-bones/7/rotation = Quaternion(0.170113, 4.30928e-08, 3.11008e-05, 0.985425)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")

@@ -30,7 +30,7 @@ animation/import=true
 animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
-animation/import_rest_as_RESET=false
+animation/import_rest_as_RESET=true
 import_script/path=""
 _subresources={
 "animations": {
@@ -1838,11 +1838,6 @@ _subresources={
 "satchel": {
 "use_external/enabled": true,
 "use_external/path": "uid://bbgy1183dvd0y"
-}
-},
-"nodes": {
-"PATH:Skeleton3D/body/body": {
-"physics/shape_type": 2
 }
 }
 }
