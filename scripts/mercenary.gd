@@ -1,18 +1,36 @@
 extends CharacterBody3D
-
+class_name Mercenary
 
 const SATCHEL_CAST_HEIGHT = 1.2
 
 
-var crouchness := 0.0
 var is_grounded := false
 
-## Non-owners use this for interpolating the look direction!
-var recorded_look_pitch: float
-var recorded_look_yaw: float
+# Client owned
+@export var crouchness: float
+@export var look_pitch: float
+@export var look_yaw: float
+@export var trying_to_use := false
 
-var right_hand_item_name: String
-var left_hand_item_name: String
+# @UGLY: Because Godot can't just network this??
+@export var transform_mirror: Transform3D :
+	set(v):
+		global_transform = v
+	get(): return global_transform
+	
+@export var velocity_mirror: Vector3 :
+	set(v):
+		velocity = v
+	get(): return velocity
+
+# Serverside
+@export var right_hand_item_name: String
+@export var left_hand_item_name: String
+
+# Serverside
+@export var satchel_name := ""
+var saved_items_in_satchel: Array
+var is_taking_satchel := false
 
 
 func get_right_holdtype() -> G.HoldType:
@@ -33,50 +51,25 @@ func is_right_holdtype_weapon() -> bool:
 	return get_right_holdtype() == G.HoldType.WEAPON
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	var peer_id := int(name)
-	set_multiplayer_authority(1)
-	$Input.set_multiplayer_authority(peer_id)
-	
-	$RollbackSynchronizer.process_settings()
-	$StateSynchronizer.process_settings()
-	
-	if !$Input.is_multiplayer_authority(): return
+	set_multiplayer_authority(peer_id)
+	$ServerSynchronizer.set_multiplayer_authority(1)
+
+
+func _ready() -> void:
+	if !is_multiplayer_authority(): return
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
-# Needs to be done before checking is_on_floor() in rollback tick.
-func _force_update_is_on_floor() -> void:
-	var old_velocity = velocity
-	velocity = Vector3.ZERO
-	move_and_slide()
-	velocity = old_velocity
-
-
-func tick_drop() -> void:
-	if !multiplayer.is_server() or !$Input.drop: return
+func _input(event: InputEvent) -> void:
+	if !is_multiplayer_authority(): return
 	
-	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
-	if left_item and $Input.primary:
-		left_hand_item_name = ""
-		left_item.holder_name = ""
-		left_item.linear_velocity = velocity
-		left_item.angular_velocity = Vector3.ZERO
-		return
-	
-	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
-	if right_item and $Input.secondary:
-		right_hand_item_name = ""
-		right_item.holder_name = ""
-		right_item.linear_velocity = velocity
-		right_item.angular_velocity = Vector3.ZERO
-		return
+	if event is InputEventMouseMotion:
+		look_pitch = fmod(look_pitch - event.relative.x * 0.002, PI*2)
+		look_yaw = clamp(look_yaw - event.relative.y * 0.002, -PI/2, PI/2)
 
-
-var saved_items_in_satchel: Array
-var satchel_name := ""
-var is_taking_satchel := false
 
 func take_satchel():
 	if is_taking_satchel: return
@@ -90,7 +83,7 @@ func take_satchel():
 	if horizontal_diff.length() > 1: return
 	is_taking_satchel = true
 	
-	satchel.is_closing = true
+	satchel.do_closing_effects.rpc()
 	
 	var area: Area3D = satchel.get_node("Area3D")
 	for item in area.get_overlapping_bodies():
@@ -105,8 +98,26 @@ func take_satchel():
 	satchel.free()
 	satchel_name = ""
 	is_taking_satchel = false
+
+
+@rpc("authority", "call_local")
+func drop_item(is_right_hand: bool):
+	assert(multiplayer.is_server())
 	
+	var item: RigidBody3D = $/root/world/Items.get_node_or_null(right_hand_item_name if is_right_hand else left_hand_item_name)
+	if !item: return
 	
+	if is_right_hand:
+		right_hand_item_name = ""
+	else:
+		left_hand_item_name = ""
+	
+	item.holder_name = ""
+	item.linear_velocity = velocity
+	item.angular_velocity = Vector3.ZERO
+
+
+@rpc("authority", "call_local")
 func place_satchel():
 	assert(multiplayer.is_server())
 	
@@ -141,7 +152,7 @@ func place_satchel():
 	satchel_name = satchel.name
 	
 	var pos := shapecast.global_position + shapecast.target_position * shapecast.get_closest_collision_unsafe_fraction()
-	satchel.global_transform = Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch + PI).translated(pos)
+	satchel.global_transform = Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch + PI).translated(pos)
 	
 	for data in saved_items_in_satchel:
 		var node: Node3D = load(data[0]).instantiate()
@@ -153,9 +164,8 @@ func place_satchel():
 	saved_items_in_satchel.clear()
 
 
-func tick_use() -> void:
-	# Physics related stuff kinda sux, so it's no use.
-	if !multiplayer.is_server() or !$Input.use: return
+func use() -> void:
+	assert(multiplayer.is_server())
 	
 	var use_ray: RayCast3D = $HeadAttachment/Viewpoint/UseRay
 	use_ray.force_raycast_update()
@@ -181,29 +191,35 @@ func tick_use() -> void:
 		item.is_in_right_hand = false
 
 
-func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
-	# NOTE: I'm pretty sure this isn't enough to make sure the body
-	# ends up in the right place during resimulation...
-	_evaluate_animations()
+func _physics_process(delta: float) -> void:
+	if multiplayer.is_server():
+		if trying_to_use:
+			use()
 	
-	# Effectively, this is the same as running this code in on_tick
-	# It's just easier to do this here temporarily!
-	if multiplayer.is_server() and is_fresh:
-		tick_drop()
-		tick_use()
+	if !is_multiplayer_authority(): return
 	
-	if $Input.crouch:
+	trying_to_use = Input.is_action_pressed("use")
+	
+	if Input.is_action_pressed("drop"):
+		if Input.is_action_just_pressed("primary"):
+			drop_item.rpc_id(1, false)
+		elif Input.is_action_just_pressed("secondary"):
+			drop_item.rpc_id(1, true)
+	
+	if Input.is_action_just_pressed("place_satchel"):
+		place_satchel.rpc_id(1)
+	
+	if Input.is_action_pressed("crouch"):
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
 	else:
 		crouchness = move_toward(crouchness, 0.0, delta * 5)
 	
-	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, $Input.look_pitch)
+	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	
-	var move_input: Vector2 = $Input.move
+	var move_input: Vector2 = Input.get_vector("right", "left", "back", "forward")
 	var move_direction := Vector3(move_input.x, 0, move_input.y).normalized()
 	move_direction = horizontal_look * move_direction
 	
-	_force_update_is_on_floor()
 	is_grounded = is_on_floor()
 	
 	if is_grounded:
@@ -214,28 +230,17 @@ func _rollback_tick(delta: float, tick: int, is_fresh: bool) -> void:
 	else:
 		velocity += get_gravity() * delta
 	
-	velocity *= NetworkTime.physics_factor
 	move_and_slide()
-	velocity /= NetworkTime.physics_factor
-	
-	recorded_look_pitch = $Input.look_pitch
-	recorded_look_yaw = $Input.look_yaw
 
 
 func play_footstep() -> void:
 	if !is_grounded: return
-	#$Footsteps.max_db = remap(velocity.length(), 0, 2, -24, 3)
+	
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
 
 
-func _evaluate_animations():
-	var look_yaw := recorded_look_yaw
-	var look_pitch := recorded_look_pitch
-	if $Input.is_multiplayer_authority():
-		look_yaw = $Input.look_yaw
-		look_pitch = $Input.look_pitch
-	
+func evaluate_animations():
 	$AnimationTree.set("parameters/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
 	var speed := velocity.length()
@@ -251,11 +256,12 @@ func _evaluate_animations():
 
 
 func _process(delta: float) -> void:
-	_evaluate_animations()
+	$Interpolator.apply()
+	evaluate_animations()
 	
 	$BackAttachment/Satchel.visible = satchel_name == ""
 	
-	if !$Input.is_multiplayer_authority(): return
+	if !is_multiplayer_authority(): return
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

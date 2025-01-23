@@ -1,14 +1,11 @@
-[gd_scene load_steps=47 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=46 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
-[ext_resource type="Script" uid="uid://ca16lhkqxuwet" path="res://scripts/mercenary_input.gd" id="2_s636n"]
 [ext_resource type="AnimationLibrary" uid="uid://blmfk30va1wvl" path="res://models/mercenary/mercenary.res" id="3_s636n"]
-[ext_resource type="Script" uid="uid://nsce71epo261" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="3_vqshy"]
-[ext_resource type="Script" uid="uid://bwnme06m7ispq" path="res://addons/netfox/tick-interpolator.gd" id="4_k4fjk"]
 [ext_resource type="PackedScene" uid="uid://qipx6wwrird8" path="res://models/mercenary/mercenary.blend" id="5_qqtx7"]
-[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="6_7qe3q"]
 [ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/foot_step0.wav" id="7_qqtx7"]
 [ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/foot_step1.wav" id="8_7qe3q"]
+[ext_resource type="Script" uid="uid://cod6hn12hn8g" path="res://scripts/interpolator.gd" id="8_k4fjk"]
 [ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/foot_step2.wav" id="9_ybq4i"]
 [ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="11_ybq4i"]
 
@@ -64,6 +61,37 @@ _data = {
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
 size = Vector3(0.8, 0.2, 0.6)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qqtx7"]
+properties/0/path = NodePath(".:right_hand_item_name")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:left_hand_item_name")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:satchel_name")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k4fjk"]
+properties/0/path = NodePath(".:look_pitch")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:look_yaw")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:crouchness")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:transform_mirror")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:velocity_mirror")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:trying_to_use")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ybq4i"]
 radius = 0.4
@@ -232,6 +260,11 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_m6yd2")
 
+[node name="Interpolator" type="Node" parent="."]
+script = ExtResource("8_k4fjk")
+properties = Array[StringName]([&":crouchness", &":position", &":velocity"])
+metadata/_custom_type_script = ExtResource("8_k4fjk")
+
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
@@ -277,29 +310,11 @@ exclude_parent = false
 max_results = 1
 collision_mask = 7
 
-[node name="Input" type="Node" parent="."]
-script = ExtResource("2_s636n")
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qqtx7")
 
-[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("3_vqshy")
-root = NodePath("..")
-enable_prediction = true
-state_properties = Array[String]([":global_position", ":velocity", ":crouchness"])
-input_properties = Array[String](["Input:move", "Input:look_pitch", "Input:look_yaw", "Input:crouch", "Input:use", "Input:drop", "Input:primary", "Input:secondary"])
-metadata/_custom_type_script = ExtResource("3_vqshy")
-
-[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("6_7qe3q")
-root = NodePath("..")
-properties = Array[String]([":right_hand_item_name", ":left_hand_item_name", ":satchel_name"])
-metadata/_custom_type_script = ExtResource("6_7qe3q")
-
-[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
-process_priority = -1
-script = ExtResource("4_k4fjk")
-root = NodePath("..")
-properties = Array[String]([":global_position", ":velocity", ":crouchness", ":recorded_look_pitch", ":recorded_look_yaw"])
-metadata/_custom_type_script = ExtResource("4_k4fjk")
+[node name="ClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_k4fjk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)

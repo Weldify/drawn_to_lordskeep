@@ -20,11 +20,6 @@ config/icon="uid://ckrn14kncps44"
 
 [autoload]
 
-NetworkTime="*res://addons/netfox/network-time.gd"
-NetworkTimeSynchronizer="*res://addons/netfox/network-time-synchronizer.gd"
-NetworkRollback="*res://addons/netfox/rollback/network-rollback.gd"
-NetworkEvents="*res://addons/netfox/network-events.gd"
-NetworkPerformance="*res://addons/netfox/network-performance.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 G="*res://scripts/g.gd"
 
@@ -36,7 +31,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/func_godot/plugin.cfg", "res://addons/netfox.internals/plugin.cfg", "res://addons/netfox/plugin.cfg")
+enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/func_godot/plugin.cfg")
 
 [input]
 

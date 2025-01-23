@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dgwg7eox1ll40" path="res://scripts/placed_satchel.gd" id="1_02at4"]
 [ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="1_8lrl2"]
-[ext_resource type="Script" uid="uid://c8eiaxfdxhk4n" path="res://addons/netfox/state-synchronizer.gd" id="2_ryio6"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ryio6"]
+properties/0/path = NodePath(".:transform_mirror")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8lrl2"]
 animation = &"closing"
@@ -47,6 +51,9 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_02at4")
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ryio6")
+
 [node name="Model" parent="." instance=ExtResource("1_8lrl2")]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -74,12 +81,6 @@ shape = SubResource("BoxShape3D_ryio6")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-08, 0.025, -1.49012e-08)
 shape = SubResource("BoxShape3D_02at4")
-
-[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("2_ryio6")
-root = NodePath("..")
-properties = Array[String]([":global_transform", ":is_closing"])
-metadata/_custom_type_script = ExtResource("2_ryio6")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 0

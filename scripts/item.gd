@@ -3,16 +3,16 @@ class_name Item
 
 @export var holdtype := G.HoldType.WEAPON
 
-var holder_name: String
-var is_in_right_hand := true
+@export var transform_mirror: Transform3D :
+	set(v):
+		global_transform = v
+	get(): return global_transform
+
+@export var holder_name: String
+@export var is_in_right_hand := true
 
 func _ready() -> void:
 	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")
-	
-	set_multiplayer_authority(1)
-	$StateSynchronizer.process_settings()
-	
-	NetworkTime.on_tick.connect(_tick)
 	
 	# Only item layer
 	collision_layer = 0
@@ -22,9 +22,9 @@ func _ready() -> void:
 		freeze = true
 
 
-func _tick(delta: float, tick: int) -> void:
+func _physics_process(delta: float) -> void:
 	if $/root/world/Mercenaries.get_node_or_null(holder_name):
-		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 		set_collision_layer_value(3, false)
 	else:
 		set_collision_layer_value(3, true)

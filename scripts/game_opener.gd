@@ -2,10 +2,9 @@ extends Node
 
 
 func _on_body_entered(body: Node3D) -> void:
-	# Check if OUR mercenary entered this and not something else.
-	var input := body.get_node_or_null("Input")
-	if !input or !input.is_multiplayer_authority(): return
+	if !multiplayer.is_server(): return
 	
-	if !is_multiplayer_authority(): return
+	# Check if OUR mercenary entered this and not something else.
+	if body is not Mercenary or !body.is_multiplayer_authority(): return
 	
 	$/root/world.start_hosting()
