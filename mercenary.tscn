@@ -94,6 +94,7 @@ properties/5/spawn = true
 properties/5/replication_mode = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ybq4i"]
+resource_local_to_scene = true
 radius = 0.4
 height = 1.75
 
@@ -220,7 +221,6 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-731.333, 458.148)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_288uk")
 nodes/Animation/position = Vector2(-1000, 60)
 "nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
@@ -316,7 +316,7 @@ replication_config = SubResource("SceneReplicationConfig_qqtx7")
 [node name="ClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_k4fjk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
 shape = SubResource("CapsuleShape3D_ybq4i")
 

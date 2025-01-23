@@ -2,15 +2,25 @@ extends CharacterBody3D
 class_name Mercenary
 
 const SATCHEL_CAST_HEIGHT = 1.2
+const STANDING_HEIGHT = 1.75
+const CROUCHING_HEIGHT = 1.0
 
 
 var is_grounded := false
 
 # Client owned
-@export var crouchness: float
 @export var look_pitch: float
 @export var look_yaw: float
 @export var trying_to_use := false
+
+@export var crouchness: float :
+	set(v):
+		crouchness = v
+		
+		var height := CROUCHING_HEIGHT if v == 1 else STANDING_HEIGHT
+		$Collider.shape.height = height
+		$Collider.position.y = height/2
+
 
 # @UGLY: Because Godot can't just network this??
 @export var transform_mirror: Transform3D :
@@ -58,6 +68,8 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	crouchness = 0
+	
 	if !is_multiplayer_authority(): return
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -203,7 +215,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("drop"):
 		if Input.is_action_just_pressed("primary"):
 			drop_item.rpc_id(1, false)
-		elif Input.is_action_just_pressed("secondary"):
+		if Input.is_action_just_pressed("secondary"):
 			drop_item.rpc_id(1, true)
 	
 	if Input.is_action_just_pressed("place_satchel"):
@@ -211,7 +223,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("crouch"):
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
-	else:
+	elif can_uncrouch():
 		crouchness = move_toward(crouchness, 0.0, delta * 5)
 	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
@@ -231,6 +243,17 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	move_and_slide()
+
+
+func can_uncrouch() -> bool:
+	# Hack to set collider size back to full
+	var current_crouchness := crouchness
+	crouchness = 0
+	
+	var hit := test_move(global_transform, Vector3.ZERO)
+	crouchness = current_crouchness
+	
+	return !hit
 
 
 func play_footstep() -> void:
