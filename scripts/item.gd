@@ -48,19 +48,39 @@ func _on_holder_changed():
 		freeze = true
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 		set_collision_layer_value(3, false)
+		
+		update_spin_sound()
 	else:
 		freeze = !multiplayer.is_server()
 		set_collision_layer_value(3, true)
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
+		
 		reset_physics_interpolation()
+		update_spin_sound()
+
+
+func update_spin_sound():
+	var spin_speed: float = 0 if freeze or sleeping else abs((quaternion.inverse() * angular_velocity).x)
+	if spin_speed < 0.1: 
+		if $Spin.playing:
+			$Spin.playing = false
+			return
+	
+	if !$Spin.playing:
+		$Spin.playing = true
+			
+	$Spin.pitch_scale = max(0.01, remap(spin_speed, 0, 20, 0, 1.5))
 
 
 func _physics_process(delta: float) -> void:
-	if freeze: return
+	if freeze or sleeping: return
+	
+	update_spin_sound()
 	
 	var speed := linear_velocity.length()
-	if last_recorded_speed - speed > 1 and get_contact_count() > 0:
-		play_collision_sound.rpc(remap(speed, 1, 10, 0.1, 0.5))
+	var speed_diff := last_recorded_speed - speed
+	if speed_diff > 1 and get_contact_count() > 0:
+		play_collision_sound.rpc(remap(speed_diff, 1, 7, 0.01, 0.2))
 		
 	last_recorded_speed = speed
 

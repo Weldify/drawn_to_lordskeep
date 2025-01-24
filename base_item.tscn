@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://chqyy74rkrt2t"]
+[gd_scene load_steps=6 format=3 uid="uid://chqyy74rkrt2t"]
 
 [ext_resource type="Script" uid="uid://cr4j1s3eunqkt" path="res://scripts/item.gd" id="1_g4pv6"]
 [ext_resource type="AudioStream" uid="uid://bne15j2qv4qgn" path="res://sounds/collision.wav" id="2_ysa82"]
+[ext_resource type="AudioStream" uid="uid://okhahx0xbtcj" path="res://sounds/thrown_loop.wav" id="3_vgm52"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ysa82"]
 properties/0/path = NodePath(".:transform_mirror")
@@ -33,6 +34,16 @@ replication_config = SubResource("SceneReplicationConfig_ysa82")
 stream = SubResource("AudioStreamRandomizer_vgm52")
 attenuation_model = 3
 volume_db = -12.0
+unit_size = 20.0
+max_distance = 10.0
+max_polyphony = 2
+attenuation_filter_db = 0.0
+
+[node name="Spin" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_vgm52")
+attenuation_model = 3
+volume_db = -24.0
+pitch_scale = 0.51
 max_distance = 10.0
 max_polyphony = 2
 attenuation_filter_db = 0.0
