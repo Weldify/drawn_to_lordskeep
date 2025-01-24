@@ -70,7 +70,10 @@ func hit():
 
 @rpc("authority", "call_local", "reliable")
 func hit_effects():
-	user.get_node("AnimationTree").get("parameters/Right hand/playback").start("swing_recoil")
+	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
+	var parameter := "parameters/%s/playback" % hand_name
+	user.get_node("AnimationTree").get(parameter).start("swing_recoil")
+	
 	$"../Clash".play()
 
 
@@ -89,7 +92,9 @@ func try_swing():
 
 @rpc("authority", "call_local", "reliable")
 func swing_effects():
-	user.get_node("AnimationTree").get("parameters/Right hand/playback").start("swing")
+	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
+	var parameter := "parameters/%s/playback" % hand_name
+	user.get_node("AnimationTree").get(parameter).start("swing")
 
 
 func start_swing_damaging():
