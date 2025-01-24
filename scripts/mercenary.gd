@@ -107,9 +107,9 @@ func take_satchel():
 		saved_items_in_satchel.append([item.scene_file_path, transform_relative_to_satchel])
 		item.free()
 	
-	await get_tree().create_timer(0.8).timeout
+	await satchel.outro_finished
 	
-	satchel.free()
+	satchel.queue_free()
 	satchel_name = ""
 	is_taking_satchel = false
 
@@ -167,6 +167,8 @@ func place_satchel():
 	satchel_name = satchel.name
 	
 	var pos := shapecast.global_position + shapecast.target_position * shapecast.get_closest_collision_unsafe_fraction()
+	pos.y -= 0.1
+	
 	satchel.global_transform = Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch + PI).translated(pos)
 	
 	for data in saved_items_in_satchel:

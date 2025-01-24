@@ -1,6 +1,9 @@
 extends StaticBody3D
 
 
+signal outro_finished
+
+
 @export var transform_mirror: Transform3D :
 	set(v):
 		global_transform = v

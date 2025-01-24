@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://cndy7g2esco4j"]
+[gd_scene load_steps=18 format=3 uid="uid://cndy7g2esco4j"]
 
 [ext_resource type="Script" uid="uid://dgwg7eox1ll40" path="res://scripts/placed_satchel.gd" id="1_02at4"]
 [ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="1_8lrl2"]
+[ext_resource type="AudioStream" uid="uid://cmtdhge15efiv" path="res://sounds/satchel_drop.wav" id="3_02at4"]
+[ext_resource type="AudioStream" uid="uid://dleluknkxf2oq" path="res://sounds/satchel_unbutton.wav" id="4_v72cy"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ryio6"]
 properties/0/path = NodePath(".:transform_mirror")
@@ -45,6 +47,16 @@ size = Vector3(0.7, 0.05, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v72cy"]
 size = Vector3(0.7, 0.45, 0.5)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ryio6"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("3_02at4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7kfab"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("4_v72cy")
 
 [node name="PlacedSatchel" type="StaticBody3D"]
 collision_layer = 4
@@ -90,5 +102,20 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-08, 0.275, 0)
 shape = SubResource("BoxShape3D_v72cy")
+
+[node name="Drop" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_ryio6")
+attenuation_model = 3
+volume_db = -12.0
+autoplay = true
+max_distance = 2.0
+attenuation_filter_db = 0.0
+
+[node name="Unbutton" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_7kfab")
+attenuation_model = 3
+volume_db = -12.0
+max_distance = 2.0
+attenuation_filter_db = 0.0
 
 [editable path="Model"]
