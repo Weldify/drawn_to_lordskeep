@@ -34,6 +34,10 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "materials": {
+"corpse": {
+"use_external/enabled": true,
+"use_external/path": "uid://dv1o4bru2b0fo"
+},
 "wood": {
 "use_external/enabled": true,
 "use_external/path": "uid://bfo3gwujj0ovf"

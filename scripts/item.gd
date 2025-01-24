@@ -16,6 +16,8 @@ var holder_name: String :
 
 var is_in_right_hand: bool : 
 	get(): return holder_info[1]
+	
+var last_recorded_speed: float
 
 ## Think of this as storing .holder_name and .is_in_right_hand in one variable.
 ## We have to do this so that they get networked at the same time.
@@ -32,28 +34,40 @@ var is_in_right_hand: bool :
 func _ready() -> void:
 	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")
 	
+	holder_changed.connect(_on_holder_changed)
+	_on_holder_changed()
+	
 	# Only item layer
 	collision_layer = 0
 	set_collision_layer_value(3, true)
-	
-	if !multiplayer.is_server():
+
+
+func _on_holder_changed():
+	var holder := $/root/world/Mercenaries.get_node_or_null(holder_name)
+	if holder:
 		freeze = true
-
-
-func _physics_process(delta: float) -> void:
-	if $/root/world/Mercenaries.get_node_or_null(holder_name):
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 		set_collision_layer_value(3, false)
-		freeze = true
 	else:
 		freeze = !multiplayer.is_server()
 		set_collision_layer_value(3, true)
-		
-		if physics_interpolation_mode != Node.PHYSICS_INTERPOLATION_MODE_ON:
-			physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
-			reset_physics_interpolation()
-		
+		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
+		reset_physics_interpolation()
 
+
+func _physics_process(delta: float) -> void:
+	var speed := linear_velocity.length()
+	if last_recorded_speed - speed > 1 and get_contact_count() > 0:
+		play_collision_sound.rpc(remap(speed, 1, 10, 0.1, 0.5))
+		
+	last_recorded_speed = speed
+
+
+@rpc("authority", "call_local")
+func play_collision_sound(volume: float):
+	$Collision.volume_linear = volume
+	$Collision.position = center_of_mass
+	$Collision.play()
 
 func _process(delta: float) -> void:
 	var holder: CharacterBody3D = $/root/world/Mercenaries.get_node_or_null(holder_name)

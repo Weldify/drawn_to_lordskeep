@@ -265,7 +265,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-1425.08, 88.4656)
+graph_offset = Vector2(-641.318, -145.239)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
 nodes/Add2/position = Vector2(-780, 120)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
@@ -323,9 +323,9 @@ script = ExtResource("3_2rkhb")
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
-bones/9/rotation = Quaternion(6.56006e-09, -2.78442e-09, 0.268855, 0.963181)
-bones/10/rotation = Quaternion(1.62907e-07, 2.68477e-07, 0.306685, 0.951811)
-bones/11/rotation = Quaternion(-7.4705e-09, 3.03485e-09, 0.199482, 0.979902)
+bones/9/rotation = Quaternion(7.05718e-09, -9.91679e-10, 0.0104049, 0.999946)
+bones/10/rotation = Quaternion(8.78693e-08, 3.01493e-07, 0.0498881, 0.998755)
+bones/11/rotation = Quaternion(-8.00145e-09, 9.97903e-10, -0.0609328, 0.998142)
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 deterministic = true
@@ -363,13 +363,13 @@ parameters/Add2/add_amount = 1.0
 "parameters/Right hand timescale/scale" = 1.0
 "parameters/Upper body + lower body/add_amount" = 1.0
 parameters/crouchness/blend_amount = 0.0
-parameters/look_alpha/blend_position = 1.09489
+parameters/look_alpha/blend_position = 0.0
 "parameters/speed (crouching)/blend_position" = 0
 "parameters/speed (movement multiplier)/scale" = 1.0
 "parameters/speed (standing)/blend_position" = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1.88528e-07, 1.32479e-07, -1, 0.999041, 0.0437889, 1.94148e-07, 0.043789, -0.999041, -1.24097e-07, 8.73025e-08, 1.22127, -0.244032)
+transform = Transform3D(-1.01706e-07, -1.2901e-07, -1, -0.0437892, 0.999041, -1.24433e-07, 0.999041, 0.0437892, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176537)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -393,21 +393,21 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.291587, 0.0196417, 0.956343, 0.201624, 0.978589, 0.0413761, -0.935053, 0.204887, -0.289304, -0.144876, 1.50332, -0.157622)
+transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240301, -0.977472, -0.976216, -0.0614331, -0.207915, -0.0550529, 0.997822, -0.0363408, 0.176536, 1.2133, 0.379323)
+transform = Transform3D(0.209695, -0.0240298, -0.977472, 0.055053, -0.997822, 0.0363405, -0.976216, -0.0614332, -0.207916, 0.176536, 0.73606, -0.00122365)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1.18764e-07, 1.79788e-07, -1, 0.902412, 0.430873, 1.8464e-07, 0.430874, -0.902412, -1.1107e-07, 6.8806e-08, 1.16398, -0.0810713)
+transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780585, 0.996949, -1.40467e-07, 0.996949, -0.0780585, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true
