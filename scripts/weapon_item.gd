@@ -5,11 +5,18 @@ extends Node
 @onready var hitbox: ShapeCast3D = $"../Hitbox"
 @onready var original_hitbox_position: Vector3 = hitbox.position
 
+@export var blunt := false
+
+@export_category("Don't touch this")
+
 var user: Mercenary
 
 var swinging := false
 @export var swing_damaging := false
 var previous_hitbox_position: Vector3
+
+# @TODO: Convert this to a timestamp once I write time sync
+@export var hitstop_time_left := 0.0
 
 var parrying := false
 var parry_timer := 0.0
@@ -26,7 +33,6 @@ func _holder_changed():
 	if user and is_multiplayer_authority():
 		try_stop_swing()
 		try_stop_parry()
-		hitbox.clear_exceptions()
 	
 		if is_instance_valid(user):
 			# We don't know which hand this was in. Disconnect everything!!
@@ -45,7 +51,6 @@ func _holder_changed():
 	
 	user = new
 	set_multiplayer_authority(int(new.name))
-	hitbox.add_exception(user)
 	
 	if is_multiplayer_authority():
 		var events := user.get_node("RightHandAnimEvents") if item.is_in_right_hand else user.get_node("LeftHandAnimEvents")
@@ -72,6 +77,14 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	$"../ProtonTrail".emit = swing_damaging
+	
+	hitstop_time_left = max(0, hitstop_time_left - delta)
+	if user:
+		var timescale := 0 if hitstop_time_left > 0 else 1
+		if item.is_in_right_hand:
+			user.get_node("AnimationTree").set("parameters/Right hand timescale/scale", timescale)
+		else:
+			user.get_node("AnimationTree").set("parameters/Left hand timescale/scale", timescale)
 
 func do_hitboxes():
 	var hitbox_position := previous_hitbox_position
@@ -88,32 +101,44 @@ func do_hitboxes():
 
 
 func hit():
-	try_stop_swing()
-	
 	var collider: PhysicsBody3D = hitbox.get_collider(0)
+	hitbox.add_exception(collider)
+	
+	if blunt or collider.get_collision_layer_value(1):
+		try_stop_swing()
+		hit_recoil_effects.rpc()
+	else:
+		hitstop_time_left = 0.1
+	
 	var hit_handler: Node = collider.get_parent()
 	while hit_handler and hit_handler.get("handle_hit") == null:
 		hit_handler = hit_handler.get_parent()
 	
-	if hit_handler and hit_handler.get("handle_hit"): hit_handler.handle_hit(hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
+	if hit_handler and hit_handler.get("handle_hit"): 
+		var result: G.HitHandleResult = hit_handler.handle_hit()
+		if !result.extra_colliders_to_ignore.is_empty():
+			for v in result.extra_colliders_to_ignore: hitbox.add_exception(v)
 	
 	hit_effects.rpc(collider.get_path(), hitbox.get_collision_normal(0))
 
 
 @rpc("authority", "call_local", "reliable")
 func hit_effects(target_path: String, normal: Vector3):
-	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
-	var parameter := "parameters/%s/playback" % hand_name
-	user.get_node("AnimationTree").get(parameter).start("swing_recoil")
-	
 	var hit_effect_handler: Node = get_node(target_path)
 	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
 		hit_effect_handler = hit_effect_handler.get_parent()
 	
 	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
-		hit_effect_handler.handle_hit_effect(item, normal)
+		hit_effect_handler.handle_hit_effect(self, normal)
 	else:
 		$"../Clash".play()
+
+
+@rpc("authority", "call_local", "reliable")
+func hit_recoil_effects():
+	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
+	var parameter := "parameters/%s/playback" % hand_name
+	user.get_node("AnimationTree").get(parameter).start("swing_recoil")
 
 
 func try_stop_swing():
@@ -127,6 +152,9 @@ func try_swing():
 	if swinging or parrying: return
 	swinging = true
 	swing_effects.rpc()
+	
+	hitbox.clear_exceptions()
+	hitbox.add_exception(user)
 
 
 @rpc("authority", "call_local", "reliable")

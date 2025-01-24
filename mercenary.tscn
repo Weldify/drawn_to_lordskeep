@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=71 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -86,6 +86,8 @@ animation = &"RESET"
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_aqk2v"]
 filters = ["..", "Skeleton3D:head_2", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_thumb"]
 
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_2rkhb"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ij2o5"]
 animation = &"both_hold_none"
 
@@ -151,6 +153,8 @@ transitions = ["Start", "hold_none", SubResource("AnimationNodeStateMachineTrans
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_7qe3q"]
 filter_enabled = true
 filters = ["..", "../LeftHandAnimEvents", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_73f88"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iqxy5"]
 animation = &"both_hold_none"
@@ -261,7 +265,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-1324.99, 104.383)
+graph_offset = Vector2(-1425.08, 88.4656)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
 nodes/Add2/position = Vector2(-780, 120)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
@@ -269,11 +273,15 @@ nodes/Animation/position = Vector2(-1060, -20)
 "nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
 "nodes/Arms + vertical look/position" = Vector2(-180, 0)
 "nodes/Left hand/node" = SubResource("AnimationNodeStateMachine_7qe3q")
-"nodes/Left hand/position" = Vector2(-860, 420)
+"nodes/Left hand/position" = Vector2(-920, 420)
+"nodes/Left hand timescale/node" = SubResource("AnimationNodeTimeScale_2rkhb")
+"nodes/Left hand timescale/position" = Vector2(-680, 420)
 "nodes/Right arm + left arm/node" = SubResource("AnimationNodeAdd2_7qe3q")
 "nodes/Right arm + left arm/position" = Vector2(-420, 140)
 "nodes/Right hand/node" = SubResource("AnimationNodeStateMachine_p6ykb")
-"nodes/Right hand/position" = Vector2(-1160, 200)
+"nodes/Right hand/position" = Vector2(-1320, 200)
+"nodes/Right hand timescale/node" = SubResource("AnimationNodeTimeScale_73f88")
+"nodes/Right hand timescale/position" = Vector2(-1060, 200)
 "nodes/Upper body + lower body/node" = SubResource("AnimationNodeAdd2_s636n")
 "nodes/Upper body + lower body/position" = Vector2(240, 380)
 nodes/crouchness/node = SubResource("AnimationNodeBlend2_qqtx7")
@@ -287,7 +295,7 @@ nodes/output/position = Vector2(560, 140)
 "nodes/speed (movement multiplier)/position" = Vector2(-40, 560)
 "nodes/speed (standing)/node" = SubResource("AnimationNodeBlendSpace1D_s636n")
 "nodes/speed (standing)/position" = Vector2(-480, 600)
-node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"speed (movement multiplier)", &"crouchness", 0, &"speed (standing)", &"crouchness", 1, &"speed (crouching)", &"output", 0, &"Upper body + lower body", &"speed (movement multiplier)", 0, &"crouchness"]
+node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand timescale", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Left hand timescale", 0, &"Left hand", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand timescale", &"Right hand timescale", 0, &"Right hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"speed (movement multiplier)", &"crouchness", 0, &"speed (standing)", &"crouchness", 1, &"speed (crouching)", &"output", 0, &"Upper body + lower body", &"speed (movement multiplier)", 0, &"crouchness"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_s636n"]
 random_pitch = 1.2
@@ -350,7 +358,9 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
 parameters/Add2/add_amount = 1.0
 "parameters/Arms + vertical look/add_amount" = 1.0
+"parameters/Left hand timescale/scale" = 1.0
 "parameters/Right arm + left arm/add_amount" = 1.0
+"parameters/Right hand timescale/scale" = 1.0
 "parameters/Upper body + lower body/add_amount" = 1.0
 parameters/crouchness/blend_amount = 0.0
 parameters/look_alpha/blend_position = 1.09489
@@ -383,7 +393,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240302, 0.977471, 0.976216, -0.0614326, -0.207916, 0.0550525, 0.997822, -0.0363408, -0.176535, 1.2133, 0.379322)
+transform = Transform3D(-0.291587, 0.0196417, 0.956343, 0.201624, 0.978589, 0.0413761, -0.935053, 0.204887, -0.289304, -0.144876, 1.50332, -0.157622)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
