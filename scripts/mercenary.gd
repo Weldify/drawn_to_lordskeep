@@ -133,6 +133,19 @@ func drop_item(is_right_hand: bool, throw_power: float):
 
 
 @rpc("authority", "call_local")
+func throw_effects(right_hand: bool, power: float):
+	if power < 0.2: return
+	power = remap(power, 0.2, 1, 0, 0.8)
+	
+	if right_hand:
+		$RightHandAttachment/Throw.volume_linear = power
+		$RightHandAttachment/Throw.play()
+	else:
+		$LeftHandAttachment/Throw.volume_linear = power
+		$LeftHandAttachment/Throw.play()
+
+
+@rpc("authority", "call_local")
 func place_satchel():
 	assert(multiplayer.is_server())
 	
@@ -222,12 +235,14 @@ func _physics_process(delta: float) -> void:
 			left_throw_power = min(1, left_throw_power + delta)
 		elif left_throw_power > 0:
 			drop_item.rpc_id(1, false, left_throw_power)
+			throw_effects.rpc(false, left_throw_power)
 			left_throw_power = 0
 		
 		if Input.is_action_pressed("right_action"):
 			right_throw_power = min(1, right_throw_power + delta)
 		elif right_throw_power > 0:
 			drop_item.rpc_id(1, true, right_throw_power)
+			throw_effects.rpc(true, right_throw_power)
 			right_throw_power = 0
 	else:
 		right_throw_power = 0

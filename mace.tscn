@@ -1,14 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://bhvnxcbnges4k"]
+[gd_scene load_steps=15 format=3 uid="uid://bhvnxcbnges4k"]
 
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_tjgbw"]
 [ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
 [ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/weapon_item.gd" id="2_8gtcb"]
 [ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="4_3o362"]
-[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/damage_blunt.wav" id="5_4gxi4"]
 [ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="5_w8dml"]
 [ext_resource type="AudioStream" uid="uid://eeke6pi5ko7x" path="res://sounds/parry_swing.wav" id="6_7dhqn"]
 [ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="6_jgs0n"]
-[ext_resource type="AudioStream" uid="uid://ddeojv5yv3qmm" path="res://sounds/damage_sharp.wav" id="6_tec1q"]
 [ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="7_xtwtw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8gtcb"]
@@ -30,16 +28,6 @@ size = Vector3(0.2, 1, 0.2)
 random_pitch = 1.1
 streams_count = 1
 stream_0/stream = ExtResource("4_3o362")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tec1q"]
-random_pitch = 1.1
-streams_count = 1
-stream_0/stream = ExtResource("5_4gxi4")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_11ixi"]
-random_pitch = 1.1
-streams_count = 1
-stream_0/stream = ExtResource("6_tec1q")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jgs0n"]
 random_pitch = 1.1
@@ -84,37 +72,21 @@ attenuation_model = 3
 max_distance = 10.0
 attenuation_filter_db = 0.0
 
-[node name="DamageBlunt" type="AudioStreamPlayer3D" parent="." index="7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
-stream = SubResource("AudioStreamRandomizer_tec1q")
-attenuation_model = 3
-volume_db = -8.0
-max_distance = 10.0
-attenuation_filter_db = 0.0
-
-[node name="DamageSharp" type="AudioStreamPlayer3D" parent="." index="8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
-stream = SubResource("AudioStreamRandomizer_11ixi")
-attenuation_model = 3
-volume_db = -2.0
-max_distance = 10.0
-attenuation_filter_db = 0.0
-
-[node name="Swing" type="AudioStreamPlayer3D" parent="." index="9"]
+[node name="Swing" type="AudioStreamPlayer3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
 stream = SubResource("AudioStreamRandomizer_jgs0n")
 attenuation_model = 3
 max_distance = 10.0
 attenuation_filter_db = 0.0
 
-[node name="ParrySwing" type="AudioStreamPlayer3D" parent="." index="10"]
+[node name="ParrySwing" type="AudioStreamPlayer3D" parent="." index="8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0689685, 0)
 stream = SubResource("AudioStreamRandomizer_4gxi4")
 attenuation_model = 3
 max_distance = 5.0
 attenuation_filter_db = 0.0
 
-[node name="ProtonTrail" type="Node3D" parent="." index="11"]
+[node name="ProtonTrail" type="Node3D" parent="." index="9"]
 script = ExtResource("6_jgs0n")
 material = ExtResource("7_xtwtw")
 smooth = 1.0

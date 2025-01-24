@@ -80,7 +80,7 @@ func _physics_process(delta: float) -> void:
 	var speed := linear_velocity.length()
 	var speed_diff := last_recorded_speed - speed
 	if speed_diff > 1 and get_contact_count() > 0:
-		play_collision_sound.rpc(remap(speed_diff, 1, 7, 0.01, 0.2))
+		play_collision_sound.rpc(remap(speed_diff, 1, 7, 0.01, 0.3))
 		
 	last_recorded_speed = speed
 

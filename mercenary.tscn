@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=73 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -20,6 +20,7 @@
 [ext_resource type="Animation" uid="uid://da30lololqy4b" path="res://models/mercenary/look_up.res" id="13_5h5rc"]
 [ext_resource type="Animation" uid="uid://cm58krmx67qr1" path="res://models/mercenary/look_down.res" id="14_p6ykb"]
 [ext_resource type="Animation" uid="uid://d235acoi8n0e" path="res://models/mercenary/both_parry.res" id="15_5f0r2"]
+[ext_resource type="AudioStream" uid="uid://cvxok8ojx1557" path="res://sounds/throw.wav" id="20_73f88"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -304,6 +305,11 @@ stream_0/stream = ExtResource("7_qqtx7")
 stream_1/stream = ExtResource("8_7qe3q")
 stream_2/stream = ExtResource("9_ybq4i")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6cnxl"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("20_73f88")
+
 [node name="Mercenary" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
@@ -393,18 +399,32 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
+transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501132, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521573, -0.733352, 1.31446, -0.00123265)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
+[node name="Throw" type="AudioStreamPlayer3D" parent="RightHandAttachment"]
+stream = SubResource("AudioStreamRandomizer_6cnxl")
+attenuation_model = 3
+unit_size = 1.0
+max_distance = 2.0
+attenuation_filter_db = 0.0
+
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240298, -0.977472, 0.055053, -0.997822, 0.0363405, -0.976216, -0.0614332, -0.207916, 0.176536, 0.73606, -0.00122365)
+transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501132, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521573, 0.733352, 1.31446, -0.00123273)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
+
+[node name="Throw" type="AudioStreamPlayer3D" parent="LeftHandAttachment"]
+stream = SubResource("AudioStreamRandomizer_6cnxl")
+attenuation_model = 3
+unit_size = 1.0
+max_distance = 2.0
+attenuation_filter_db = 0.0
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780585, 0.996949, -1.40467e-07, 0.996949, -0.0780585, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
