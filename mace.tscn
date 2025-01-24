@@ -1,18 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhvnxcbnges4k"]
+[gd_scene load_steps=10 format=3 uid="uid://bhvnxcbnges4k"]
 
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_tjgbw"]
 [ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
+[ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/weapon_item.gd" id="2_8gtcb"]
+[ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="4_3o362"]
+[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="5_w8dml"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8gtcb"]
+radius = 0.05
+height = 1.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gghyl"]
 size = Vector3(0.2, 1, 0.2)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_w8dml"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("4_3o362")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jgs0n"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("5_w8dml")
+
 [node name="Mace" instance=ExtResource("1_tjgbw")]
 
-[node name="HandleOffset" parent="." index="0"]
+[node name="Hitbox" type="ShapeCast3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.322625, 0)
+enabled = false
+shape = SubResource("CapsuleShape3D_8gtcb")
+target_position = Vector3(0, 0, 0)
+max_results = 1
+
+[node name="HandleOffset" parent="." index="1"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.066, 0.027)
 
-[node name="mace" parent="." index="2" instance=ExtResource("2_3o362")]
+[node name="WeaponItem" type="Node" parent="." index="3"]
+script = ExtResource("2_8gtcb")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
+[node name="mace" parent="." index="4" instance=ExtResource("2_3o362")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342114, 0)
 shape = SubResource("BoxShape3D_gghyl")
+
+[node name="Clash" type="AudioStreamPlayer3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
+stream = SubResource("AudioStreamRandomizer_w8dml")
+attenuation_model = 3
+max_distance = 10.0
+attenuation_filter_db = 0.0
+
+[node name="Swing" type="AudioStreamPlayer3D" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
+stream = SubResource("AudioStreamRandomizer_jgs0n")
+attenuation_model = 3
+max_distance = 10.0
+attenuation_filter_db = 0.0

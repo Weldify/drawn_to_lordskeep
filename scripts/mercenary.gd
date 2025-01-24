@@ -5,6 +5,8 @@ const SATCHEL_CAST_HEIGHT = 1.2
 const STANDING_HEIGHT = 1.75
 const CROUCHING_HEIGHT = 1.0
 
+signal anim_swing_over
+signal anim_swing_damaging
 
 var is_grounded := false
 
@@ -69,7 +71,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	crouchness = 0
-	
 	if !is_multiplayer_authority(): return
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -193,7 +194,6 @@ func use() -> void:
 	var left_hand_free := $/root/world/Items.get_node_or_null(left_hand_item_name) == null
 	if !right_hand_free and !left_hand_free: return
 	
-	item.holder_name = self.name
 	
 	if right_hand_free:
 		right_hand_item_name = item.name
@@ -201,6 +201,8 @@ func use() -> void:
 	else:
 		left_hand_item_name = item.name
 		item.is_in_right_hand = false
+	
+	item.holder_name = self.name
 
 
 func _physics_process(delta: float) -> void:

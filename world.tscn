@@ -569,7 +569,7 @@ _spawnable_scenes = PackedStringArray("uid://g33nab5xyq5h")
 spawn_path = NodePath(".")
 
 [node name="Items" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://be1a0be8ciu4h", "uid://cndy7g2esco4j", "uid://dq0bbiu8183dk", "uid://g33nab5xyq5h")
+_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://cndy7g2esco4j", "uid://dq0bbiu8183dk", "uid://g33nab5xyq5h")
 spawn_path = NodePath(".")
 
 [node name="Camera3D" type="Camera3D" parent="."]

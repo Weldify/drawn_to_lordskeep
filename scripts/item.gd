@@ -1,6 +1,9 @@
 extends RigidBody3D
 class_name Item
 
+## Careful because this signal doesn't guarantee .is_in_right_hand is set properly
+signal holder_changed()
+
 @export var holdtype := G.HoldType.WEAPON
 
 @export var transform_mirror: Transform3D :
@@ -8,7 +11,14 @@ class_name Item
 		global_transform = v
 	get(): return global_transform
 
-@export var holder_name: String
+## Do not change this directly, use hold() or drop()
+@export var holder_name: String :
+	set(v):
+		if holder_name == v: return
+		holder_name = v
+		holder_changed.emit()
+	get(): return holder_name
+	
 @export var is_in_right_hand := true
 
 func _ready() -> void:
@@ -26,7 +36,9 @@ func _physics_process(delta: float) -> void:
 	if $/root/world/Mercenaries.get_node_or_null(holder_name):
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 		set_collision_layer_value(3, false)
+		freeze = true
 	else:
+		freeze = !multiplayer.is_server()
 		set_collision_layer_value(3, true)
 		
 		if physics_interpolation_mode != Node.PHYSICS_INTERPOLATION_MODE_ON:

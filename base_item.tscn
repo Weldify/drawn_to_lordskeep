@@ -3,15 +3,15 @@
 [ext_resource type="Script" uid="uid://cr4j1s3eunqkt" path="res://scripts/item.gd" id="1_g4pv6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ysa82"]
-properties/0/path = NodePath(".:holder_name")
+properties/0/path = NodePath(".:transform_mirror")
 properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:is_in_right_hand")
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:holder_name")
 properties/1/spawn = true
 properties/1/replication_mode = 2
-properties/2/path = NodePath(".:transform_mirror")
+properties/2/path = NodePath(".:is_in_right_hand")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
 
 [node name="BaseItem" type="RigidBody3D"]
 physics_interpolation_mode = 1
@@ -21,5 +21,5 @@ script = ExtResource("1_g4pv6")
 
 [node name="HandleOffset" type="Node3D" parent="."]
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="ItemSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ysa82")
