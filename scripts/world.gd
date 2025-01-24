@@ -31,11 +31,13 @@ func _ready():
 	
 	_spawn_mercenary_for_peer(1)
 	
-	for i in 2:
-		var mace := preload("res://mace.tscn").instantiate()
-		$/root/world/Items.add_child(mace, true)
-		if i == 1: mace.get_node("Weapon").blunt = true
-		mace.global_position = Vector3(0, 2, 0)
+	var mace := preload("res://mace.tscn").instantiate()
+	$/root/world/Items.add_child(mace, true)
+	mace.global_position = Vector3(0, 2, 0)
+	
+	var arming_sword := preload("res://arming_sword.tscn").instantiate()
+	$/root/world/Items.add_child(arming_sword, true)
+	arming_sword.global_position = Vector3(0, 2, 0)
 	
 	for i in 20:
 		var can := preload("res://pepsi_max.tscn").instantiate()

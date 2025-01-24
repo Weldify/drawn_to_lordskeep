@@ -1,15 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://bhvnxcbnges4k"]
+[gd_scene load_steps=19 format=3 uid="uid://vsiy4t2qnfe4"]
 
-[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_tjgbw"]
-[ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
-[ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/weapon_item.gd" id="2_8gtcb"]
-[ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="4_3o362"]
-[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/damage_blunt.wav" id="5_4gxi4"]
-[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="5_w8dml"]
-[ext_resource type="AudioStream" uid="uid://eeke6pi5ko7x" path="res://sounds/parry_swing.wav" id="6_7dhqn"]
-[ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="6_jgs0n"]
-[ext_resource type="AudioStream" uid="uid://ddeojv5yv3qmm" path="res://sounds/damage_sharp.wav" id="6_tec1q"]
-[ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="7_xtwtw"]
+[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_imw4u"]
+[ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/weapon_item.gd" id="2_5hvnc"]
+[ext_resource type="PackedScene" uid="uid://ty43ydihrr7h" path="res://models/arming_sword/arming_sword.blend" id="2_imw4u"]
+[ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="4_7371j"]
+[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/damage_blunt.wav" id="5_4tlw2"]
+[ext_resource type="AudioStream" uid="uid://ddeojv5yv3qmm" path="res://sounds/damage_sharp.wav" id="6_hims1"]
+[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="7_86x56"]
+[ext_resource type="AudioStream" uid="uid://eeke6pi5ko7x" path="res://sounds/parry_swing.wav" id="8_xo1ne"]
+[ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="9_mqw44"]
+[ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="10_wlsh0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8gtcb"]
 radius = 0.05
@@ -29,31 +29,33 @@ size = Vector3(0.2, 1, 0.2)
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_w8dml"]
 random_pitch = 1.1
 streams_count = 1
-stream_0/stream = ExtResource("4_3o362")
+stream_0/stream = ExtResource("4_7371j")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tec1q"]
 random_pitch = 1.1
 streams_count = 1
-stream_0/stream = ExtResource("5_4gxi4")
+stream_0/stream = ExtResource("5_4tlw2")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_11ixi"]
 random_pitch = 1.1
 streams_count = 1
-stream_0/stream = ExtResource("6_tec1q")
+stream_0/stream = ExtResource("6_hims1")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jgs0n"]
 random_pitch = 1.1
 streams_count = 1
-stream_0/stream = ExtResource("5_w8dml")
+stream_0/stream = ExtResource("7_86x56")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4gxi4"]
 random_pitch = 1.1
 streams_count = 1
-stream_0/stream = ExtResource("6_7dhqn")
+stream_0/stream = ExtResource("8_xo1ne")
 
-[node name="Mace" instance=ExtResource("1_tjgbw")]
+[node name="ArmingSword" instance=ExtResource("1_imw4u")]
 
-[node name="Hitbox" type="ShapeCast3D" parent="." index="0"]
+[node name="model" parent="." index="0" instance=ExtResource("2_imw4u")]
+
+[node name="Hitbox" type="ShapeCast3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.322625, 0)
 enabled = false
 shape = SubResource("CapsuleShape3D_8gtcb")
@@ -61,17 +63,14 @@ target_position = Vector3(0, 0, 0)
 max_results = 1
 collision_mask = 3
 
-[node name="HandleOffset" parent="." index="1"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.066, 0.027)
+[node name="HandleOffset" parent="." index="2"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.066, 0.027)
 
-[node name="Weapon" type="Node" parent="." index="3"]
-script = ExtResource("2_8gtcb")
-blunt = true
+[node name="Weapon" type="Node" parent="." index="4"]
+script = ExtResource("2_5hvnc")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Weapon" index="0"]
 replication_config = SubResource("SceneReplicationConfig_7dhqn")
-
-[node name="mace" parent="." index="4" instance=ExtResource("2_3o362")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.342114, 0)
@@ -115,11 +114,11 @@ max_distance = 5.0
 attenuation_filter_db = 0.0
 
 [node name="ProtonTrail" type="Node3D" parent="." index="11"]
-script = ExtResource("6_jgs0n")
-material = ExtResource("7_xtwtw")
+script = ExtResource("9_mqw44")
+material = ExtResource("10_wlsh0")
 smooth = 1.0
 cast_shadow = false
-metadata/_custom_type_script = ExtResource("6_jgs0n")
+metadata/_custom_type_script = ExtResource("9_mqw44")
 
 [node name="Top" type="Marker3D" parent="ProtonTrail" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.823524, 0)
