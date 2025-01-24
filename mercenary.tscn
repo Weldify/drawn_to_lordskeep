@@ -1,6 +1,7 @@
-[gd_scene load_steps=63 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=69 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
+[ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
 [ext_resource type="Animation" uid="uid://ck0moiw8hr0ox" path="res://models/mercenary/RESET.res" id="4_ij2o5"]
 [ext_resource type="Animation" uid="uid://cu2igi0ieyhs8" path="res://models/mercenary/both_hold_none.res" id="5_5h5rc"]
 [ext_resource type="PackedScene" uid="uid://c14fsiugubcvw" path="res://models/mercenary/mercenary.blend" id="5_qqtx7"]
@@ -18,6 +19,7 @@
 [ext_resource type="Animation" uid="uid://cgp0fa52u0wql" path="res://models/mercenary/walk_ff.res" id="12_yb78r"]
 [ext_resource type="Animation" uid="uid://da30lololqy4b" path="res://models/mercenary/look_up.res" id="13_5h5rc"]
 [ext_resource type="Animation" uid="uid://cm58krmx67qr1" path="res://models/mercenary/look_down.res" id="14_p6ykb"]
+[ext_resource type="Animation" uid="uid://d235acoi8n0e" path="res://models/mercenary/both_parry.res" id="15_5f0r2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
 size = Vector3(0.8, 0.2, 0.6)
@@ -27,6 +29,7 @@ _data = {
 &"RESET": ExtResource("4_ij2o5"),
 &"both_hold_none": ExtResource("5_5h5rc"),
 &"both_hold_weapon": ExtResource("6_p6ykb"),
+&"both_parry": ExtResource("15_5f0r2"),
 &"both_swing": ExtResource("7_5f0r2"),
 &"both_swing_recoil": ExtResource("8_2rkhb"),
 &"cwalk_ff": ExtResource("9_73f88"),
@@ -75,7 +78,7 @@ height = 1.75
 
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_k4fjk"]
 filter_enabled = true
-filters = ["..", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_thumb"]
+filters = ["..", "../RightHandAnimEvents", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_thumb"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p6ykb"]
 animation = &"RESET"
@@ -88,6 +91,9 @@ animation = &"both_hold_none"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5h5rc"]
 animation = &"both_hold_weapon"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6cnxl"]
+animation = &"both_parry"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5f0r2"]
 animation = &"both_swing"
@@ -115,6 +121,7 @@ advance_mode = 2
 advance_expression = "!is_left_holdtype_weapon()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_73f88"]
+xfade_time = 0.5
 switch_mode = 2
 advance_mode = 2
 
@@ -123,20 +130,27 @@ xfade_time = 0.6
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jv8dt"]
+xfade_time = 1.0
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7qe3q"]
 states/hold_none/node = SubResource("AnimationNodeAnimation_ij2o5")
 states/hold_none/position = Vector2(447, 59)
 states/hold_weapon/node = SubResource("AnimationNodeAnimation_5h5rc")
 states/hold_weapon/position = Vector2(447, 241)
+states/parry/node = SubResource("AnimationNodeAnimation_6cnxl")
+states/parry/position = Vector2(447, 365)
 states/swing/node = SubResource("AnimationNodeAnimation_5f0r2")
 states/swing/position = Vector2(690, 241)
 states/swing_recoil/node = SubResource("AnimationNodeAnimation_2rkhb")
 states/swing_recoil/position = Vector2(590, 312)
-transitions = ["Start", "hold_none", SubResource("AnimationNodeStateMachineTransition_p6ykb"), "hold_none", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_5f0r2"), "hold_weapon", "hold_none", SubResource("AnimationNodeStateMachineTransition_2rkhb"), "swing", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_73f88"), "swing_recoil", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_couci")]
+transitions = ["Start", "hold_none", SubResource("AnimationNodeStateMachineTransition_p6ykb"), "hold_none", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_5f0r2"), "hold_weapon", "hold_none", SubResource("AnimationNodeStateMachineTransition_2rkhb"), "swing", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_73f88"), "swing_recoil", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_couci"), "parry", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_jv8dt")]
 
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_7qe3q"]
 filter_enabled = true
-filters = ["..", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb"]
+filters = ["..", "../LeftHandAnimEvents", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iqxy5"]
 animation = &"both_hold_none"
@@ -144,6 +158,9 @@ animation = &"both_hold_none"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qdjr3"]
 animation = &"both_hold_weapon"
 advance_on_start = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_73f88"]
+animation = &"both_parry"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_288uk"]
 animation = &"both_swing"
@@ -167,12 +184,17 @@ advance_mode = 2
 advance_expression = "!is_right_holdtype_weapon()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6cnxl"]
-xfade_time = 0.1
+xfade_time = 0.5
 switch_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qqtx7"]
 xfade_time = 0.6
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yb78r"]
+xfade_time = 1.0
 switch_mode = 2
 advance_mode = 2
 
@@ -182,12 +204,14 @@ states/hold_none/node = SubResource("AnimationNodeAnimation_iqxy5")
 states/hold_none/position = Vector2(395, 100)
 states/hold_weapon/node = SubResource("AnimationNodeAnimation_qdjr3")
 states/hold_weapon/position = Vector2(395, 214)
+states/parry/node = SubResource("AnimationNodeAnimation_73f88")
+states/parry/position = Vector2(410, 333)
 states/swing/node = SubResource("AnimationNodeAnimation_288uk")
-states/swing/position = Vector2(666, 214)
+states/swing/position = Vector2(667, 214)
 states/swing_recoil/node = SubResource("AnimationNodeAnimation_k4fjk")
 states/swing_recoil/position = Vector2(608, 305)
-transitions = ["Start", "hold_none", SubResource("AnimationNodeStateMachineTransition_288uk"), "hold_none", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_ij2o5"), "hold_weapon", "hold_none", SubResource("AnimationNodeStateMachineTransition_5h5rc"), "swing", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_6cnxl"), "swing_recoil", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_qqtx7")]
-graph_offset = Vector2(-59, 88)
+transitions = ["Start", "hold_none", SubResource("AnimationNodeStateMachineTransition_288uk"), "hold_none", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_ij2o5"), "hold_weapon", "hold_none", SubResource("AnimationNodeStateMachineTransition_5h5rc"), "swing", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_6cnxl"), "swing_recoil", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_qqtx7"), "parry", "hold_weapon", SubResource("AnimationNodeStateMachineTransition_yb78r")]
+graph_offset = Vector2(-70, 46)
 
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_s636n"]
 filter_enabled = true
@@ -237,7 +261,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-866.142, -201.157)
+graph_offset = Vector2(-1187.2, 80.9787)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
 nodes/Add2/position = Vector2(-780, 120)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
@@ -282,7 +306,18 @@ script = ExtResource("8_k4fjk")
 properties = Array[StringName]([&":crouchness", &":position", &":velocity"])
 metadata/_custom_type_script = ExtResource("8_k4fjk")
 
+[node name="RightHandAnimEvents" type="Node" parent="."]
+script = ExtResource("3_2rkhb")
+
+[node name="LeftHandAnimEvents" type="Node" parent="."]
+script = ExtResource("3_2rkhb")
+
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
+
+[node name="Skeleton3D" parent="Model" index="0"]
+bones/9/rotation = Quaternion(6.56006e-09, -2.78442e-09, 0.268855, 0.963181)
+bones/10/rotation = Quaternion(1.62907e-07, 2.68477e-07, 0.306685, 0.951811)
+bones/11/rotation = Quaternion(-7.4705e-09, 3.03485e-09, 0.199482, 0.979902)
 
 [node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
 transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1, 0.9)
@@ -324,7 +359,7 @@ parameters/look_alpha/blend_position = 1.09489
 "parameters/speed (standing)/blend_position" = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.01705e-07, -1.2901e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176538)
+transform = Transform3D(1.88528e-07, 1.32479e-07, -1, 0.999041, 0.0437889, 1.94148e-07, 0.043789, -0.999041, -1.24097e-07, 8.73025e-08, 1.22127, -0.244032)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -348,21 +383,21 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521574, -0.733352, 1.31446, -0.00123268)
+transform = Transform3D(-0.291587, 0.0196417, 0.956343, 0.201624, 0.978589, 0.0413761, -0.935053, 0.204887, -0.289304, -0.144876, 1.50332, -0.157622)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521574, 0.733352, 1.31446, -0.00123276)
+transform = Transform3D(-0.291587, -0.0196417, -0.956343, -0.201624, 0.978588, 0.0413761, 0.935053, 0.204887, -0.289304, 0.144876, 1.50332, -0.157622)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
+transform = Transform3D(1.18764e-07, 1.79788e-07, -1, 0.902412, 0.430873, 1.8464e-07, 0.430874, -0.902412, -1.1107e-07, 6.8806e-08, 1.16398, -0.0810713)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true

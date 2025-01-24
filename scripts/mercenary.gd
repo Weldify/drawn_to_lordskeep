@@ -5,9 +5,6 @@ const SATCHEL_CAST_HEIGHT = 1.2
 const STANDING_HEIGHT = 1.75
 const CROUCHING_HEIGHT = 1.0
 
-signal anim_swing_over
-signal anim_swing_damaging
-
 var is_grounded := false
 
 # Client owned
