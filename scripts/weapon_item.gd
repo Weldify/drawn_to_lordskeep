@@ -18,12 +18,6 @@ func _ready() -> void:
 
 
 func _holder_changed():
-	# @NOTE: I have no idea whether .is_in_right_hand is properly networked at this point.
-	# It could be old. I need to investigate and make sure it is up to date by the time this is called!
-	
-	# @BUG: It is not. LOL
-	print("Hand ", item.is_in_right_hand)
-	
 	if user and is_multiplayer_authority():
 		try_stop_swing()
 		try_stop_parry()
@@ -57,11 +51,8 @@ func _holder_changed():
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority() or !user: return
 	
-	if Input.is_action_just_pressed("primary"):
+	if Input.is_action_pressed("secondary" if item.is_in_right_hand else "primary"):
 		try_swing()
-		
-	if Input.is_action_just_pressed("secondary"):
-		try_parry()
 	
 	do_hitboxes()
 

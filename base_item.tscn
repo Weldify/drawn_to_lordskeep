@@ -12,6 +12,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath(".:is_in_right_hand")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath(".:holder_info")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="BaseItem" type="RigidBody3D"]
 physics_interpolation_mode = 1

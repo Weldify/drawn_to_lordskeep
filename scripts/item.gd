@@ -11,15 +11,21 @@ signal holder_changed()
 		global_transform = v
 	get(): return global_transform
 
-## Do not change this directly, use hold() or drop()
-@export var holder_name: String :
+var holder_name: String : 
+	get(): return holder_info[0]
+
+var is_in_right_hand: bool : 
+	get(): return holder_info[1]
+
+# Think of this as storing .holder_name and .is_in_right_hand in one variable.
+# We have to do this so that they get networked at the same time.
+@export var holder_info: Array = ["", true] :
 	set(v):
-		if holder_name == v: return
-		holder_name = v
+		if holder_info == v: return
+		holder_info = v
 		holder_changed.emit()
-	get(): return holder_name
-	
-@export var is_in_right_hand := true
+	get(): return holder_info
+
 
 func _ready() -> void:
 	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")

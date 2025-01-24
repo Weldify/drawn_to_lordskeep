@@ -122,7 +122,7 @@ func drop_item(is_right_hand: bool):
 	else:
 		left_hand_item_name = ""
 	
-	item.holder_name = ""
+	item.holder_info[0] = ""
 	item.linear_velocity = velocity
 	item.angular_velocity = Vector3.ZERO
 
@@ -194,12 +194,10 @@ func use() -> void:
 	
 	if right_hand_free:
 		right_hand_item_name = item.name
-		item.is_in_right_hand = true
+		item.holder_info = [self.name, true]
 	else:
 		left_hand_item_name = item.name
-		item.is_in_right_hand = false
-	
-	item.holder_name = self.name
+		item.holder_info = [self.name, false]
 
 
 func _physics_process(delta: float) -> void:
