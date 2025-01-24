@@ -21,9 +21,6 @@
 [ext_resource type="Animation" uid="uid://cm58krmx67qr1" path="res://models/mercenary/look_down.res" id="14_p6ykb"]
 [ext_resource type="Animation" uid="uid://d235acoi8n0e" path="res://models/mercenary/both_parry.res" id="15_5f0r2"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
-size = Vector3(0.8, 0.2, 0.6)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
 &"RESET": ExtResource("4_ij2o5"),
@@ -39,6 +36,9 @@ _data = {
 &"upper_idle": ExtResource("11_couci"),
 &"walk_ff": ExtResource("12_yb78r")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
+size = Vector3(0.8, 0.2, 0.6)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qqtx7"]
 properties/0/path = NodePath(".:right_hand_item_name")
@@ -319,18 +319,18 @@ bones/9/rotation = Quaternion(6.56006e-09, -2.78442e-09, 0.268855, 0.963181)
 bones/10/rotation = Quaternion(1.62907e-07, 2.68477e-07, 0.306685, 0.951811)
 bones/11/rotation = Quaternion(-7.4705e-09, 3.03485e-09, 0.199482, 0.979902)
 
+[node name="AnimationPlayer" parent="Model" index="1"]
+deterministic = true
+libraries = {
+&"": SubResource("AnimationLibrary_jv8dt")
+}
+
 [node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
 transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1, 0.9)
 shape = SubResource("BoxShape3D_ybq4i")
 exclude_parent = false
 max_results = 1
 collision_mask = 7
-
-[node name="AnimationPlayer" parent="Model" index="2"]
-deterministic = true
-libraries = {
-&"": SubResource("AnimationLibrary_jv8dt")
-}
 
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qqtx7")

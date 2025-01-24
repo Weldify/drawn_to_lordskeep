@@ -56,6 +56,8 @@ func _physics_process(delta: float) -> void:
 	
 	do_hitboxes()
 
+func _process(delta: float) -> void:
+	$"../ProtonTrail".emit = swing_damaging
 
 func do_hitboxes():
 	var hitbox_position := previous_hitbox_position

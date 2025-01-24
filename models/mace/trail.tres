@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c3jhvcexel6he"]
+
+[ext_resource type="Texture2D" uid="uid://bfvm58loffb3i" path="res://models/mace/trail.png" id="1_pq8y7"]
+
+[resource]
+transparency = 1
+cull_mode = 2
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(1, 1, 1, 0.482353)
+albedo_texture = ExtResource("1_pq8y7")
+texture_filter = 0
+texture_repeat = false
