@@ -8,3 +8,4 @@ func _on_body_entered(body: Node3D) -> void:
 	if body is not Mercenary or !body.is_multiplayer_authority(): return
 	
 	$/root/world.start_hosting()
+	$/root/world/SubtitleUI.display("You have no friends bro...")
