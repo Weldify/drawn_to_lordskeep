@@ -30,7 +30,6 @@ func _ready() -> void:
 
 
 func _holder_changed():
-	print("Processing this thing yes")
 	if user and is_multiplayer_authority():
 		try_stop_swing()
 		try_stop_parry()
