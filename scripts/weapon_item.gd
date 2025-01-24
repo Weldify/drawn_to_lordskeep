@@ -8,7 +8,7 @@ extends Node
 var user: Mercenary
 
 var swinging := false
-var swing_damaging := false
+@export var swing_damaging := false
 var previous_hitbox_position: Vector3
 
 var parrying := false
@@ -16,9 +16,13 @@ var parry_timer := 0.0
 
 func _ready() -> void:
 	item.holder_changed.connect(_holder_changed)
+	# _holder_changed is called when the item is first created,
+	# but it won't get called for someone who joined the game later.
+	_holder_changed()
 
 
 func _holder_changed():
+	print("Processing this thing yes")
 	if user and is_multiplayer_authority():
 		try_stop_swing()
 		try_stop_parry()
@@ -56,13 +60,15 @@ func _physics_process(delta: float) -> void:
 		parry_timer -= delta
 		if parry_timer < 0: try_stop_parry()
 	
+	do_hitboxes()
+	
+	if Input.is_action_pressed("drop"): return
 	if Input.is_action_pressed("right_action" if item.is_in_right_hand else "left_action"):
 		if Input.is_action_pressed("alt"):
 			try_parry()
 		else:
 			try_swing()
 	
-	do_hitboxes()
 
 func _process(delta: float) -> void:
 	$"../ProtonTrail".emit = swing_damaging
@@ -134,7 +140,7 @@ func try_parry():
 	parrying = true
 	parry_timer = 0.5
 	
-	parry_effects()
+	parry_effects.rpc()
 
 
 func try_stop_parry():

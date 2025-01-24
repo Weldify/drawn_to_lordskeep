@@ -17,8 +17,10 @@ var holder_name: String :
 var is_in_right_hand: bool : 
 	get(): return holder_info[1]
 
-# Think of this as storing .holder_name and .is_in_right_hand in one variable.
-# We have to do this so that they get networked at the same time.
+## Think of this as storing .holder_name and .is_in_right_hand in one variable.
+## We have to do this so that they get networked at the same time.
+## Also, this is a reference type, so please construct it from scratch
+## every time you change it, otherwise the synchronizer won't pick up the change.
 @export var holder_info: Array = ["", true] :
 	set(v):
 		if holder_info == v: return

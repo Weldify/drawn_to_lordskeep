@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bhvnxcbnges4k"]
+[gd_scene load_steps=15 format=3 uid="uid://bhvnxcbnges4k"]
 
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_tjgbw"]
 [ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
@@ -12,6 +12,11 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8gtcb"]
 radius = 0.05
 height = 1.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7dhqn"]
+properties/0/path = NodePath(".:swing_damaging")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gghyl"]
 size = Vector3(0.2, 1, 0.2)
@@ -45,6 +50,9 @@ transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0
 
 [node name="WeaponItem" type="Node" parent="." index="3"]
 script = ExtResource("2_8gtcb")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="WeaponItem" index="0"]
+replication_config = SubResource("SceneReplicationConfig_7dhqn")
 
 [node name="mace" parent="." index="4" instance=ExtResource("2_3o362")]
 

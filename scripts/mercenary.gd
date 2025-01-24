@@ -122,7 +122,7 @@ func drop_item(is_right_hand: bool):
 	else:
 		left_hand_item_name = ""
 	
-	item.holder_info[0] = ""
+	item.holder_info = ["", true]
 	item.linear_velocity = velocity
 	item.angular_velocity = Vector3.ZERO
 
