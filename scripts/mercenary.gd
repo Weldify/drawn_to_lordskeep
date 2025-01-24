@@ -212,7 +212,6 @@ func use() -> void:
 	var left_hand_free := $/root/world/Items.get_node_or_null(left_hand_item_name) == null
 	if !right_hand_free and !left_hand_free: return
 	
-	
 	if right_hand_free:
 		right_hand_item_name = item.name
 		item.holder_info = [self.name, true]
@@ -223,8 +222,10 @@ func use() -> void:
 		take_item_effects.rpc(false)
 
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local")
 func take_item_effects(right_hand: bool):
+	assert(multiplayer.get_remote_sender_id() == 1)
+	
 	if right_hand:
 		$RightHandAttachment/Take.play()
 	else:

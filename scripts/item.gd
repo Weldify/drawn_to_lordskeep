@@ -19,6 +19,19 @@ var is_in_right_hand: bool :
 	
 var last_recorded_speed: float
 
+@export var spin_speed: float :
+	set(v):
+		if v == spin_speed: return
+		spin_speed = v
+		
+		var should_be_playing := spin_speed > 0.1
+		if $Spin.playing != should_be_playing:
+			$Spin.playing = should_be_playing
+		
+		$Spin.pitch_scale = max(0.01, remap(v, 0, 20, 0, 1.5))
+	get(): return spin_speed
+		
+
 ## Think of this as storing .holder_name and .is_in_right_hand in one variable.
 ## We have to do this so that they get networked at the same time.
 ## Also, this is a reference type, so please construct it from scratch
@@ -48,34 +61,27 @@ func _on_holder_changed():
 		freeze = true
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 		set_collision_layer_value(3, false)
-		
-		update_spin_sound()
 	else:
 		freeze = !multiplayer.is_server()
 		set_collision_layer_value(3, true)
 		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
 		
 		reset_physics_interpolation()
-		update_spin_sound()
-
-
-func update_spin_sound():
-	var spin_speed: float = 0 if freeze or sleeping else abs((quaternion.inverse() * angular_velocity).x)
-	if spin_speed < 0.1: 
-		if $Spin.playing:
-			$Spin.playing = false
-			return
 	
-	if !$Spin.playing:
-		$Spin.playing = true
-			
-	$Spin.pitch_scale = max(0.01, remap(spin_speed, 0, 20, 0, 1.5))
+	if multiplayer.is_server():
+		_recalculate_spin_speed()
+
+
+func _recalculate_spin_speed():
+	spin_speed = 0 if holder_name != "" or sleeping else abs((quaternion.inverse() * angular_velocity).x)
 
 
 func _physics_process(delta: float) -> void:
-	if freeze or sleeping: return
+	if !multiplayer.is_server(): return
 	
-	update_spin_sound()
+	_recalculate_spin_speed()
+	
+	if freeze or sleeping: return
 	
 	var speed := linear_velocity.length()
 	var speed_diff := last_recorded_speed - speed

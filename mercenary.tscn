@@ -405,7 +405,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501132, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521573, -0.733352, 1.31446, -0.00123265)
+transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
@@ -427,7 +427,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501132, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521573, 0.733352, 1.31446, -0.00123273)
+transform = Transform3D(0.209695, -0.0240298, -0.977472, 0.055053, -0.997822, 0.0363405, -0.976216, -0.0614332, -0.207916, 0.176536, 0.73606, -0.00122365)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
