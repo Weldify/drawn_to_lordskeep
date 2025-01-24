@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=4 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=153 format=4 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
@@ -21,6 +21,7 @@
 [ext_resource type="Material" uid="uid://bph7vdx0lair3" path="res://maps/textures/bricks.tres" id="10_il2jm"]
 [ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="10_wse8f"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://crosshair.png" id="15_hiqwa"]
+[ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bc84e"]
 albedo_texture = ExtResource("3_tlwt5")
@@ -559,6 +560,12 @@ volumetric_fog_temporal_reprojection_enabled = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bc84e"]
 size = Vector3(3.89801, 3.35248, 4.3761)
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_il2jm"]
+clip_count = 1
+clip_0/name = &"Wind Ambience"
+clip_0/stream = ExtResource("22_wukud")
+clip_0/auto_advance = 0
 
 [node name="world" type="Node"]
 physics_interpolation_mode = 2
@@ -1121,6 +1128,13 @@ shape = SubResource("BoxShape3D_bc84e")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -6.25422, 2.19255, 12.8202)
 text = "Say gex dungeon"
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_il2jm")
+volume_db = -12.0
+autoplay = true
+mix_target = 2
+bus = &"Ambience"
 
 [connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
 [connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]
