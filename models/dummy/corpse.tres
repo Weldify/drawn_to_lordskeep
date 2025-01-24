@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dv1o4bru2b0fo"]
+
+[ext_resource type="Texture2D" uid="uid://k6ojujxindl0" path="res://models/dummy/corpse.png" id="1_7i0xs"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_7i0xs")
+texture_filter = 0

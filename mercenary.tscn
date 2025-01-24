@@ -390,7 +390,7 @@ use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.291587, -0.0196417, -0.956343, -0.201624, 0.978588, 0.0413761, 0.935053, 0.204887, -0.289304, 0.144876, 1.50332, -0.157622)
+transform = Transform3D(0.209695, -0.0240301, -0.977472, -0.976216, -0.0614331, -0.207915, -0.0550529, 0.997822, -0.0363408, 0.176536, 1.2133, 0.379323)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true

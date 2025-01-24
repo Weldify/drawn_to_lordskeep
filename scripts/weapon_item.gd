@@ -2,7 +2,7 @@ extends Node
 
 @onready var item := $".."
 
-@onready var hitbox := $"../Hitbox"
+@onready var hitbox: ShapeCast3D = $"../Hitbox"
 @onready var original_hitbox_position: Vector3 = hitbox.position
 
 var user: Mercenary
@@ -88,18 +88,32 @@ func do_hitboxes():
 
 
 func hit():
-	print(hitbox.get_collider(0))
 	try_stop_swing()
-	hit_effects.rpc()
+	
+	var collider: PhysicsBody3D = hitbox.get_collider(0)
+	var hit_handler: Node = collider.get_parent()
+	while hit_handler and hit_handler.get("handle_hit") == null:
+		hit_handler = hit_handler.get_parent()
+	
+	if hit_handler and hit_handler.get("handle_hit"): hit_handler.handle_hit(hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
+	
+	hit_effects.rpc(collider.get_path(), hitbox.get_collision_normal(0))
 
 
 @rpc("authority", "call_local", "reliable")
-func hit_effects():
+func hit_effects(target_path: String, normal: Vector3):
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
 	var parameter := "parameters/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("swing_recoil")
 	
-	$"../Clash".play()
+	var hit_effect_handler: Node = get_node(target_path)
+	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
+		hit_effect_handler = hit_effect_handler.get_parent()
+	
+	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
+		hit_effect_handler.handle_hit_effect(item, normal)
+	else:
+		$"../Clash".play()
 
 
 func try_stop_swing():
