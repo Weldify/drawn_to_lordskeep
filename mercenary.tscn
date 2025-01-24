@@ -284,13 +284,6 @@ metadata/_custom_type_script = ExtResource("8_k4fjk")
 
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
 
-[node name="Skeleton3D" parent="Model" index="0"]
-bones/9/rotation = Quaternion(6.56006e-09, -2.78442e-09, 0.268855, 0.963181)
-bones/10/rotation = Quaternion(1.62907e-07, 2.68477e-07, 0.306685, 0.951811)
-bones/11/rotation = Quaternion(-7.4705e-09, 3.03485e-09, 0.199482, 0.979902)
-bones/12/scale = Vector3(1, 1, 1)
-bones/17/scale = Vector3(1, 1, 1)
-
 [node name="SatchelShapecast" type="ShapeCast3D" parent="Model"]
 transform = Transform3D(1, 2.22045e-15, 1.42109e-14, 1.33227e-15, 1, 0, -1.42109e-14, 0, 1, 0, 1, 0.9)
 shape = SubResource("BoxShape3D_ybq4i")
@@ -331,7 +324,7 @@ parameters/look_alpha/blend_position = 1.09489
 "parameters/speed (standing)/blend_position" = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1.88528e-07, 1.32479e-07, -1, 0.999041, 0.0437889, 1.94148e-07, 0.043789, -0.999041, -1.24097e-07, 8.73025e-08, 1.22127, -0.244032)
+transform = Transform3D(-1.01705e-07, -1.2901e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176538)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -355,21 +348,21 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550523, -0.997822, 0.0363407, 0.888679, -0.0655587, -0.453819, 0.455213, 0.00731139, 0.890353, -0.733352, 1.21418, -0.198911)
+transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521574, -0.733352, 1.31446, -0.00123268)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550528, 0.997822, -0.036341, -0.888679, -0.0655594, -0.453819, -0.455213, 0.00731152, 0.890353, 0.733352, 1.21418, -0.198911)
+transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521574, 0.733352, 1.31446, -0.00123276)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1.18764e-07, 1.79788e-07, -1, 0.902412, 0.430873, 1.8464e-07, 0.430874, -0.902412, -1.1107e-07, 6.8806e-08, 1.16398, -0.0810713)
+transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true

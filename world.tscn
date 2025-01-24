@@ -550,11 +550,11 @@ points = PackedVector3Array(-10, 7.75, 31, -10, 7, 31, -1, 7, 31, -1, 7.75, 31, 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ioo17"]
 
 [sub_resource type="Environment" id="Environment_wse8f"]
+background_energy_multiplier = 0.0
+ambient_light_source = 1
 ssao_enabled = true
 sdfgi_enabled = true
-fog_enabled = true
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.1
 volumetric_fog_temporal_reprojection_enabled = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bc84e"]
@@ -963,6 +963,8 @@ shape = SubResource("ConvexPolygonShape3D_ngogq")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.924206, 1.49012e-08, 0.381893, -0.336147, 0.47458, 0.813498, -0.181239, -0.880212, 0.43861, 0, 3.57483, 4.54588)
 shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_max_distance = 50.0
 
 [node name="GameOpener" type="Area3D" parent="."]
 transform = Transform3D(-0.0359809, 0, 0.999353, 0, 1, 0, -0.999353, 0, -0.0359809, -2.67731, 1.32495, 2.09564)
