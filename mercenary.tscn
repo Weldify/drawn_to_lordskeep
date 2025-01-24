@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=75 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -21,6 +21,7 @@
 [ext_resource type="Animation" uid="uid://cm58krmx67qr1" path="res://models/mercenary/look_down.res" id="14_p6ykb"]
 [ext_resource type="Animation" uid="uid://d235acoi8n0e" path="res://models/mercenary/both_parry.res" id="15_5f0r2"]
 [ext_resource type="AudioStream" uid="uid://cvxok8ojx1557" path="res://sounds/throw.wav" id="20_73f88"]
+[ext_resource type="AudioStream" uid="uid://cbugxrgkapnjm" path="res://sounds/take.wav" id="21_6cnxl"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -310,6 +311,11 @@ random_pitch = 1.1
 streams_count = 1
 stream_0/stream = ExtResource("20_73f88")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_couci"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("21_6cnxl")
+
 [node name="Mercenary" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
@@ -412,6 +418,14 @@ unit_size = 1.0
 max_distance = 2.0
 attenuation_filter_db = 0.0
 
+[node name="Take" type="AudioStreamPlayer3D" parent="RightHandAttachment"]
+stream = SubResource("AudioStreamRandomizer_couci")
+attenuation_model = 3
+volume_db = -8.0
+unit_size = 1.0
+max_distance = 2.0
+attenuation_filter_db = 0.0
+
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501132, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521573, 0.733352, 1.31446, -0.00123273)
 bone_name = "l_hand0"
@@ -422,6 +436,14 @@ external_skeleton = NodePath("../Model/Skeleton3D")
 [node name="Throw" type="AudioStreamPlayer3D" parent="LeftHandAttachment"]
 stream = SubResource("AudioStreamRandomizer_6cnxl")
 attenuation_model = 3
+unit_size = 1.0
+max_distance = 2.0
+attenuation_filter_db = 0.0
+
+[node name="Take" type="AudioStreamPlayer3D" parent="LeftHandAttachment"]
+stream = SubResource("AudioStreamRandomizer_couci")
+attenuation_model = 3
+volume_db = -8.0
 unit_size = 1.0
 max_distance = 2.0
 attenuation_filter_db = 0.0

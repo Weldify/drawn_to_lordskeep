@@ -216,9 +216,19 @@ func use() -> void:
 	if right_hand_free:
 		right_hand_item_name = item.name
 		item.holder_info = [self.name, true]
+		take_item_effects.rpc(true)
 	else:
 		left_hand_item_name = item.name
 		item.holder_info = [self.name, false]
+		take_item_effects.rpc(false)
+
+
+@rpc("authority", "call_local")
+func take_item_effects(right_hand: bool):
+	if right_hand:
+		$RightHandAttachment/Take.play()
+	else:
+		$LeftHandAttachment/Take.play()
 
 
 func _physics_process(delta: float) -> void:
