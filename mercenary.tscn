@@ -261,7 +261,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-1187.2, 80.9787)
+graph_offset = Vector2(-1324.99, 104.383)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
 nodes/Add2/position = Vector2(-780, 120)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
@@ -383,7 +383,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.291587, 0.0196417, 0.956343, 0.201624, 0.978589, 0.0413761, -0.935053, 0.204887, -0.289304, -0.144876, 1.50332, -0.157622)
+transform = Transform3D(0.209695, 0.0240302, 0.977471, 0.976216, -0.0614326, -0.207916, 0.0550525, 0.997822, -0.0363408, -0.176535, 1.2133, 0.379322)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true

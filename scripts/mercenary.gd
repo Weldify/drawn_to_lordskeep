@@ -210,9 +210,9 @@ func _physics_process(delta: float) -> void:
 	trying_to_use = Input.is_action_pressed("use")
 	
 	if Input.is_action_pressed("drop"):
-		if Input.is_action_just_pressed("primary"):
+		if Input.is_action_just_pressed("left_action"):
 			drop_item.rpc_id(1, false)
-		if Input.is_action_just_pressed("secondary"):
+		if Input.is_action_just_pressed("right_action"):
 			drop_item.rpc_id(1, true)
 	
 	if Input.is_action_just_pressed("place_satchel"):

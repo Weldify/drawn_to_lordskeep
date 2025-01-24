@@ -12,6 +12,7 @@ var swing_damaging := false
 var previous_hitbox_position: Vector3
 
 var parrying := false
+var parry_timer := 0.0
 
 func _ready() -> void:
 	item.holder_changed.connect(_holder_changed)
@@ -51,8 +52,15 @@ func _holder_changed():
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority() or !user: return
 	
-	if Input.is_action_pressed("secondary" if item.is_in_right_hand else "primary"):
-		try_swing()
+	if parrying:
+		parry_timer -= delta
+		if parry_timer < 0: try_stop_parry()
+	
+	if Input.is_action_pressed("right_action" if item.is_in_right_hand else "left_action"):
+		if Input.is_action_pressed("alt"):
+			try_parry()
+		else:
+			try_swing()
 	
 	do_hitboxes()
 
@@ -124,6 +132,7 @@ func start_swing_damaging_effects():
 func try_parry():
 	if parrying or swinging: return
 	parrying = true
+	parry_timer = 0.5
 	
 	parry_effects()
 
@@ -138,3 +147,5 @@ func parry_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
 	var parameter := "parameters/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("parry")
+	
+	$"../ParrySwing".play()
