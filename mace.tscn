@@ -62,7 +62,7 @@ max_results = 1
 collision_mask = 3
 
 [node name="HandleOffset" parent="." index="1"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.066, 0.027)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0.066, 0.027)
 
 [node name="Weapon" type="Node" parent="." index="3"]
 script = ExtResource("2_8gtcb")

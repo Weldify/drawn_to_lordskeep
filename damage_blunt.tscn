@@ -23,7 +23,7 @@ turbulence_enabled = true
 shading_mode = 2
 diffuse_mode = 3
 specular_mode = 2
-albedo_color = Color(0.846932, 0.709797, 0.57445, 1)
+albedo_color = Color(0.764853, 0.729643, 0.711867, 1)
 emission = Color(1, 1, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qktwf"]

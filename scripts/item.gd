@@ -56,6 +56,8 @@ func _on_holder_changed():
 
 
 func _physics_process(delta: float) -> void:
+	if freeze: return
+	
 	var speed := linear_velocity.length()
 	if last_recorded_speed - speed > 1 and get_contact_count() > 0:
 		play_collision_sound.rpc(remap(speed, 1, 10, 0.1, 0.5))
@@ -69,6 +71,7 @@ func play_collision_sound(volume: float):
 	$Collision.position = center_of_mass
 	$Collision.play()
 
+
 func _process(delta: float) -> void:
 	var holder: CharacterBody3D = $/root/world/Mercenaries.get_node_or_null(holder_name)
 	if !is_instance_valid(holder): return
@@ -78,6 +81,6 @@ func _process(delta: float) -> void:
 	
 	var offset: Transform3D = $HandleOffset.transform
 	if !is_in_right_hand:
-		offset = offset.rotated_local(Vector3.RIGHT, PI)
+		offset = offset.rotated_local(-Vector3.RIGHT, PI).rotated_local(Vector3.UP, PI)
 	
 	global_transform = attachment.global_transform * offset

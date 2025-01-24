@@ -42,6 +42,10 @@ var saved_items_in_satchel: Array
 var is_taking_satchel := false
 
 
+var right_throw_power := 0.0
+var left_throw_power := 0.0
+
+
 func get_right_holdtype() -> G.HoldType:
 	var item := $/root/world/Items.get_node_or_null(right_hand_item_name)
 	return item.holdtype if item else G.HoldType.NONE
@@ -111,7 +115,7 @@ func take_satchel():
 
 
 @rpc("authority", "call_local")
-func drop_item(is_right_hand: bool):
+func drop_item(is_right_hand: bool, throw_power: float):
 	assert(multiplayer.is_server())
 	
 	var item: RigidBody3D = $/root/world/Items.get_node_or_null(right_hand_item_name if is_right_hand else left_hand_item_name)
@@ -123,8 +127,9 @@ func drop_item(is_right_hand: bool):
 		left_hand_item_name = ""
 	
 	item.holder_info = ["", true]
-	item.linear_velocity = velocity
-	item.angular_velocity = Vector3.ZERO
+	
+	item.linear_velocity = velocity - $HeadAttachment/Viewpoint.global_basis.z * throw_power * 10
+	item.angular_velocity = -item.global_basis.x * throw_power * 20
 
 
 @rpc("authority", "call_local")
@@ -170,6 +175,7 @@ func place_satchel():
 		
 		var trans: Transform3D = satchel.global_transform * data[1]
 		node.global_transform = trans
+		node.reset_physics_interpolation()
 	
 	saved_items_in_satchel.clear()
 
@@ -210,10 +216,20 @@ func _physics_process(delta: float) -> void:
 	trying_to_use = Input.is_action_pressed("use")
 	
 	if Input.is_action_pressed("drop"):
-		if Input.is_action_just_pressed("left_action"):
-			drop_item.rpc_id(1, false)
-		if Input.is_action_just_pressed("right_action"):
-			drop_item.rpc_id(1, true)
+		if Input.is_action_pressed("left_action"):
+			left_throw_power = min(1, left_throw_power + delta)
+		elif left_throw_power > 0:
+			drop_item.rpc_id(1, false, left_throw_power)
+			left_throw_power = 0
+		
+		if Input.is_action_pressed("right_action"):
+			right_throw_power = min(1, right_throw_power + delta)
+		elif right_throw_power > 0:
+			drop_item.rpc_id(1, true, right_throw_power)
+			right_throw_power = 0
+	else:
+		right_throw_power = 0
+		left_throw_power = 0
 	
 	if Input.is_action_just_pressed("place_satchel"):
 		place_satchel.rpc_id(1)
