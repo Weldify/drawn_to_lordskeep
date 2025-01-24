@@ -5,6 +5,7 @@ extends Node
 @onready var hitbox: ShapeCast3D = $"../Hitbox"
 @onready var original_hitbox_position: Vector3 = hitbox.position
 
+## Blunt weapons stop even on successful hits.
 @export var blunt := false
 
 @export_category("Don't touch this")
@@ -119,17 +120,17 @@ func hit():
 		if !result.extra_colliders_to_ignore.is_empty():
 			for v in result.extra_colliders_to_ignore: hitbox.add_exception(v)
 	
-	hit_effects.rpc(collider.get_path(), hitbox.get_collision_normal(0))
+	hit_effects.rpc(collider.get_path(), hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
 
 
 @rpc("authority", "call_local", "reliable")
-func hit_effects(target_path: String, normal: Vector3):
+func hit_effects(target_path: String, position: Vector3, normal: Vector3):
 	var hit_effect_handler: Node = get_node(target_path)
 	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
 		hit_effect_handler = hit_effect_handler.get_parent()
 	
 	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
-		hit_effect_handler.handle_hit_effect(self, normal)
+		hit_effect_handler.handle_hit_effect(self, position, normal)
 	else:
 		$"../Clash".play()
 

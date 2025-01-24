@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://dxm76a0vfpyya"]
+
+[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/damage_blunt.wav" id="1_poybr"]
+
+[sub_resource type="Curve" id="Curve_o3ebs"]
+_data = [Vector2(0, 1), 0.0, -0.113329, 0, 0, Vector2(1, 0), -2.97892, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_k83mh"]
+curve = SubResource("Curve_o3ebs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o3ebs"]
+particle_flag_align_y = true
+spread = 90.0
+initial_velocity_max = 5.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_k83mh")
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+turbulence_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_poybr"]
+shading_mode = 2
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(0.846932, 0.709797, 0.57445, 1)
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qktwf"]
+material = SubResource("StandardMaterial3D_poybr")
+size = Vector3(0.02, 0.02, 0.02)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fijjd"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("1_poybr")
+
+[node name="DamageBlunt" type="GPUParticles3D"]
+emitting = false
+amount = 20
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_o3ebs")
+draw_pass_1 = SubResource("BoxMesh_qktwf")
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647459, 0)
+stream = SubResource("AudioStreamRandomizer_fijjd")
+attenuation_model = 3
+volume_db = -8.0
+autoplay = true
+max_distance = 10.0
+attenuation_filter_db = 0.0

@@ -64,10 +64,10 @@ collision_mask = 3
 [node name="HandleOffset" parent="." index="1"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.066, 0.027)
 
-[node name="WeaponItem" type="Node" parent="." index="3"]
+[node name="Weapon" type="Node" parent="." index="3"]
 script = ExtResource("2_8gtcb")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="WeaponItem" index="0"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Weapon" index="0"]
 replication_config = SubResource("SceneReplicationConfig_7dhqn")
 
 [node name="mace" parent="." index="4" instance=ExtResource("2_3o362")]

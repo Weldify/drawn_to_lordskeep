@@ -34,6 +34,7 @@ func _ready():
 	for i in 2:
 		var mace := preload("res://mace.tscn").instantiate()
 		$/root/world/Items.add_child(mace, true)
+		if i == 1: mace.get_node("Weapon").blunt = true
 		mace.global_position = Vector3(0, 2, 0)
 	
 	for i in 20:
