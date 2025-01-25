@@ -73,8 +73,7 @@ properties/5/path = NodePath(".:trying_to_use")
 properties/5/spawn = true
 properties/5/replication_mode = 2
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ybq4i"]
-resource_local_to_scene = true
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6cnxl"]
 radius = 0.4
 height = 1.75
 
@@ -319,6 +318,7 @@ stream_0/stream = ExtResource("21_6cnxl")
 [node name="Mercenary" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
+floor_snap_length = 0.4
 script = ExtResource("1_m6yd2")
 
 [node name="Interpolator" type="Node" parent="."]
@@ -333,11 +333,6 @@ script = ExtResource("3_2rkhb")
 script = ExtResource("3_2rkhb")
 
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
-
-[node name="Skeleton3D" parent="Model" index="0"]
-bones/9/rotation = Quaternion(7.05718e-09, -9.91679e-10, 0.0104049, 0.999946)
-bones/10/rotation = Quaternion(8.78693e-08, 3.01493e-07, 0.0498881, 0.998755)
-bones/11/rotation = Quaternion(-8.00145e-09, 9.97903e-10, -0.0609328, 0.998142)
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 deterministic = true
@@ -360,7 +355,7 @@ replication_config = SubResource("SceneReplicationConfig_k4fjk")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
-shape = SubResource("CapsuleShape3D_ybq4i")
+shape = SubResource("CapsuleShape3D_6cnxl")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 process_priority = -1
@@ -405,7 +400,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
+transform = Transform3D(0.209695, 0.0240303, 0.977472, -0.0550526, -0.997822, 0.0363409, 0.976216, -0.0614328, -0.207915, -0.176535, 0.73606, -0.00122344)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true

@@ -15,7 +15,7 @@ run/main_scene="uid://bpcal5m0bxtpi"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=300
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/show_image=false
+boot_splash/image="uid://ckrn14kncps44"
 config/icon="uid://ckrn14kncps44"
 
 [autoload]
@@ -32,6 +32,10 @@ window/vsync/vsync_mode=0
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/func_godot/plugin.cfg", "res://addons/proton_trail/plugin.cfg", "res://addons/wigglebone/plugin.cfg")
+
+[global_group]
+
+spawnpoint=""
 
 [input]
 

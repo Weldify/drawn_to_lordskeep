@@ -38,7 +38,7 @@ var is_grounded := false
 
 # Serverside
 @export var satchel_name := ""
-var saved_items_in_satchel: Array
+var saved_items_in_satchel := [["res://arming_sword.tscn", Transform3D(Vector3(0.481379, -0.05948, -0.874492), Vector3(-0.84991, 0.21226, -0.482284), Vector3(0.214306, 0.975401, 0.051625), Vector3(0.119419, 0.171125, 0.08344))]]
 var is_taking_satchel := false
 
 
@@ -108,6 +108,8 @@ func take_satchel():
 		item.free()
 	
 	await satchel.outro_finished
+	
+	print(saved_items_in_satchel)
 	
 	satchel.queue_free()
 	satchel_name = ""
