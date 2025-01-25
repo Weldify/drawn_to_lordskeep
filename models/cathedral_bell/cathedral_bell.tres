@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://d2xch04h0g4oj"]
+
+[ext_resource type="Texture2D" uid="uid://bpwx2t4o4dncq" path="res://models/cathedral_bell/cathedral_bell.png" id="1_62veo"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_62veo")
+texture_filter = 0

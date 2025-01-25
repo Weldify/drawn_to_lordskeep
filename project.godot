@@ -15,7 +15,7 @@ run/main_scene="uid://bpcal5m0bxtpi"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=300
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://ckrn14kncps44"
+boot_splash/show_image=false
 config/icon="uid://ckrn14kncps44"
 
 [autoload]
