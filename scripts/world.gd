@@ -72,7 +72,12 @@ func _spawn_mercenary_for_peer(peer_id: int) -> void:
 	mercenary.name = str(node_name)
 	
 	$Mercenaries.add_child(mercenary)
-	mercenary.global_position = get_tree().get_nodes_in_group("spawnpoint").pick_random().global_position
+	
+	var editor_spawnpoint := $/root/world.get_node_or_null("EditorSpawnpoint")
+	if editor_spawnpoint:
+		mercenary.global_position = editor_spawnpoint.global_position
+	else:
+		mercenary.global_position = get_tree().get_nodes_in_group("spawnpoint").pick_random().global_position
 
 
 func _on_peer_connected(peer_id: int) -> void:

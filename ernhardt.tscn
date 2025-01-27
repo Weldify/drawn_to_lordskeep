@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://brc5o3ga6x1me"]
+
+[ext_resource type="PackedScene" uid="uid://c14fsiugubcvw" path="res://models/mercenary/mercenary.blend" id="1_7wqv1"]
+[ext_resource type="Script" uid="uid://dq14k3p14c5pk" path="res://scripts/look_at_closest_mercenary.gd" id="2_a0ghe"]
+[ext_resource type="PackedScene" uid="uid://ty43ydihrr7h" path="res://models/arming_sword/arming_sword.blend" id="2_o6rkt"]
+[ext_resource type="Script" uid="uid://cytsop84kxc0g" path="res://scripts/ernhardt.gd" id="2_wep64"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0ghe"]
+size = Vector3(2.5, 2.5, 1.5)
+
+[node name="Ernhardt" instance=ExtResource("1_7wqv1")]
+script = ExtResource("2_wep64")
+
+[node name="LookAtClosestMercenary" type="Node" parent="." index="0" node_paths=PackedStringArray("modifier")]
+script = ExtResource("2_a0ghe")
+modifier = NodePath("../Skeleton3D/LookAtModifier3D")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" index="0"]
+target_node = NodePath("..")
+bone_name = "head"
+bone = 11
+forward_axis = 1
+origin_from = 2
+origin_external_node = NodePath("")
+origin_offset = Vector3(0, -1.75, 0)
+duration = 1.0
+transition_type = 7
+ease_type = 1
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.39626
+primary_damp_threshold = 1.0
+secondary_limit_angle = 0.785398
+secondary_damp_threshold = 1.0
+
+[node name="AnimationPlayer" parent="." index="2"]
+deterministic = true
+autoplay = "ernhardt_idle"
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="." index="3"]
+transform = Transform3D(0.148782, -0.0383557, -0.988126, -0.0358711, 0.99838, -0.0441548, 0.988219, 0.0420146, 0.147165, 0.00158305, 0.746574, 0.0431002)
+bone_name = "torso0"
+bone_idx = 8
+use_external_skeleton = true
+external_skeleton = NodePath("../Skeleton3D")
+
+[node name="arming_sword" parent="BoneAttachment3D" index="0" instance=ExtResource("2_o6rkt")]
+transform = Transform3D(-0.0219009, -0.79696, -0.603635, 0.26029, -0.587503, 0.766218, -0.965282, -0.140339, 0.220307, 0.185752, 0.140625, -0.111388)
+
+[node name="DialogueArea" type="Area3D" parent="." index="4"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DialogueArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 1.25)
+shape = SubResource("BoxShape3D_a0ghe")
+
+[connection signal="body_entered" from="DialogueArea" to="." method="_on_dialogue_area_body_entered"]
