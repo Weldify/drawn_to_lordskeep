@@ -2,3 +2,5 @@
 maps/autosave
 *.blend1
 out
+
+*.kra~

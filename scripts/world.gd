@@ -9,7 +9,7 @@ func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	if OS.has_feature("steam"):
-		var steam_result := Steam.steamInitEx(true, 480)
+		var steam_result := Steam.steamInitEx(true, 3493740)
 		if steam_result.status != 0:
 			OS.alert("Where the FUCK is steam", "We need steam")
 			OS.kill(OS.get_process_id())
@@ -103,8 +103,6 @@ func start_hosting() -> void:
 			Steam.setLobbyJoinable(lobby_id, true)
 			Steam.setLobbyData(lobby_id, "name", "Test")
 			Steam.setLobbyData(lobby_id, "mode", "Drawn to Lordskeep")
-			
-			Steam.allowP2PPacketRelay(true)
 			
 			var peer := SteamMultiplayerPeer.new()
 			peer.create_host(0)
