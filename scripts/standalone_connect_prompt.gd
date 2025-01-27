@@ -8,9 +8,9 @@ func _on_join_pressed() -> void:
 	peer.create_client(ip, 1337)
 	assert(peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED)
 	
+	multiplayer.multiplayer_peer = peer
 	$/root/world.reset_all_multiplayer_things()
 	
-	multiplayer.multiplayer_peer = peer
 	visible = false
 
 

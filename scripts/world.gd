@@ -24,9 +24,8 @@ func _ready():
 			var peer := SteamMultiplayerPeer.new()
 			peer.create_client(host_id, 0)
 	
-			reset_all_multiplayer_things()
-			
 			multiplayer.multiplayer_peer = peer
+			reset_all_multiplayer_things()
 		)
 	
 	_spawn_mercenary_for_peer(1)
@@ -54,13 +53,12 @@ func _ready():
 	DiscordRPC.refresh()
 
 
-## Call this before joining someone's game!
+## Call this AFTER setting the multiplayer peer to the new thing!
 func reset_all_multiplayer_things():
 	for merc in $Mercenaries.get_children(): merc.free()
 	for item in $Items.get_children(): item.free()
 	
-	# Will be restarted on the next frame!
-	#NetworkTime.stop()
+	NetworkTime.restart()
 
 
 func _spawn_mercenary_for_peer(peer_id: int) -> void:
@@ -74,7 +72,7 @@ func _spawn_mercenary_for_peer(peer_id: int) -> void:
 	$Mercenaries.add_child(mercenary)
 	
 	var editor_spawnpoint := $/root/world.get_node_or_null("EditorSpawnpoint")
-	if editor_spawnpoint:
+	if editor_spawnpoint and OS.has_feature("editor"):
 		mercenary.global_position = editor_spawnpoint.global_position
 	else:
 		mercenary.global_position = get_tree().get_nodes_in_group("spawnpoint").pick_random().global_position

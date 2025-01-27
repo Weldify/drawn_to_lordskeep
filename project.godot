@@ -22,6 +22,7 @@ config/icon="uid://cehvhmdbcb6b2"
 
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 G="*res://scripts/g.gd"
+NetworkTime="*res://scripts/network_time.gd"
 
 [display]
 
