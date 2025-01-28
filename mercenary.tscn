@@ -375,7 +375,7 @@ parameters/look_alpha/blend_position = 0.0
 "parameters/speed (standing)/blend_position" = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.01706e-07, -1.2901e-07, -1, -0.0437892, 0.999041, -1.24433e-07, 0.999041, 0.0437892, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176537)
+transform = Transform3D(-1.01705e-07, -1.2901e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176538)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -399,7 +399,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
+transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521574, -0.733352, 1.31446, -0.00123268)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
@@ -421,7 +421,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240298, -0.977472, 0.055053, -0.997822, 0.0363405, -0.976216, -0.0614332, -0.207916, 0.176536, 0.73606, -0.00122365)
+transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521574, 0.733352, 1.31446, -0.00123276)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
@@ -443,7 +443,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780585, 0.996949, -1.40467e-07, 0.996949, -0.0780585, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
+transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true

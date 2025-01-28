@@ -2385,7 +2385,7 @@ process_thread_group = 0
 physics_interpolation_mode = 0
 auto_translate_mode = 0
 editor_description = ""
-transform = Transform3D(-7.15256e-07, -8.67173e-05, -1, -2.32359e-05, 1, -8.67173e-05, 1, 2.32358e-05, -7.15256e-07, 0, 0.688818, 0)
+transform = Transform3D(-7.15256e-07, -8.78494e-05, -1, -2.35392e-05, 1, -8.78494e-05, 1, 2.35392e-05, -7.15256e-07, 0, 0.688818, 0)
 rotation_edit_mode = 0
 rotation_order = 2
 top_level = false
@@ -2417,12 +2417,12 @@ target_node = NodePath("../../../LeftTarget")
 [node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="Dummy/skeleton/Skeleton3D" index="4"]
 
 [node name="Physical Bone r_leg0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.00524758, 0.999953, -0.00809913, 0.0715402, 0.00770309, 0.997408, 0.997424, -0.00581338, -0.0714964, -0.264113, 0.772712, 0.104457)
+transform = Transform3D(0.00524676, 0.999953, -0.00810054, 0.071538, 0.00770456, 0.997408, 0.997424, -0.00581266, -0.0714943, -0.266774, 0.772602, 0.105198)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, -2.98023e-08, 1.48892e-23, 2.98023e-08, 1, -9.31323e-10, 2.77556e-17, 9.31323e-10, 1, -0.102648, 0.195762, 0.0130509)
+joint_offset = Transform3D(1, -2.98023e-08, 1.48892e-23, 2.98023e-08, 1, -9.31323e-10, 2.77556e-17, 9.31323e-10, 1, -0.103365, 0.198428, 0.013191)
 joint_rotation = Vector3(9.31323e-10, 1.48892e-23, 2.98023e-08)
-body_offset = Transform3D(0.999213, -0.00566845, 0.0383176, 0.0383104, -0.00159132, -0.999265, 0.00572546, 0.999982, -0.00137296, 0.103177, 0.0172853, -0.195153)
+body_offset = Transform3D(0.999213, -0.00566769, 0.0383194, 0.0383123, -0.00159158, -0.999265, 0.00572471, 0.999982, -0.00137323, 0.103903, 0.0174572, -0.197815)
 bone_name = "r_leg0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone r_leg0"]
@@ -2430,11 +2430,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_wjb0r")
 
 [node name="Physical Bone r_leg1" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.024, 0.999687, 0.00706042, -0.198498, -0.0116871, 0.980032, 0.979807, 0.0221193, 0.198716, -0.436436, 0.401673, 0.0492163)
+transform = Transform3D(-0.0243219, 0.999678, 0.00715751, -0.199307, -0.0118647, 0.979865, 0.979635, 0.0224057, 0.199531, -0.441568, 0.401472, 0.0505886)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312908, 0.368674, 0.048266)
-body_offset = Transform3D(0.994406, 0.0231713, 0.102718, 0.102538, 0.00957252, -0.994682, -0.0240322, 0.999685, 0.0071433, 0.0176153, 0.0476887, -0.369655)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0329563, 0.373757, 0.0482436)
+body_offset = Transform3D(0.994313, 0.0234736, 0.103544, 0.103359, 0.0097227, -0.994595, -0.0243544, 0.999677, 0.00724147, 0.0190001, 0.0477552, -0.374788)
 bone_name = "r_leg1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone r_leg1"]
@@ -2442,11 +2442,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_mc2jv")
 
 [node name="Physical Bone l_leg0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.756241, -0.610494, -0.235362, -0.303498, 0.00862739, 0.952793, -0.579644, 0.791973, -0.191808, -0.24578, 0.781119, 0.0981255)
+transform = Transform3D(-0.756188, -0.610354, -0.235897, -0.304158, 0.00866683, 0.952582, -0.579368, 0.792081, -0.192198, -0.249609, 0.780881, 0.101044)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.180796, -0.269887, -0.0564194)
-body_offset = Transform3D(0.609949, -0.787678, 0.0863351, 0.243036, 0.0822603, -0.966523, 0.754234, 0.610534, 0.241617, -0.097436, 0.0116103, 0.31477)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.182082, -0.274498, -0.0566652)
+body_offset = Transform3D(0.609747, -0.787789, 0.0867463, 0.243721, 0.0822311, -0.966353, 0.754176, 0.610395, 0.24215, -0.100307, 0.0121908, 0.318595)
 bone_name = "l_leg0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone l_leg0"]
@@ -2454,11 +2454,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_bo7i5")
 
 [node name="Physical Bone l_leg1" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.758545, -0.618799, 0.204196, 0.268321, -0.0110518, 0.963266, -0.593812, 0.785471, 0.17442, -0.280411, 0.260671, 0.272855)
+transform = Transform3D(-0.758277, -0.618881, 0.204941, 0.26926, -0.0110103, 0.963005, -0.593729, 0.785407, 0.174989, -0.285854, 0.258394, 0.276023)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0718881, -0.402778, 0.212876)
-body_offset = Transform3D(0.617012, -0.782817, -0.0801581, -0.209531, -0.0652323, -0.975622, 0.758531, 0.618788, -0.204281, -0.253881, 0.166349, 0.34725)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0732697, -0.408666, 0.215704)
+body_offset = Transform3D(0.617021, -0.782749, -0.0807488, -0.210474, -0.0652683, -0.975417, 0.758263, 0.61887, -0.205028, -0.257256, 0.168307, 0.352694)
 bone_name = "l_leg1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone l_leg1"]
@@ -2466,11 +2466,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_4h6ng")
 
 [node name="Physical Bone torso0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.012625, -0.993947, -0.109132, 0.0621067, 0.10971, -0.992021, 0.997989, 0.00574644, 0.0631159, -0.257133, 1.0506, 0.0402603)
+transform = Transform3D(0.0127195, -0.993916, -0.109402, 0.0622024, 0.109986, -0.991985, 0.997982, 0.0058125, 0.0632229, -0.258052, 1.0506, 0.0405045)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0549682, -0.287663, 0.257496)
-body_offset = Transform3D(0.994448, 0.00107561, 0.10522, 0.104464, 0.109941, -0.988433, -0.0126311, 0.993937, 0.109218, 0.0278788, 0.291886, 0.257102)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0552028, -0.288653, 0.257296)
+body_offset = Transform3D(0.994437, 0.00112973, 0.105325, 0.10456, 0.110221, -0.988392, -0.0127257, 0.993906, 0.109489, 0.0281219, 0.291897, 0.25802)
 bone_name = "torso0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone torso0"]
@@ -2478,11 +2478,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_o3ebs")
 
 [node name="Physical Bone torso1" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.000424623, -0.997299, -0.0734403, 0.00232366, 0.0734411, -0.997297, 0.999997, 0.000252843, 0.00234857, -0.430727, 1.22066, 0.144029)
+transform = Transform3D(0.000424653, -0.997298, -0.0734611, 0.00232333, 0.0734619, -0.997295, 0.999997, 0.000252813, 0.00234825, -0.436802, 1.21986, 0.147775)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.134251, -0.445936, 0.190272)
-body_offset = Transform3D(0.999711, -0.00134213, 0.0239904, 0.0240242, 0.0735158, -0.997005, -0.000425532, 0.997293, 0.0735268, 0.129049, 0.22571, 0.430681)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.137994, -0.451939, 0.189008)
+body_offset = Transform3D(0.999711, -0.00134265, 0.0239904, 0.0240242, 0.0735377, -0.997003, -0.000425592, 0.997291, 0.0735487, 0.132813, 0.224991, 0.436755)
 bone_name = "torso1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone torso1"]
@@ -2490,11 +2490,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_k83mh")
 
 [node name="Physical Bone torso2" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.995936, 0.0717002, 0.0545059, 0.0854366, -0.560588, -0.823676, -0.0285024, 0.824985, -0.564435, -0.324692, 1.43861, 0.170671)
+transform = Transform3D(0.995912, 0.0721703, 0.054314, 0.085574, -0.561442, -0.82308, -0.0289077, 0.824363, -0.565323, -0.327973, 1.4383, 0.172659)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.306318, 0.0350879, 0.312991)
-body_offset = Transform3D(-0.0217553, 0.778723, -0.62699, 0.0873141, -0.623263, -0.777123, -0.995943, -0.0716516, -0.0544342, 0.175583, 0.238356, 0.324627)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.309691, 0.0339749, 0.313962)
+body_offset = Transform3D(-0.0221487, 0.778036, -0.627828, 0.0874815, -0.624065, -0.77646, -0.99592, -0.0721209, -0.0542416, 0.17754, 0.237889, 0.327907)
 bone_name = "torso2"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone torso2"]
@@ -2502,11 +2502,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_qktwf")
 
 [node name="Physical Bone r_arm0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.129051, 0.224784, 0.965825, 0.899978, 0.382428, -0.209258, -0.416396, 0.896226, -0.152948, -0.495801, 1.50869, 0.0432177)
+transform = Transform3D(0.128632, 0.225211, 0.965781, 0.900441, 0.381534, -0.2089, -0.415524, 0.8965, -0.153712, -0.496865, 1.50869, 0.0437927)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.114169, -0.0384185, 0.375333)
-body_offset = Transform3D(-0.380515, 0.891777, -0.244829, -0.0876766, -0.298341, -0.950424, -0.920609, -0.340185, 0.191711, 0.0827103, 0.335254, -0.19013)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.114065, -0.0383869, 0.376397)
+body_offset = Transform3D(-0.379589, 0.891969, -0.245567, -0.0873325, -0.298795, -0.950312, -0.921024, -0.339282, 0.191317, 0.0833731, 0.336264, -0.190092)
 bone_name = "r_arm0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone r_arm0"]
@@ -2514,11 +2514,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_bh8nc")
 
 [node name="Physical Bone r_arm1" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.632147, 0.190453, 0.751078, 0.633199, 0.431711, -0.642405, -0.446597, 0.881676, 0.15231, -0.745826, 1.6791, 0.00390148)
+transform = Transform3D(0.631332, 0.189557, 0.751989, 0.634238, 0.4318, -0.64132, -0.446275, 0.881826, 0.152385, -0.749413, 1.67911, 0.00463104)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0290236, -0.127047, 0.453687)
-body_offset = Transform3D(-0.358487, 0.915061, 0.184795, -0.66849, -0.113454, -0.735017, -0.65162, -0.387028, 0.652381, 0.0220118, 0.299652, -0.36406)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0270709, -0.12732, 0.456153)
+body_offset = Transform3D(-0.358187, 0.915137, 0.185002, -0.667651, -0.112549, -0.735918, -0.652644, -0.387113, 0.651306, 0.0224295, 0.303288, -0.36405)
 bone_name = "r_arm1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone r_arm1"]
@@ -2526,11 +2526,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_jjr1n")
 
 [node name="Physical Bone r_hand0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.101004, 0.0439205, 0.993916, -0.621121, -0.783196, -0.0285111, 0.777179, -0.620222, 0.106386, -1.04412, 1.76676, 0.111267)
+transform = Transform3D(-0.100394, 0.0435658, 0.993993, -0.621543, -0.782863, -0.0284639, 0.776921, -0.620667, 0.105673, -1.04977, 1.76676, 0.112549)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.162171, 0.437704, 0.30975)
-body_offset = Transform3D(0.749475, -0.660146, 0.0499412, 0.0838457, 0.0198208, -0.996281, 0.656702, 0.750875, 0.0702056, 0.151937, 0.286325, -0.456905)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.161017, 0.438536, 0.315317)
+body_offset = Transform3D(0.749163, -0.660554, 0.0492277, 0.0832673, 0.0201862, -0.996323, 0.657131, 0.750507, 0.0701253, 0.153526, 0.291898, -0.457046)
 bone_name = "r_hand0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone r_hand0"]
@@ -2538,11 +2538,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_gggvi")
 
 [node name="Physical Bone l_arm0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.478321, 0.454063, -0.751688, -0.558863, -0.817649, -0.138286, -0.677408, 0.353945, 0.644858, -0.117155, 1.52991, -0.0571337)
+transform = Transform3D(-0.47811, 0.454, -0.751861, -0.559062, -0.817536, -0.138148, -0.677393, 0.354287, 0.644686, -0.120051, 1.52991, -0.0563049)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0475189, 0.321699, -0.139566)
-body_offset = Transform3D(0.742661, -0.350115, -0.570853, -0.422022, 0.417176, -0.804899, 0.519954, 0.83868, 0.162064, 0.0682507, -0.266595, -0.222476)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0482396, 0.322699, -0.142364)
+body_offset = Transform3D(0.742638, -0.350456, -0.570674, -0.421814, 0.417083, -0.805055, 0.520155, 0.838584, 0.161915, 0.0676727, -0.269551, -0.222467)
 bone_name = "l_arm0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone l_arm0"]
@@ -2550,11 +2550,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_w44yn")
 
 [node name="Physical Bone l_arm1" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.462753, 0.287868, -0.838445, -0.174507, -0.89772, -0.404533, -0.869141, 0.333514, -0.365187, 0.125236, 1.63015, 0.0757227)
+transform = Transform3D(0.462722, 0.286877, -0.838803, -0.174843, -0.898074, -0.4036, -0.869091, 0.333413, -0.3654, 0.121827, 1.62981, 0.076582)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29267, 0.342195, -0.105349)
-body_offset = Transform3D(0.913443, -0.262691, 0.31083, 0.385764, 0.315582, -0.866945, 0.129646, 0.911812, 0.389604, -0.1447, -0.312224, -0.308917)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.295027, 0.342388, -0.108417)
+body_offset = Transform3D(0.913406, -0.26266, 0.310965, 0.385737, 0.314585, -0.867319, 0.129985, 0.912166, 0.388662, -0.145834, -0.315545, -0.308526)
 bone_name = "l_arm1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone l_arm1"]
@@ -2562,11 +2562,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_6ah6f")
 
 [node name="Physical Bone l_hand0" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.992103, 0.00247066, -0.125397, 0.0430039, -0.945899, 0.321598, -0.117818, -0.324451, -0.938536, 0.352666, 1.70066, 0.201707)
+transform = Transform3D(0.992079, 0.00264181, -0.125584, 0.043136, -0.946144, 0.320859, -0.117973, -0.323734, -0.938764, 0.347541, 1.70102, 0.203082)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.384928, 0.432024, 0.018542)
-body_offset = Transform3D(0.0607233, 0.3708, 0.926725, 0.994526, 0.0566128, -0.0878179, -0.0850274, 0.926986, -0.365333, -0.200752, -0.405651, -0.360977)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39013, 0.432841, 0.0193333)
+body_offset = Transform3D(0.0608729, 0.370088, 0.927, 0.994505, 0.056754, -0.0879638, -0.0851653, 0.927262, -0.3646, -0.201859, -0.410851, -0.361082)
 bone_name = "l_hand0"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone l_hand0"]
@@ -2574,11 +2574,11 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_g1i3r")
 
 [node name="PhysicalBone3D" type="PhysicalBone3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(0.0395514, 0.525538, -0.84985, -0.89338, 0.399552, 0.205501, 0.447558, 0.751111, 0.485308, -0.337646, 1.51543, 0.0817385)
+transform = Transform3D(0.0394823, 0.525572, -0.849832, -0.893753, 0.398889, 0.205167, 0.446819, 0.751439, 0.485481, -0.342046, 1.51545, 0.0820751)
 collision_layer = 2
 collision_mask = 0
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110343, 0.0395031, -0.367669)
-body_offset = Transform3D(0.486269, 0.732886, 0.475835, -0.872917, 0.432031, 0.22664, -0.0394739, -0.525573, 0.849832, 0.0923424, 0.162582, 0.337574)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110492, 0.0416384, -0.371533)
+body_offset = Transform3D(0.485548, 0.733243, 0.476023, -0.873322, 0.431383, 0.226315, -0.0394038, -0.525608, 0.849814, 0.0926781, 0.162616, 0.341973)
 bone_name = "head"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/skeleton/Skeleton3D/PhysicalBoneSimulator3D/PhysicalBone3D"]
@@ -2730,6 +2730,7 @@ texture = ExtResource("15_hiqwa")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.410655, 0.329741, -0.850078, 0, 0.932317, 0.361641, 0.911791, 0.14851, -0.382861, -10.5187, 5.15419, -2.43193)
+light_bake_mode = 1
 shadow_enabled = true
 
 [node name="ReverbArea" type="Area3D" parent="."]
@@ -2761,6 +2762,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.814731, -9.53674e-07, 1.01
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1159, 3.85602, 12.2193)
+light_bake_mode = 1
 shadow_enabled = true
 distance_fade_enabled = true
 distance_fade_begin = 10.0
@@ -2769,6 +2771,7 @@ omni_range = 10.0
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.14451, 7.41541, 15.0313)
+light_bake_mode = 1
 shadow_enabled = true
 distance_fade_enabled = true
 distance_fade_begin = 8.0

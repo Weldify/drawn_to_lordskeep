@@ -241,9 +241,9 @@ func _physics_process(delta: float) -> void:
 	
 	if !is_multiplayer_authority(): return
 	
-	trying_to_use = Input.is_action_pressed("use")
+	trying_to_use = G.mouse_unlockers.is_empty() and Input.is_action_pressed("use")
 	
-	if Input.is_action_pressed("drop"):
+	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
 		if Input.is_action_pressed("left_action"):
 			left_throw_power = min(1, left_throw_power + delta)
 		elif left_throw_power > 0:

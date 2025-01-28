@@ -67,7 +67,7 @@ func _physics_process(delta: float) -> void:
 	
 	do_hitboxes()
 	
-	if Input.is_action_pressed("drop"): return
+	if !G.mouse_unlockers.is_empty() or Input.is_action_pressed("drop"): return
 	if Input.is_action_pressed("right_action" if item.is_in_right_hand else "left_action"):
 		if Input.is_action_pressed("alt"):
 			try_parry()
