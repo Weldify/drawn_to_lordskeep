@@ -8,4 +8,4 @@ func _on_body_entered(body: Node3D) -> void:
 		$/root/world/SubtitlesUI.display("Dude, you're playing the Steam version.")
 		return
 	
-	$/root/world/StandaloneConnectPrompt.visible = true
+	G.ui_affecting_mouse_set_visible($/root/world/StandaloneConnectPrompt, true)

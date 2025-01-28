@@ -80,7 +80,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority(): return
 	
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and G.mouse_unlockers.is_empty():
 		look_pitch = fmod(look_pitch - event.relative.x * 0.002, PI*2)
 		look_yaw = clamp(look_yaw - event.relative.y * 0.002, -PI/2, PI/2)
 
@@ -328,12 +328,6 @@ func _process(delta: float) -> void:
 	$BackAttachment/Satchel.visible = satchel_name == ""
 	
 	if !is_multiplayer_authority(): return
-	
-	if Input.is_action_just_pressed("ui_cancel"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	var camera := get_viewport().get_camera_3d()
 	camera.global_transform = $HeadAttachment/Viewpoint.global_transform

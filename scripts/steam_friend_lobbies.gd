@@ -28,11 +28,11 @@ func query_and_show() -> void:
 		joinable_friends_list.insert(idx, friend_id)
 	
 	is_querying = false
-	visible = true
+	G.ui_affecting_mouse_set_visible(self, true)
 
 
 func _on_hide_pressed() -> void:
-	visible = false
+	G.ui_affecting_mouse_set_visible(self, false)
 
 
 func _on_item_list_item_activated(index: int) -> void:
@@ -42,3 +42,4 @@ func _on_item_list_item_activated(index: int) -> void:
 	if lobby_id == -1: return
 	
 	Steam.joinLobby(lobby_id)
+	G.ui_affecting_mouse_set_visible(self, false)

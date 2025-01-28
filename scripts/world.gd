@@ -86,6 +86,15 @@ func _on_peer_connected(peer_id: int) -> void:
 func _process(delta: float) -> void:
 	if OS.has_feature("steam"):
 		Steam.run_callbacks()
+	
+	
+	G.clear_freed_mouse_unlockers()
+	var mouse_mode := Input.MOUSE_MODE_CAPTURED
+	if !G.mouse_unlockers.is_empty():
+		mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	if Input.mouse_mode != mouse_mode:
+		Input.mouse_mode = mouse_mode
 
 
 func start_hosting() -> void:

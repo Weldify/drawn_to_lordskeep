@@ -11,8 +11,8 @@ func _on_join_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 	$/root/world.reset_all_multiplayer_things()
 	
-	visible = false
+	G.ui_affecting_mouse_set_visible(self, false)
 
 
 func _on_hide_pressed() -> void:
-	visible = false
+	G.ui_affecting_mouse_set_visible(self, false)
