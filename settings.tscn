@@ -1,0 +1,105 @@
+[gd_scene load_steps=2 format=3 uid="uid://byh66mrq74i5c"]
+
+[ext_resource type="Script" uid="uid://btkifkufwtbac" path="res://scripts/settings.gd" id="1_x2hje"]
+
+[node name="SettingsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x2hje")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 1
+use_hidden_tabs_for_min_size = true
+
+[node name="Menu" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+alignment = 1
+metadata/_tab_index = 0
+
+[node name="Button" type="Button" parent="TabContainer/Menu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exit to desktop"
+
+[node name="Settings" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Grid" type="GridContainer" parent="TabContainer/Settings"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+text = "Look sensitivity"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+
+[node name="LookSensitivitySlider" type="HSlider" parent="TabContainer/Settings/Grid/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="LookSensitivityBox" type="SpinBox" parent="TabContainer/Settings/Grid/HBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Label2" type="Label" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+text = "Volume"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+
+[node name="VolumeSlider" type="HSlider" parent="TabContainer/Settings/Grid/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="VolumeBox" type="SpinBox" parent="TabContainer/Settings/Grid/HBoxContainer2"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Label3" type="Label" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="Fullscreen" type="CheckButton" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+
+[node name="Save" type="Button" parent="TabContainer/Settings"]
+layout_mode = 2
+text = "Save"
+
+[connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer/LookSensitivitySlider" to="." method="_update_look_sensitivity"]
+[connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer/LookSensitivityBox" to="." method="_update_look_sensitivity"]
+[connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeSlider" to="." method="_update_volume"]
+[connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeBox" to="." method="_update_volume"]
+[connection signal="toggled" from="TabContainer/Settings/Grid/Fullscreen" to="." method="_update_fullscreen"]
+[connection signal="pressed" from="TabContainer/Settings/Save" to="." method="_on_save_pressed"]

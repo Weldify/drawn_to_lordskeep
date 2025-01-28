@@ -38,7 +38,7 @@ deterministic = true
 autoplay = "ernhardt_idle"
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="." index="3"]
-transform = Transform3D(0.148782, -0.0383557, -0.988126, -0.0358711, 0.99838, -0.0441548, 0.988219, 0.0420146, 0.147165, 0.00158305, 0.746574, 0.0431002)
+transform = Transform3D(-7.14972e-07, 1.85673e-09, -1, -0.0424771, 0.999097, 3.2225e-08, 0.999097, 0.0424771, -7.14248e-07, 0, 0.760188, 0)
 bone_name = "torso0"
 bone_idx = 8
 use_external_skeleton = true

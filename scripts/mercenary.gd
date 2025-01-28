@@ -81,8 +81,8 @@ func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority(): return
 	
 	if event is InputEventMouseMotion and G.mouse_unlockers.is_empty():
-		look_pitch = fmod(look_pitch - event.relative.x * 0.002, PI*2)
-		look_yaw = clamp(look_yaw - event.relative.y * 0.002, -PI/2, PI/2)
+		look_pitch = fmod(look_pitch - event.relative.x * Settings.look_sensitivity * 0.01, PI*2)
+		look_yaw = clamp(look_yaw - event.relative.y * Settings.look_sensitivity * 0.01, -PI/2, PI/2)
 
 
 func take_satchel():

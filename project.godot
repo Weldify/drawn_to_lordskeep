@@ -20,9 +20,10 @@ config/icon="uid://cehvhmdbcb6b2"
 
 [autoload]
 
-DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 G="*res://scripts/g.gd"
+DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 NetworkTime="*res://scripts/network_time.gd"
+Settings="*res://settings.tscn"
 
 [display]
 
