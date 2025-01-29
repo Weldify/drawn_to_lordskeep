@@ -1,1 +1,4 @@
-- game will now launch steam for you if it isn't running
+- added native linux support
+- game will now launch steam if it isn't running
+- potentially fixed a bug that makes UI buttons non-functional
+Shipped as default 17176841
