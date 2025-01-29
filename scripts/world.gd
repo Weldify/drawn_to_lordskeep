@@ -9,9 +9,11 @@ func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	if OS.has_feature("steam"):
+		if Steam.restartAppIfNecessary(3493740): OS.kill(OS.get_process_id())
+		
 		var steam_result := Steam.steamInitEx(true, 3493740)
 		if steam_result.status != 0:
-			OS.alert("Where the FUCK is steam", "We need steam")
+			push_error("Failed to initialize steam because ", steam_result.verbal)
 			OS.kill(OS.get_process_id())
 			
 		my_steam_id = Steam.getSteamID()

@@ -1,0 +1,1 @@
+- game will now launch steam for you if it isn't running
