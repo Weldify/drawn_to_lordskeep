@@ -1,6 +1,17 @@
 .godot
-maps/autosave
-*.blend1
+
+# Sometimes we use this folder for exporting
 out
 
+# Autosave files
+maps/autosave
+*.blend1
 *.kra~
+
+data/*
+!data/.gdignore
+
+# GDExtension adds these sometimes, presumably when running the playtest?
+~*.dll
+~*.dylib
+~*.so

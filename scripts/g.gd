@@ -15,15 +15,14 @@ var mouse_unlockers: Array[Control]
 func clear_freed_mouse_unlockers():
 	mouse_unlockers = mouse_unlockers.filter(is_instance_valid)
 
-
 func ui_affecting_mouse_set_visible(node: Control, visible: bool):
 	if node.visible == visible: return
 	node.visible = visible
 	
-	if visible:
-		G.mouse_unlockers.append(node)
+	if visible and !mouse_unlockers.has(node):
+		mouse_unlockers.append(node)
 	else:
-		G.mouse_unlockers.erase(node)
+		mouse_unlockers.erase(node)
 
 
 func safe_disconnect(sig: Signal, callable: Callable) -> void:
