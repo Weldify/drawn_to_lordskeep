@@ -2,3 +2,6 @@
 - game will now launch steam if it isn't running
 - potentially fixed a bug that makes UI buttons non-functional
 Shipped as default 17176841
+
+
+- use correct hit effects when hitting players

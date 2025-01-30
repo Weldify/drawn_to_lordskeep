@@ -36,6 +36,23 @@ func send_dialogue_in_range(origin: Vector3, distance: float, text: String):
 			display_dialogue.rpc_id(mercenary.get_multiplayer_authority(), text)
 
 
+func flesh_hit_effects(weapon, position: Vector3, normal: Vector3):
+	if weapon.blunt:
+		var damage_blunt := preload("res://scenes/damage_blunt.tscn").instantiate()
+		$"/root".add_child(damage_blunt, true)
+		
+		damage_blunt.look_at_from_position(position, position + normal)
+		damage_blunt.restart()
+		damage_blunt.finished.connect(damage_blunt.queue_free)
+	else:
+		var damage_sharp := preload("res://scenes/damage_sharp.tscn").instantiate()
+		$"/root".add_child(damage_sharp, true)
+		
+		damage_sharp.look_at_from_position(position, position + normal)
+		damage_sharp.restart()
+		damage_sharp.finished.connect(damage_sharp.queue_free)
+
+
 @rpc("authority", "call_local", "reliable")
 func display_dialogue(text: String):
 	$/root/world/SubtitlesUI.display(text)

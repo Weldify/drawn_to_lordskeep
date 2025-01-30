@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://brc5o3ga6x1me"]
+[gd_scene load_steps=7 format=3 uid="uid://brc5o3ga6x1me"]
 
 [ext_resource type="PackedScene" uid="uid://c14fsiugubcvw" path="res://models/mercenary/mercenary.blend" id="1_7wqv1"]
 [ext_resource type="Script" uid="uid://dq14k3p14c5pk" path="res://scripts/look_at_closest_mercenary.gd" id="2_a0ghe"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a0ghe"]
 size = Vector3(2.5, 2.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvcx0"]
+size = Vector3(2.5, 2.25, 0.75)
 
 [node name="Ernhardt" instance=ExtResource("1_7wqv1")]
 script = ExtResource("2_wep64")
@@ -50,9 +53,20 @@ transform = Transform3D(-0.0219009, -0.79696, -0.603635, 0.26029, -0.587503, 0.7
 [node name="DialogueArea" type="Area3D" parent="." index="4"]
 collision_layer = 0
 collision_mask = 2
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DialogueArea" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 1.25)
 shape = SubResource("BoxShape3D_a0ghe")
 
+[node name="MedallionTakeArea" type="Area3D" parent="." index="5"]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MedallionTakeArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0.625)
+shape = SubResource("BoxShape3D_qvcx0")
+
 [connection signal="body_entered" from="DialogueArea" to="." method="_on_dialogue_area_body_entered"]
+[connection signal="body_entered" from="MedallionTakeArea" to="." method="_on_medallion_take_area_body_entered"]

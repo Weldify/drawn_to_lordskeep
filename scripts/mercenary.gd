@@ -64,6 +64,10 @@ func is_right_holdtype_weapon() -> bool:
 	return get_right_holdtype() == G.HoldType.WEAPON
 
 
+func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
+	G.flesh_hit_effects(weapon, position, normal)
+
+
 func _enter_tree() -> void:
 	var peer_id := int(name)
 	set_multiplayer_authority(peer_id)

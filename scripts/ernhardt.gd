@@ -17,3 +17,10 @@ func _on_dialogue_area_body_entered(body: Node3D) -> void:
 	await get_tree().create_timer(6).timeout
 	
 	talking = false
+
+
+func _on_medallion_take_area_body_entered(medallion: Node3D) -> void:
+	if !multiplayer.is_server(): return
+	if !medallion is Item or medallion.scene_file_path != "res://scenes/mercenary_medallion.tscn": return
+	
+	medallion.free()

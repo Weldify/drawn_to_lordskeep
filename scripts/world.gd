@@ -6,8 +6,6 @@ var is_hosting := false
 
 
 func _ready():
-	print(Transform3D(Vector3(-4.37114e-08, 1, -4.37114e-08), Vector3(0, -4.37114e-08, -1), Vector3(-1, -4.37114e-08, 1.91069e-15), Vector3(0, 0.066, 0.027)).inverse())
-	
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	if OS.has_feature("steam"):
