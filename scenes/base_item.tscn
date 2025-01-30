@@ -28,7 +28,11 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_g4pv6")
 
-[node name="HandleOffset" type="Node3D" parent="."]
+[node name="RightHoldOffset" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 4.37114e-08, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, -4.37114e-08, 0.0383395, 1.52724e-08, 0.0566442)
+
+[node name="LeftHoldOffset" type="Node3D" parent="."]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, -0.038, 0, 0.057)
 
 [node name="ItemSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ysa82")

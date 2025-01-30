@@ -51,9 +51,6 @@ target_position = Vector3(0, 0, 0)
 max_results = 1
 collision_mask = 3
 
-[node name="HandleOffset" parent="." index="2"]
-transform = Transform3D(-4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 0, 0.0383395, 1.52724e-08, 0.0566442)
-
 [node name="Weapon" type="Node" parent="." index="4"]
 script = ExtResource("2_5hvnc")
 

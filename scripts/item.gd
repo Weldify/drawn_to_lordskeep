@@ -5,6 +5,7 @@ class_name Item
 signal holder_changed()
 
 @export var holdtype := G.HoldType.WEAPON
+@export var spin_axis := Vector3.LEFT
 
 @export var transform_mirror: Transform3D :
 	set(v):
@@ -73,7 +74,12 @@ func _on_holder_changed():
 
 
 func _recalculate_spin_speed():
-	spin_speed = 0 if holder_name != "" or sleeping else abs((quaternion.inverse() * angular_velocity).x)
+	if holder_name != "" or sleeping:
+		spin_speed = 0
+		return
+	
+	var local_angular_velocity := quaternion.inverse() * angular_velocity
+	spin_speed = (local_angular_velocity * spin_axis).length()
 
 
 func _physics_process(delta: float) -> void:
@@ -105,8 +111,5 @@ func _process(delta: float) -> void:
 	var attachment: BoneAttachment3D = holder.get_node("RightHandAttachment" if is_in_right_hand else "LeftHandAttachment")
 	attachment.on_skeleton_update()
 	
-	var offset: Transform3D = $HandleOffset.transform.inverse()
-	if !is_in_right_hand:
-		offset = offset.rotated_local(Vector3.RIGHT, PI).rotated_local(Vector3.UP, PI)
-	
+	var offset: Transform3D = ($RightHoldOffset if is_in_right_hand else $LeftHoldOffset).transform.inverse()
 	global_transform = attachment.global_transform * offset

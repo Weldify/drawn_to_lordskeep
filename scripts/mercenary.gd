@@ -135,7 +135,7 @@ func drop_item(is_right_hand: bool, throw_power: float):
 	item.holder_info = ["", true]
 	
 	item.linear_velocity = velocity - $HeadAttachment/Viewpoint.global_basis.z * throw_power * 10
-	item.angular_velocity = -item.global_basis.x * throw_power * 20
+	item.angular_velocity = item.quaternion * item.spin_axis * throw_power * 20
 
 
 @rpc("authority", "call_local")

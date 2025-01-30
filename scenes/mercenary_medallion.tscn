@@ -4,16 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://ckdyrsabtju1q" path="res://models/mercenary_medallion/mercenary_medallion.blend" id="2_no7ty"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l3yfb"]
-size = Vector3(0.173721, 0.039032, 0.201141)
+size = Vector3(0.0378151, 0.199459, 0.178459)
 
 [node name="MercenaryMedallion" instance=ExtResource("1_or8hr")]
 continuous_cd = true
+spin_axis = Vector3(0, 0, -1)
 
-[node name="mercenary_medallion" parent="." index="0" instance=ExtResource("2_no7ty")]
+[node name="model" parent="." index="0" instance=ExtResource("2_no7ty")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
 
-[node name="HandleOffset" parent="." index="1"]
-transform = Transform3D(0.458489, 0.227672, -0.859042, 0.721159, -0.660198, 0.209925, -0.519344, -0.715754, -0.466881, 0.0680312, -0.0100656, 0.0790324)
+[node name="RightHoldOffset" parent="." index="1"]
+transform = Transform3D(-0.590394, 0.807115, -5.16139e-08, 0.807115, 0.590394, 7.05602e-08, 8.74228e-08, -1.14641e-14, -1, -0.0263328, -0.0948366, 0.0772359)
+
+[node name="LeftHoldOffset" parent="." index="2"]
+transform = Transform3D(0.590606, 0.80696, 0, -0.80696, 0.590606, 0, 0, 0, 1, -0.026, -0.095, -0.077)
 
 [node name="Collider" type="CollisionShape3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000175476, 0.00871277, 0.000930786)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00777245, -0.000192642, 8.01086e-05)
 shape = SubResource("BoxShape3D_l3yfb")
