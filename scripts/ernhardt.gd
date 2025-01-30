@@ -24,3 +24,10 @@ func _on_medallion_take_area_body_entered(medallion: Node3D) -> void:
 	if !medallion is Item or medallion.scene_file_path != "res://scenes/mercenary_medallion.tscn": return
 	
 	medallion.free()
+	
+	$/root/world/CathedralBell/AnimationPlayer.play("ring")
+	
+	var tw := create_tween()
+	tw.tween_property($/root/world/WorldEnvironment, "environment:background_color", Color.BLACK, 15)
+	tw.parallel().tween_property($/root/world/Sunlight, "light_energy", 0.01, 15)
+	tw.play()
