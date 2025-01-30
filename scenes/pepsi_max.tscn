@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dq0bbiu8183dk"]
 
-[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_fr4jh"]
+[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_fr4jh"]
 [ext_resource type="PackedScene" uid="uid://i4j4ch6svys1" path="res://models/pepsi_max_copyrighted_delete_before_release/pepsi_max_can.glb" id="2_lejdu"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_lejdu"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ep2mjq8vieyb"]
 
-[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://base_item.tscn" id="1_73vqd"]
-[ext_resource type="Texture2D" uid="uid://c32ajt25gj6xj" path="res://mug.png" id="2_i7h20"]
+[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_73vqd"]
+[ext_resource type="Texture2D" uid="uid://c32ajt25gj6xj" path="res://sprites/mug.png" id="2_i7h20"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_asegs"]
 height = 0.485

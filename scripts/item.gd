@@ -105,8 +105,8 @@ func _process(delta: float) -> void:
 	var attachment: BoneAttachment3D = holder.get_node("RightHandAttachment" if is_in_right_hand else "LeftHandAttachment")
 	attachment.on_skeleton_update()
 	
-	var offset: Transform3D = $HandleOffset.transform
+	var offset: Transform3D = $HandleOffset.transform.inverse()
 	if !is_in_right_hand:
-		offset = offset.rotated_local(-Vector3.RIGHT, PI).rotated_local(Vector3.UP, PI)
+		offset = offset.rotated_local(Vector3.RIGHT, PI).rotated_local(Vector3.UP, PI)
 	
 	global_transform = attachment.global_transform * offset

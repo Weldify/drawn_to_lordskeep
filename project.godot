@@ -16,14 +16,14 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=300
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
-config/icon="uid://cehvhmdbcb6b2"
+config/icon="res://dev/icon.png"
 
 [autoload]
 
 G="*res://scripts/g.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 NetworkTime="*res://scripts/network_time.gd"
-Settings="*res://settings.tscn"
+Settings="*res://scenes/settings.tscn"
 
 [display]
 

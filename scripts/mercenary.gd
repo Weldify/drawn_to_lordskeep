@@ -38,7 +38,7 @@ var is_grounded := false
 
 # Serverside
 @export var satchel_name := ""
-var saved_items_in_satchel := [["res://arming_sword.tscn", Transform3D(Vector3(0.481379, -0.05948, -0.874492), Vector3(-0.84991, 0.21226, -0.482284), Vector3(0.214306, 0.975401, 0.051625), Vector3(0.119419, 0.171125, 0.08344))]]
+var saved_items_in_satchel := [["res://scenes/arming_sword.tscn", Transform3D(Vector3(0.481379, -0.05948, -0.874492), Vector3(-0.84991, 0.21226, -0.482284), Vector3(0.214306, 0.975401, 0.051625), Vector3(0.119419, 0.171125, 0.08344))]]
 var is_taking_satchel := false
 
 
@@ -176,7 +176,7 @@ func place_satchel():
 	# Only placeable on nodes that are in the World layer!
 	if collider.get_collision_layer_value(1) != true: return
 	
-	satchel = preload("res://placed_satchel.tscn").instantiate()
+	satchel = preload("res://scenes/placed_satchel.tscn").instantiate()
 	$/root/world/Items.add_child(satchel, true)
 	
 	satchel_name = satchel.name

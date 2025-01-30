@@ -6,6 +6,8 @@ var is_hosting := false
 
 
 func _ready():
+	print(Transform3D(Vector3(-4.37114e-08, 1, -4.37114e-08), Vector3(0, -4.37114e-08, -1), Vector3(-1, -4.37114e-08, 1.91069e-15), Vector3(0, 0.066, 0.027)).inverse())
+	
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	if OS.has_feature("steam"):
@@ -32,20 +34,20 @@ func _ready():
 	
 	_spawn_mercenary_for_peer(1)
 	
-	var mace := preload("res://mace.tscn").instantiate()
+	var mace := preload("res://scenes/mace.tscn").instantiate()
 	$/root/world/Items.add_child(mace, true)
 	mace.global_position = Vector3(0, 2, 0)
 	
-	var arming_sword := preload("res://arming_sword.tscn").instantiate()
+	var arming_sword := preload("res://scenes/arming_sword.tscn").instantiate()
 	$/root/world/Items.add_child(arming_sword, true)
 	arming_sword.global_position = Vector3(0, 2, 0)
 	
 	for i in 20:
-		var can := preload("res://pepsi_max.tscn").instantiate()
+		var can := preload("res://scenes/pepsi_max.tscn").instantiate()
 		$/root/world/Items.add_child(can, true)
 		can.global_position = Vector3(0, 2, 0)
 	
-	var booze := preload("res://booze.tscn").instantiate()
+	var booze := preload("res://scenes/booze.tscn").instantiate()
 	$/root/world/Items.add_child(booze, true)
 	booze.global_position = Vector3(0, 2, 0)
 	
@@ -64,7 +66,7 @@ func reset_all_multiplayer_things():
 
 
 func _spawn_mercenary_for_peer(peer_id: int) -> void:
-	var mercenary := preload("res://mercenary.tscn").instantiate()
+	var mercenary := preload("res://scenes/mercenary.tscn").instantiate()
 	
 	var node_name := str(peer_id)
 	assert($Mercenaries.get_node_or_null(node_name) == null)
