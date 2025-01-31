@@ -38,7 +38,22 @@ var is_grounded := false
 
 # Serverside
 @export var satchel_name := ""
-var saved_items_in_satchel := [["res://scenes/arming_sword.tscn", Transform3D(Vector3(0.481379, -0.05948, -0.874492), Vector3(-0.84991, 0.21226, -0.482284), Vector3(0.214306, 0.975401, 0.051625), Vector3(0.119419, 0.171125, 0.08344))]]
+var saved_items_in_satchel := [
+	["res://scenes/arming_sword.tscn", Transform3D(
+		Vector3(0.481379, -0.05948, -0.874492), 
+		Vector3(-0.84991, 0.21226, -0.482284), 
+		Vector3(0.214306, 0.975401, 0.051625), 
+		Vector3(0.119419, 0.171125, 0.08344))
+	],
+	
+	["res://scenes/mercenary_medallion.tscn", Transform3D(
+		Vector3(0.003882, -0.999797, -0.019781), 
+		Vector3(0.16124, 0.020148, -0.986709), 
+		Vector3(0.986907, 0.000641, 0.161286), 
+		Vector3(-0.027571, 0.05907, -0.03157))
+	]
+]
+
 var is_taking_satchel := false
 
 
