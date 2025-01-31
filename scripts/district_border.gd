@@ -1,5 +1,4 @@
 extends StaticBody3D
-class_name DistrictBorder
 
 @export var func_godot_properties: Dictionary
 @export var is_breached: bool:

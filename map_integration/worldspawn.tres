@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=2 format=3 uid="uid://owx4hqvr7q14"]
+[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=3 format=3 uid="uid://owx4hqvr7q14"]
 
 [ext_resource type="Script" uid="uid://e8hh0fktbnra" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_g0o2o"]
+[ext_resource type="Script" uid="uid://dpwlgd0rgdcvd" path="res://scripts/worldspawn.gd" id="2_68rj6"]
 
 [resource]
 script = ExtResource("1_g0o2o")
-spawn_type = 0
+spawn_type = 2
 origin_type = 4
 build_visuals = false
 use_in_baked_light = false
@@ -21,8 +22,9 @@ add_vertex_metadata = false
 add_face_position_metadata = false
 add_face_normal_metadata = false
 add_collision_shape_face_range_metadata = false
+script_class = ExtResource("2_68rj6")
 classname = "worldspawn"
-description = "Drawn to Lordskeep doesn't use worldspawn, and as such this builds into nothing. Use func_geo instead."
+description = "Custom worldspawn that we use as an entity"
 func_godot_internal = false
 base_classes = Array[Resource]([])
 class_properties = {}
@@ -32,6 +34,6 @@ meta_properties = {
 "color": Color(0.8, 0.8, 0.8, 1),
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
-node_class = "StaticBody3D"
+node_class = "Node3D"
 name_property = ""
 metadata/_custom_type_script = ExtResource("1_g0o2o")

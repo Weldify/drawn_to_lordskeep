@@ -38,5 +38,5 @@ meta_properties = {
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
 node_class = "StaticBody3D"
-name_property = "DistrictBorder"
+name_property = ""
 metadata/_custom_type_script = ExtResource("1_b4koq")

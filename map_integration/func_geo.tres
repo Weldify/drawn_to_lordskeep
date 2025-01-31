@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=2 format=3 uid="uid://cxu3gbqfn5yb1"]
+
+[ext_resource type="Script" uid="uid://e8hh0fktbnra" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_mns3n"]
+
+[resource]
+script = ExtResource("1_mns3n")
+spawn_type = 2
+origin_type = 4
+build_visuals = true
+use_in_baked_light = true
+shadow_casting_setting = 1
+build_occlusion = true
+render_layers = 1
+collision_shape_type = 2
+collision_layer = 1
+collision_mask = 0
+collision_priority = 1.0
+collision_shape_margin = 0.04
+add_textures_metadata = false
+add_vertex_metadata = false
+add_face_position_metadata = false
+add_face_normal_metadata = false
+add_collision_shape_face_range_metadata = false
+classname = "func_geo"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+auto_apply_to_matching_node_properties = false
+meta_properties = {}
+node_class = "StaticBody3D"
+name_property = ""
+metadata/_custom_type_script = ExtResource("1_mns3n")
