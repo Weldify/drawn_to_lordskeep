@@ -25,7 +25,10 @@ func _on_medallion_take_area_body_entered(medallion: Node3D) -> void:
 	
 	medallion.free()
 	
-	$/root/world/CathedralBell/AnimationPlayer.play("ring")
+	get_tree().get_first_node_in_group("cathedral_bell").get_node("AnimationPlayer").play("ring")
+	
+	for border in get_tree().get_nodes_in_group("district_border"):
+		border.is_breached = true
 	
 	var tw := create_tween()
 	tw.tween_property($/root/world/WorldEnvironment, "environment:background_color", Color.BLACK, 15)

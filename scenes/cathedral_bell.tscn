@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=3 uid="uid://bc1c70gqqdbrm"]
+
+[ext_resource type="PackedScene" uid="uid://dmnlupkx2uia1" path="res://models/cathedral_bell/cathedral_bell.blend" id="1_ytlrd"]
+[ext_resource type="AudioStream" uid="uid://ds078hoe82xio" path="res://sounds/cathedral_bell_ring.wav" id="2_mmesb"]
+
+[sub_resource type="Animation" id="Animation_upq2e"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skeleton3D:body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 0, -2.22045e-16, -7.09258e-08)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton3D:hand")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -6.58046e-08, 1.32349e-23, 1.46116e-23, 1)
+
+[sub_resource type="Animation" id="Animation_mmesb"]
+resource_name = "ring"
+length = 20.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BoneAttachment3D/Ring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5, 10, 15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play"
+}, {
+"args": [],
+"method": &"play"
+}, {
+"args": [],
+"method": &"play"
+}]
+}
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton3D:body")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 0, -2.22045e-16, -7.09258e-08, 5, 1, 0.92388, 8.49728e-17, -2.05142e-16, 0.382683, 10, 1, 0.92388, -8.49728e-17, -2.05142e-16, -0.382683, 15, 1, 0.92388, 8.49728e-17, -2.05142e-16, 0.382683, 20, 1, 1, 0, -2.22045e-16, -7.09258e-08)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Skeleton3D:hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -6.58046e-08, 1.32349e-23, 1.46116e-23, 1, 5, 1, -0.188941, 1.04959e-23, 1.54971e-23, 0.981988, 10, 1, 0.201232, 9.14536e-24, 1.16325e-23, 0.979544, 15, 1, -0.188941, 1.04959e-23, 1.54971e-23, 0.981988, 20, 1, -6.58046e-08, 1.32349e-23, 1.46116e-23, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_upq2e"]
+_data = {
+&"RESET": SubResource("Animation_upq2e"),
+&"ring": SubResource("Animation_mmesb")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_upq2e"]
+random_pitch = 1.02
+streams_count = 1
+stream_0/stream = ExtResource("2_mmesb")
+
+[node name="CathedralBell" groups=["cathedral_bell"] instance=ExtResource("1_ytlrd")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_upq2e")
+}
+autoplay = "RESET"
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="." index="1"]
+transform = Transform3D(1, -2.27427e-24, -4.44089e-16, 2.27425e-24, -0.999999, 1.02423e-08, -4.44089e-16, -1.02423e-08, -0.999999, -5.78255e-23, -1.84153, -2.60423e-07)
+bone_name = "hand"
+bone_idx = 2
+use_external_skeleton = true
+external_skeleton = NodePath("../Skeleton3D")
+
+[node name="Ring" type="AudioStreamPlayer3D" parent="BoneAttachment3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.25, 0)
+stream = SubResource("AudioStreamRandomizer_upq2e")
+attenuation_model = 3
+volume_db = -12.0
+unit_size = 10000.0
+pitch_scale = 0.5
+max_polyphony = 3
+attenuation_filter_db = 0.0
+
+[node name="Skeleton3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+bones/1/rotation = Quaternion(1, -2.38135e-31, -2.22045e-16, -7.09258e-08)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/rotation = Quaternion(-6.58046e-08, 1.32349e-23, 1.46116e-23, 1)

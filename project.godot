@@ -42,6 +42,8 @@ enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addon
 [global_group]
 
 spawnpoint=""
+cathedral_bell=""
+district_border=""
 
 [input]
 
