@@ -32,4 +32,4 @@ entity_scale = "32"
 brush_tags = Array[Resource]([])
 brushface_tags = Array[Resource]([ExtResource("1_rsp20"), ExtResource("2_166i2"), ExtResource("3_stisi")])
 default_uv_scale = Vector2(1, 1)
-game_config_version = 0
+game_config_version = 3
