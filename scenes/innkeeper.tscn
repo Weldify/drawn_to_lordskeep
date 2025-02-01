@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://ps4bqoeqyudb"]
+
+[ext_resource type="PackedScene" uid="uid://c14fsiugubcvw" path="res://models/mercenary/mercenary.blend" id="1_q00de"]
+[ext_resource type="Script" uid="uid://cuoui1npl8ilt" path="res://scripts/innkeeper.gd" id="2_sqxrg"]
+[ext_resource type="Script" uid="uid://dq14k3p14c5pk" path="res://scripts/look_at_closest_mercenary.gd" id="2_yugml"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yugml"]
+size = Vector3(2.94678, 2.56042, 2.96143)
+
+[node name="Innkeeper" instance=ExtResource("1_q00de")]
+script = ExtResource("2_sqxrg")
+
+[node name="LookAtClosestMercenary" type="Node" parent="." index="0" node_paths=PackedStringArray("modifier")]
+script = ExtResource("2_yugml")
+modifier = NodePath("../Skeleton3D/LookAtModifier3D")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" index="0"]
+target_node = NodePath("../..")
+bone_name = "head"
+bone = 11
+forward_axis = 1
+origin_from = 2
+origin_external_node = NodePath("")
+origin_offset = Vector3(0, -1.75, 0)
+duration = 1.0
+transition_type = 7
+ease_type = 1
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.39626
+primary_damp_threshold = 1.0
+secondary_limit_angle = 0.785398
+secondary_damp_threshold = 1.0
+
+[node name="AnimationPlayer" parent="." index="2"]
+autoplay = "innkeeper_idle"
+
+[node name="Area3D" type="Area3D" parent="." index="3"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0774002, 0.780212, 0.980714)
+shape = SubResource("BoxShape3D_yugml")

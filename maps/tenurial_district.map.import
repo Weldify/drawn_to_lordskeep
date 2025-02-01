@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://6565x3m6enui"
+path="res://.godot/imported/tenurial_district.map-e96f7f11df64b5d23d2e9ebf2827442d.tres"
+
+[deps]
+
+source_file="res://maps/tenurial_district.map"
+dest_files=["res://.godot/imported/tenurial_district.map-e96f7f11df64b5d23d2e9ebf2827442d.tres"]
+
+[params]
+

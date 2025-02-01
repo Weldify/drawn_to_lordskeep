@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://dp6bhb6htacb2"
+path="res://.godot/imported/outskirts_district.map-08d311126ce9be9f21e3b848407a0abb.tres"
+
+[deps]
+
+source_file="res://maps/outskirts_district.map"
+dest_files=["res://.godot/imported/outskirts_district.map-08d311126ce9be9f21e3b848407a0abb.tres"]
+
+[params]
+
