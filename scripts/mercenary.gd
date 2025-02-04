@@ -93,6 +93,7 @@ func _ready() -> void:
 	crouchness = 0
 	if !is_multiplayer_authority(): return
 	
+	global_position = Vector3(0, 4, 0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 

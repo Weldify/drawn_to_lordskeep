@@ -1,11 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=19 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
 [ext_resource type="Script" uid="uid://djq2d1uptreai" path="res://scripts/ping_counter.gd" id="5_1ew0l"]
 [ext_resource type="Script" uid="uid://dg2wof3wmsjts" path="res://scripts/steam_friend_lobbies.gd" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://emb7uwy3a2fq" path="res://scripts/standalone_connect_prompt.gd" id="9_ioo17"]
-[ext_resource type="PackedScene" uid="uid://dxc46pvynj4xq" path="res://scenes/tenurial_district.tscn" id="11_e3hyu"]
-[ext_resource type="PackedScene" uid="uid://c4ktn1nawksxn" path="res://scenes/outskirts_district.tscn" id="11_q5onr"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 [ext_resource type="FontFile" uid="uid://cgssk0x0gww2c" path="res://fonts/Macondo-Regular.ttf" id="29_k83mh"]
@@ -189,13 +187,19 @@ shadow_color = Color(0, 0, 0, 1)
 physics_interpolation_mode = 2
 script = ExtResource("1_ioo17")
 
-[node name="MercenariesSynchronizer" type="MultiplayerSpawner" parent="."]
+[node name="DistrictsSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://c4ktn1nawksxn", "uid://dxc46pvynj4xq")
+spawn_path = NodePath("../Districts")
+
+[node name="Districts" type="Node" parent="."]
+
+[node name="MercenariesSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://g33nab5xyq5h")
 spawn_path = NodePath("../Mercenaries")
 
 [node name="Mercenaries" type="Node" parent="."]
 
-[node name="ItemsSynchronizer" type="MultiplayerSpawner" parent="."]
+[node name="ItemsSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://cndy7g2esco4j", "uid://dq0bbiu8183dk", "uid://vsiy4t2qnfe4", "uid://bwol0rf6jtsrm", "uid://caudbq40yvmdu")
 spawn_path = NodePath("../Items")
 
@@ -363,11 +367,6 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2, 2)
 texture = ExtResource("15_hiqwa")
-
-[node name="TenurialDistrict" parent="." instance=ExtResource("11_e3hyu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -10)
-
-[node name="OutskirtsDistrict" parent="." instance=ExtResource("11_q5onr")]
 
 [connection signal="item_activated" from="SteamFriendLobbies/ItemList" to="SteamFriendLobbies" method="_on_item_list_item_activated"]
 [connection signal="pressed" from="SteamFriendLobbies/Hide" to="SteamFriendLobbies" method="_on_hide_pressed"]

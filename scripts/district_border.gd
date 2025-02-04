@@ -13,6 +13,8 @@ var collider: CollisionShape3D
 
 
 func _ready() -> void:
+	return
+	
 	for child in get_children():
 		if child is MeshInstance3D: mesh = child
 		elif child is CollisionShape3D: collider = child

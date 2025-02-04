@@ -5,30 +5,43 @@ var my_steam_id: int
 var is_hosting := false
 
 
+func _init_steam():
+	if Steam.restartAppIfNecessary(3493740): OS.kill(OS.get_process_id())
+		
+	var steam_result := Steam.steamInitEx(true, 3493740)
+	if steam_result.status != 0:
+		push_error("Failed to initialize steam because ", steam_result.verbal)
+		OS.kill(OS.get_process_id())
+		
+	my_steam_id = Steam.getSteamID()
+	
+	Steam.lobby_joined.connect(func(lobby_id, _perms, _locked, status):
+		assert(status == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS)
+		var host_id := Steam.getLobbyOwner(lobby_id)
+		if host_id == my_steam_id: return
+		
+		var peer := SteamMultiplayerPeer.new()
+		peer.create_client(host_id, 0)
+
+		reset_all_multiplayer_things()
+		multiplayer.multiplayer_peer = peer
+	)
+	
+	Steam.join_requested.connect(func(lobby_id, friend_id):
+		# @NOTE: I'm assuming an id of 0 is invalid...
+		assert(friend_id != 0, "We don't allow joining non-friends yet!")
+		Steam.joinLobby(lobby_id)
+	)
+
+
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
-	
 	if OS.has_feature("steam"):
-		if Steam.restartAppIfNecessary(3493740): OS.kill(OS.get_process_id())
+		_init_steam()
 		
-		var steam_result := Steam.steamInitEx(true, 3493740)
-		if steam_result.status != 0:
-			push_error("Failed to initialize steam because ", steam_result.verbal)
-			OS.kill(OS.get_process_id())
-			
-		my_steam_id = Steam.getSteamID()
-		
-		Steam.lobby_joined.connect(func(lobby_id, _perms, _locked, status):
-			assert(status == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS)
-			var host_id := Steam.getLobbyOwner(lobby_id)
-			if host_id == my_steam_id: return
-			
-			var peer := SteamMultiplayerPeer.new()
-			peer.create_client(host_id, 0)
 	
-			multiplayer.multiplayer_peer = peer
-			reset_all_multiplayer_things()
-		)
+	var outskirts := preload("res://scenes/outskirts_district.tscn").instantiate()
+	$/root/world/Districts.add_child(outskirts)
 	
 	_spawn_mercenary_for_peer(1)
 	
@@ -36,10 +49,21 @@ func _ready():
 	DiscordRPC.details = "Don't think too hard on it."
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
 	DiscordRPC.refresh()
+	
+	# Pressing "join game" when the game isn't launched 
+	# launches it with a specific commandline argument.
+	if OS.has_feature("steam"):
+		var args := OS.get_cmdline_args()
+		for i in args.size():
+			var argument := args[i]
+			if argument == "+connect_lobby":
+				var lobby_id := int(args[i + 1])
+				Steam.joinLobby(lobby_id)
 
 
-## Call this AFTER setting the multiplayer peer to the new thing!
+## Call this BEFORE setting the multiplayer peer to the new thing!
 func reset_all_multiplayer_things():
+	for district in $Districts.get_children(): district.free()
 	for merc in $Mercenaries.get_children(): merc.free()
 	for item in $Items.get_children(): item.free()
 	
