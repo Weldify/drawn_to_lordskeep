@@ -1,7 +1,6 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=3 format=3 uid="uid://j2qqxifpcrsi"]
+[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=2 format=3 uid="uid://j2qqxifpcrsi"]
 
 [ext_resource type="Script" uid="uid://e8hh0fktbnra" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_b4koq"]
-[ext_resource type="Script" uid="uid://hsuo457n44dq" path="res://scripts/district_border.gd" id="2_50yq3"]
 
 [resource]
 script = ExtResource("1_b4koq")
@@ -22,15 +21,11 @@ add_vertex_metadata = false
 add_face_position_metadata = false
 add_face_normal_metadata = false
 add_collision_shape_face_range_metadata = false
-script_class = ExtResource("2_50yq3")
 classname = "func_district_border"
 description = "I eat cement"
 func_godot_internal = false
 base_classes = Array[Resource]([])
-class_properties = {
-&"from": "",
-&"to": ""
-}
+class_properties = {}
 class_property_descriptions = {}
 auto_apply_to_matching_node_properties = false
 meta_properties = {

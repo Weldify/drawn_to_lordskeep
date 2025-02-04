@@ -1,26 +1,22 @@
 extends Node3D
 
 var talking := false
+var talked := false
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if !multiplayer.is_server(): return
 	if body is not Mercenary: return
 	
-	if talking: return
+	if talking or talked: return
 	talking = true
+	talked = true
 	
-	G.send_dialogue_in_range(global_position, 4, "Ah, I see you've awoken.")
+	G.send_dialogue_in_range(global_position, 4, "Yo dude")
 	await get_tree().create_timer(6).timeout
-	G.send_dialogue_in_range(global_position, 4, "Just in time, too.")
+	G.send_dialogue_in_range(global_position, 4, "I KEEP a secret passage to the LORDS yo")
 	await get_tree().create_timer(6).timeout
-	G.send_dialogue_in_range(global_position, 4, "Your stuff? It's all in the satchel. I've no use for it.")
+	G.send_dialogue_in_range(global_position, 4, "Go go go man its behind me and to the left")
 	await get_tree().create_timer(8).timeout
-	G.send_dialogue_in_range(global_position, 4, "No matter.")
-	await get_tree().create_timer(3).timeout
-	G.send_dialogue_in_range(global_position, 4, "Gather up swiftly.")
-	await get_tree().create_timer(6).timeout
-	G.send_dialogue_in_range(global_position, 4, "The night will fall soon.")
 	
-	await get_tree().create_timer(8).timeout
 	talking = false

@@ -12627,7 +12627,7 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": 0
 },
-"ernhardt_idle": {
+"idle_leaning_back": {
 "save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",

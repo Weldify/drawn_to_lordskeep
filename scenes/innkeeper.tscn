@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dq14k3p14c5pk" path="res://scripts/look_at_closest_mercenary.gd" id="2_yugml"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yugml"]
-size = Vector3(2.94678, 2.56042, 2.96143)
+size = Vector3(2, 2, 2)
 
 [node name="Innkeeper" instance=ExtResource("1_q00de")]
 script = ExtResource("2_sqxrg")
@@ -33,12 +33,14 @@ secondary_limit_angle = 0.785398
 secondary_damp_threshold = 1.0
 
 [node name="AnimationPlayer" parent="." index="2"]
-autoplay = "innkeeper_idle"
+autoplay = "idle_leaning_back"
 
 [node name="Area3D" type="Area3D" parent="." index="3"]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0774002, 0.780212, 0.980714)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0774002, 0.780212, 0.499999)
 shape = SubResource("BoxShape3D_yugml")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

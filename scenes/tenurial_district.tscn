@@ -1,6 +1,7 @@
-[gd_scene load_steps=256 format=4 uid="uid://dxc46pvynj4xq"]
+[gd_scene load_steps=257 format=4 uid="uid://dxc46pvynj4xq"]
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_t83kr"]
+[ext_resource type="Script" uid="uid://dp4daln82xyfx" path="res://scripts/district.gd" id="1_wajts"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_tpddv"]
 [ext_resource type="Script" uid="uid://dpwlgd0rgdcvd" path="res://scripts/worldspawn.gd" id="3_i561w"]
 [ext_resource type="Material" uid="uid://eiv1v1auyxan" path="res://maps/textures/ground.tres" id="4_eu0my"]
@@ -2136,6 +2137,10 @@ indices = PackedInt32Array(0, 1, 2, 0, 2, 3)
 data = PackedVector3Array(2, 0.5, -0.5, 2, 0.5, 0.5, -2, 0.5, 0.5, 2, 0.5, -0.5, -2, 0.5, 0.5, -2, 0.5, -0.5)
 
 [node name="TenurialDistrict" type="Node3D"]
+script = ExtResource("1_wajts")
+
+[node name="Exit" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -24)
 
 [node name="Navmesh" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_tpddv")
@@ -3217,6 +3222,3 @@ occluder = SubResource("ArrayOccluder3D_qg2bq")
 
 [node name="entity_85_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_85_func_geo"]
 shape = SubResource("ConcavePolygonShape3D_rq76t")
-
-[node name="Exit" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -24)

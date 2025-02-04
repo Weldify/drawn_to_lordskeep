@@ -43,6 +43,12 @@ func _ready():
 	var outskirts := preload("res://scenes/outskirts_district.tscn").instantiate()
 	$/root/world/Districts.add_child(outskirts)
 	
+	var latest_district := $/root/world/Districts.get_child(-1)
+	if latest_district:
+		var tenurial := preload("res://scenes/tenurial_district.tscn").instantiate()
+		$/root/world/Districts.add_child(tenurial)
+		tenurial.global_position = latest_district.get_node("Exit").global_position
+	
 	_spawn_mercenary_for_peer(1)
 	
 	DiscordRPC.app_id = 1324092717873106974
