@@ -19,6 +19,9 @@
 properties/0/path = NodePath(".:border_closed")
 properties/0/spawn = true
 properties/0/replication_mode = 2
+properties/1/path = NodePath(".:transform_mirror")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_gt1j0"]
 resource_local_to_scene = true

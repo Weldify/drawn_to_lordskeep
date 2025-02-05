@@ -13,6 +13,11 @@ var border_base_position: Vector3
 		if district_border:
 			district_border.position = border_base_position if border_closed else Vector3(0, -100, 0)
 
+@export var transform_mirror: Transform3D :
+	set(v):
+		global_transform = v
+	get(): return global_transform
+
 
 func _ready() -> void:
 	if !multiplayer.is_server(): return
