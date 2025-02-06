@@ -3,6 +3,12 @@ extends Node
 @onready var root: Node3D = $".."
 @export var modifier: LookAtModifier3D
 
+var target: Node3D
+func _ready():
+	target = Node3D.new()
+	add_child(target, false, Node.INTERNAL_MODE_FRONT)
+	modifier.origin_external_node = target.get_path()
+
 func _process(delta: float) -> void:
 	var closest: Mercenary
 	var closest_distance := INF
@@ -14,5 +20,5 @@ func _process(delta: float) -> void:
 	
 	if !closest: return
 	
-	var path := closest.get_node("HeadAttachment/Viewpoint").get_path()
-	modifier.origin_external_node = path
+	var viewpoint: Node3D = closest.get_node("HeadAttachment/Viewpoint")
+	target.global_position = lerp(target.global_position, viewpoint.global_position, delta * 2)
