@@ -5,6 +5,7 @@ Shipped as default 17176841
 
 
 - district generation
+- added a horn that you can blow to allow your friends to join you
 - the walk animation is now directional (only the standing one as of now)
 - you can now join friends directly through steam
 - use correct hit effects when hitting players

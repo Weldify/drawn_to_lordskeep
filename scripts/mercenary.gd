@@ -72,8 +72,11 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	crouchness = 0
+	# So that we are not stuck in the editor debug pose for 1 frame
+	evaluate_animations()
+	
 	if !is_multiplayer_authority(): return
+	crouchness = 0
 	
 	global_position = Vector3(0, 4, 0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

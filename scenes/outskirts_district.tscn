@@ -1,12 +1,9 @@
-[gd_scene load_steps=166 format=4 uid="uid://c4ktn1nawksxn"]
+[gd_scene load_steps=161 format=4 uid="uid://c4ktn1nawksxn"]
 
 [ext_resource type="Script" uid="uid://b5sb5txnc5dg0" path="res://scripts/district.gd" id="1_eh05k"]
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_gt1j0"]
-[ext_resource type="Script" uid="uid://qu1bqcevsofx" path="res://scripts/game_opener.gd" id="1_hhgbj"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_blr4t"]
-[ext_resource type="Script" uid="uid://jmfdsvng3flh" path="res://scripts/lobby_displayer.gd" id="2_nhcty"]
 [ext_resource type="Script" uid="uid://dpwlgd0rgdcvd" path="res://scripts/worldspawn.gd" id="3_4yyq5"]
-[ext_resource type="Script" uid="uid://chjwo06bi07ye" path="res://scripts/standalone_connect_prompt_displayer.gd" id="3_gplnx"]
 [ext_resource type="Material" uid="uid://cfsq6a7cc7agq" path="res://maps/textures/grass.tres" id="5_lmnov"]
 [ext_resource type="Material" uid="uid://bph7vdx0lair3" path="res://maps/textures/bricks.tres" id="5_v67ev"]
 [ext_resource type="Material" uid="uid://4ym4i3rsoubk" path="res://maps/textures/fence_loop.tres" id="6_v67ev"]
@@ -14,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://ps4bqoeqyudb" path="res://scenes/innkeeper.tscn" id="9_hv3jq"]
 [ext_resource type="Material" uid="uid://eiv1v1auyxan" path="res://maps/textures/ground.tres" id="9_tv8p8"]
 [ext_resource type="Material" uid="uid://bfo3gwujj0ovf" path="res://maps/textures/planks.tres" id="10_eh05k"]
-[ext_resource type="PackedScene" uid="uid://bnx2rn6w1b03l" path="res://models/multiplayer_horn/multiplayer_horn.blend" id="15_eh05k"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tv8p8"]
 properties/0/path = NodePath(".:border_closed")
@@ -1279,8 +1275,6 @@ data = PackedVector3Array(-0.5, 2, -0.5, -0.5, -2, -0.5, 0.5, -2, -0.5, -0.5, 2,
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_44m6x"]
 data = PackedVector3Array(-3, 2, -0.5, -3, -2, -0.5, 3, -2, -0.5, -3, 2, -0.5, 3, -2, -0.5, 3, 2, -0.5, -3, 2, -0.5, -3, 2, 0.5, -3, -2, 0.5, -3, 2, -0.5, -3, -2, 0.5, -3, -2, -0.5, 3, -2, -0.5, -3, -2, -0.5, -3, -2, 0.5, 3, -2, -0.5, -3, -2, 0.5, 3, -2, 0.5, 3, 2, -0.5, 3, 2, 0.5, -3, 2, 0.5, 3, 2, -0.5, -3, 2, 0.5, -3, 2, -0.5, 3, 2, -0.5, 3, -2, -0.5, 3, -2, 0.5, 3, 2, -0.5, 3, -2, 0.5, 3, 2, 0.5, -3, 2, 0.5, 3, 2, 0.5, 3, -2, 0.5, -3, 2, 0.5, 3, -2, 0.5, -3, -2, 0.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hv3jq"]
-
 [node name="OutskirtsDistrict" type="Node3D"]
 script = ExtResource("1_eh05k")
 
@@ -1987,54 +1981,8 @@ collision_mask = 0
 [node name="entity_61_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_61_func_detail"]
 shape = SubResource("ConcavePolygonShape3D_44m6x")
 
-[node name="GameOpener" type="Area3D" parent="."]
-transform = Transform3D(-0.389735, 0, -0.920927, 0, 1, 0, 0.920927, 0, -0.389735, 2.1224, 1.32495, 0.287856)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("1_hhgbj")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GameOpener"]
-shape = SubResource("BoxShape3D_hv3jq")
-
-[node name="Label3D" type="Label3D" parent="GameOpener"]
-text = "Walk into me to open
- game to friends"
-
-[node name="FriendLobbyShower" type="Area3D" parent="."]
-transform = Transform3D(0.184243, 0, -0.98288, 0, 1, 0, 0.98288, 0, 0.184243, 3.21679, 1.32495, -1.37265)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("2_nhcty")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FriendLobbyShower"]
-shape = SubResource("BoxShape3D_hv3jq")
-
-[node name="Label3D" type="Label3D" parent="FriendLobbyShower"]
-text = "Walk into me to show
-your friends' steam lobbies"
-
-[node name="StandaloneConnectPromptDisplayer" type="Area3D" parent="."]
-transform = Transform3D(0.940044, 0, -0.341053, 0, 1, 0, 0.341053, 0, 0.940044, 1.30633, 1.32495, -2.46204)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("3_gplnx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StandaloneConnectPromptDisplayer"]
-shape = SubResource("BoxShape3D_hv3jq")
-
-[node name="Label3D" type="Label3D" parent="StandaloneConnectPromptDisplayer"]
-text = "Walk into me to show
-direct IP connect prompt"
-
 [node name="Spawnpoint" type="Node3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
 [node name="Innkeeper" parent="." instance=ExtResource("9_hv3jq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2.8)
-
-[node name="multiplayer_horn" parent="." instance=ExtResource("15_eh05k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
-
-[connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
-[connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]
-[connection signal="body_entered" from="StandaloneConnectPromptDisplayer" to="StandaloneConnectPromptDisplayer" method="_on_body_entered"]
