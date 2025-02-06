@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=81 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -20,6 +20,8 @@
 [ext_resource type="Animation" uid="uid://da30lololqy4b" path="res://models/mercenary/look_up.res" id="13_5h5rc"]
 [ext_resource type="Animation" uid="uid://cm58krmx67qr1" path="res://models/mercenary/look_down.res" id="14_p6ykb"]
 [ext_resource type="Animation" uid="uid://d235acoi8n0e" path="res://models/mercenary/both_parry.res" id="15_5f0r2"]
+[ext_resource type="Animation" uid="uid://fqag2nen87m3" path="res://models/mercenary/walk_fr.res" id="17_7h54f"]
+[ext_resource type="Animation" uid="uid://dp10gb4w532f1" path="res://models/mercenary/walk_fl.res" id="18_aqvki"]
 [ext_resource type="AudioStream" uid="uid://cvxok8ojx1557" path="res://sounds/throw.wav" id="20_73f88"]
 [ext_resource type="AudioStream" uid="uid://cbugxrgkapnjm" path="res://sounds/take.wav" id="21_6cnxl"]
 
@@ -36,7 +38,9 @@ _data = {
 &"look_up": ExtResource("13_5h5rc"),
 &"lower_idle_crouch": ExtResource("10_6cnxl"),
 &"upper_idle": ExtResource("11_couci"),
-&"walk_ff": ExtResource("12_yb78r")
+&"walk_ff": ExtResource("12_yb78r"),
+&"walk_fl": ExtResource("18_aqvki"),
+&"walk_fr": ExtResource("17_7h54f")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
@@ -224,18 +228,6 @@ filters = ["..", "Skeleton3D:l_foot", "Skeleton3D:l_leg0", "Skeleton3D:l_leg1", 
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_qqtx7"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dwbse"]
-animation = &"look_down"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pkg7o"]
-animation = &"look_up"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_gbfbk"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_dwbse")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_pkg7o")
-blend_point_1/pos = 1.0
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qqtx7"]
 animation = &"lower_idle_crouch"
 
@@ -251,22 +243,55 @@ min_space = 0.0
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_s636n"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aha6x"]
-animation = &"walk_ff"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybq4i"]
 animation = &"RESET"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rji4q"]
+animation = &"walk_ff"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7h54f"]
+animation = &"walk_ff"
+play_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aqvki"]
+animation = &"walk_fl"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ol2am"]
+animation = &"walk_fr"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_cqwup"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_rji4q")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_7h54f")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_aqvki")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_ol2am")
+blend_point_3/pos = Vector2(1, 0)
+sync = true
+
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_s636n"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_aha6x")
-blend_point_0/pos = 2.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_ybq4i")
-blend_point_1/pos = 0.0
+blend_point_0/node = SubResource("AnimationNodeAnimation_ybq4i")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeBlendSpace2D_cqwup")
+blend_point_1/pos = 2.0
 min_space = 0.0
 max_space = 2.0
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dwbse"]
+animation = &"look_down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pkg7o"]
+animation = &"look_up"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_gbfbk"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_dwbse")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_pkg7o")
+blend_point_1/pos = 1.0
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-648.112, -73.162)
+graph_offset = Vector2(-602.991, -71.1488)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
 nodes/Add2/position = Vector2(-740, -80)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
@@ -287,16 +312,16 @@ nodes/Animation/position = Vector2(-980, -200)
 "nodes/Upper body + lower body/position" = Vector2(240, 380)
 nodes/crouchness/node = SubResource("AnimationNodeBlend2_qqtx7")
 nodes/crouchness/position = Vector2(-280, 560)
+"nodes/horizontal speed (crouching)/node" = SubResource("AnimationNodeBlendSpace1D_7qe3q")
+"nodes/horizontal speed (crouching)/position" = Vector2(-560, 740)
+"nodes/horizontal speed (movement multiplier)/node" = SubResource("AnimationNodeTimeScale_s636n")
+"nodes/horizontal speed (movement multiplier)/position" = Vector2(-120, 560)
+"nodes/horizontal speed (standing)/node" = SubResource("AnimationNodeBlendSpace1D_s636n")
+"nodes/horizontal speed (standing)/position" = Vector2(-560, 560)
 nodes/look_alpha/node = SubResource("AnimationNodeBlendSpace1D_gbfbk")
 nodes/look_alpha/position = Vector2(-560, -140)
 nodes/output/position = Vector2(540, 80)
-"nodes/speed (crouching)/node" = SubResource("AnimationNodeBlendSpace1D_7qe3q")
-"nodes/speed (crouching)/position" = Vector2(-480, 740)
-"nodes/speed (movement multiplier)/node" = SubResource("AnimationNodeTimeScale_s636n")
-"nodes/speed (movement multiplier)/position" = Vector2(-120, 560)
-"nodes/speed (standing)/node" = SubResource("AnimationNodeBlendSpace1D_s636n")
-"nodes/speed (standing)/position" = Vector2(-480, 560)
-node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand timescale", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Left hand timescale", 0, &"Left hand", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand timescale", &"Right hand timescale", 0, &"Right hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"speed (movement multiplier)", &"crouchness", 0, &"speed (standing)", &"crouchness", 1, &"speed (crouching)", &"output", 0, &"Upper body + lower body", &"speed (movement multiplier)", 0, &"crouchness"]
+node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand timescale", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Left hand timescale", 0, &"Left hand", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand timescale", &"Right hand timescale", 0, &"Right hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"horizontal speed (movement multiplier)", &"crouchness", 0, &"horizontal speed (standing)", &"crouchness", 1, &"horizontal speed (crouching)", &"horizontal speed (movement multiplier)", 0, &"crouchness", &"output", 0, &"Upper body + lower body"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_s636n"]
 random_pitch = 1.2
@@ -370,13 +395,14 @@ parameters/Add2/add_amount = 1.0
 "parameters/Right hand timescale/scale" = 1.0
 "parameters/Upper body + lower body/add_amount" = 1.0
 parameters/crouchness/blend_amount = 0.0
+"parameters/horizontal speed (crouching)/blend_position" = 0
+"parameters/horizontal speed (movement multiplier)/scale" = 1.0
+"parameters/horizontal speed (standing)/blend_position" = -0.293103
+"parameters/horizontal speed (standing)/1/blend_position" = Vector2(-0.519833, 1.1978)
 parameters/look_alpha/blend_position = 0.0
-"parameters/speed (crouching)/blend_position" = 0
-"parameters/speed (movement multiplier)/scale" = 1.0
-"parameters/speed (standing)/blend_position" = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.01706e-07, -1.2901e-07, -1, -0.0437892, 0.999041, -1.24433e-07, 0.999041, 0.0437892, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176537)
+transform = Transform3D(-1.01705e-07, -1.2901e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -1.07257e-07, -2.96142e-08, 1.35708, -0.0176538)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -400,7 +426,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240304, 0.977472, -0.0550526, -0.997822, 0.036341, 0.976216, -0.0614329, -0.207915, -0.176535, 0.736061, -0.00122346)
+transform = Transform3D(-0.0550525, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.05312, 0.0521574, -0.733352, 1.31446, -0.00123268)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
@@ -422,7 +448,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240298, -0.977472, 0.055053, -0.997822, 0.0363405, -0.976216, -0.0614332, -0.207916, 0.176536, 0.73606, -0.00122365)
+transform = Transform3D(-0.0550526, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.0531201, 0.0521574, 0.733352, 1.31446, -0.00123276)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
@@ -444,7 +470,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780585, 0.996949, -1.40467e-07, 0.996949, -0.0780585, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
+transform = Transform3D(-1.1961e-07, -1.31532e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -1.08978e-07, 9.42159e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true

@@ -319,8 +319,10 @@ func can_uncrouch() -> bool:
 	return !hit
 
 
+var last_footstep_was_at := 0.0
 func play_footstep() -> void:
-	if !is_grounded: return
+	if !is_grounded or NetworkTime.time - last_footstep_was_at < 0.1: return
+	last_footstep_was_at = NetworkTime.time
 	
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
@@ -329,14 +331,20 @@ func play_footstep() -> void:
 func evaluate_animations():
 	$AnimationTree.set("parameters/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
-	var speed := velocity.length()
-	$AnimationTree.set("parameters/speed (crouching)/blend_position", speed)
-	$AnimationTree.set("parameters/speed (standing)/blend_position", speed)
-	$AnimationTree.set("parameters/speed (movement multiplier)/scale", speed)
+	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
+	var hor_velocity := velocity * Vector3(1, 0, 1)
+	var walk_speed := hor_velocity.length()
+	var walk_dir := (hor_velocity * horizontal_look).normalized()
+	$AnimationTree.set("parameters/horizontal speed (standing)/blend_position", walk_speed)
+	$AnimationTree.set("parameters/horizontal speed (standing)/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
+	
+	$AnimationTree.set("parameters/horizontal speed (crouching)/blend_position", walk_speed)
+	
+	$AnimationTree.set("parameters/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
 	$AnimationTree.set("parameters/crouchness/blend_amount", crouchness)
 
-	$Model.transform = Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
+	$Model.transform = horizontal_look
 	# Otherwise it will be out of sync due to us changing the transform.
 	$HeadAttachment.on_skeleton_update()
 
