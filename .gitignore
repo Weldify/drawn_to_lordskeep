@@ -8,6 +8,8 @@ maps/autosave
 *.blend1
 *.kra~
 *.kra-autosave.kra
+*.aup3-shm
+*.aup3-wal
 
 data/*
 !data/.gdignore
