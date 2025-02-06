@@ -7,7 +7,6 @@
 size = Vector3(0.0378151, 0.199459, 0.178459)
 
 [node name="MercenaryMedallion" instance=ExtResource("1_or8hr")]
-continuous_cd = true
 spin_axis = Vector3(0, 0, -1)
 
 [node name="model" parent="." index="0" instance=ExtResource("2_no7ty")]

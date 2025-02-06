@@ -200,7 +200,7 @@ spawn_path = NodePath("../Mercenaries")
 [node name="Mercenaries" type="Node" parent="."]
 
 [node name="ItemsSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://cndy7g2esco4j", "uid://dq0bbiu8183dk", "uid://vsiy4t2qnfe4", "uid://bwol0rf6jtsrm", "uid://caudbq40yvmdu")
+_spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb", "uid://cndy7g2esco4j", "uid://dq0bbiu8183dk", "uid://vsiy4t2qnfe4", "uid://bwol0rf6jtsrm", "uid://caudbq40yvmdu", "uid://c6lftakajtvns")
 spawn_path = NodePath("../Items")
 
 [node name="Items" type="Node" parent="."]

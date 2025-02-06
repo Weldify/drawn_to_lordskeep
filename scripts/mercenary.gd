@@ -46,7 +46,7 @@ var saved_items_in_satchel := [
 		Vector3(0.119419, 0.171125, 0.08344))
 	],
 	
-	["res://scenes/mercenary_medallion.tscn", Transform3D(
+	["res://scenes/multiplayer_horn.tscn", Transform3D(
 		Vector3(0.003882, -0.999797, -0.019781), 
 		Vector3(0.16124, 0.020148, -0.986709), 
 		Vector3(0.986907, 0.000641, 0.161286), 
@@ -59,24 +59,6 @@ var is_taking_satchel := false
 
 var right_throw_power := 0.0
 var left_throw_power := 0.0
-
-
-func get_right_holdtype() -> G.HoldType:
-	var item := $/root/world/Items.get_node_or_null(right_hand_item_name)
-	return item.holdtype if item else G.HoldType.NONE
-
-
-func get_left_holdtype() -> G.HoldType:
-	var item := $/root/world/Items.get_node_or_null(left_hand_item_name)
-	return item.holdtype if item else G.HoldType.NONE
-
-
-func is_left_holdtype_weapon() -> bool:
-	return get_left_holdtype() == G.HoldType.WEAPON
-
-
-func is_right_holdtype_weapon() -> bool:
-	return get_right_holdtype() == G.HoldType.WEAPON
 
 
 func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
@@ -343,6 +325,17 @@ func evaluate_animations():
 	$AnimationTree.set("parameters/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
 	$AnimationTree.set("parameters/crouchness/blend_amount", crouchness)
+
+	var right_holdtype := G.HoldType.NONE
+	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
+	if right_item: right_holdtype = right_item.holdtype
+	
+	var left_holdtype := G.HoldType.NONE
+	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
+	if left_item: left_holdtype = left_item.holdtype
+	
+	$AnimationTree.set("parameters/Right hand/holdtype/blend_position", right_holdtype)
+	$AnimationTree.set("parameters/Left hand/holdtype/blend_position", left_holdtype)
 
 	$Model.transform = horizontal_look
 	# Otherwise it will be out of sync due to us changing the transform.

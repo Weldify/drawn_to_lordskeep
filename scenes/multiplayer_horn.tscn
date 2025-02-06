@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6lftakajtvns"]
+
+[ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_sx8xq"]
+[ext_resource type="PackedScene" uid="uid://bnx2rn6w1b03l" path="res://models/multiplayer_horn/multiplayer_horn.blend" id="2_sq7mx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sx8xq"]
+size = Vector3(0.0694336, 0.169458, 0.48645)
+
+[node name="MultiplayerHorn" instance=ExtResource("1_sx8xq")]
+holdtype = 2
+
+[node name="RightHoldOffset" parent="." index="0"]
+transform = Transform3D(-3.63187e-08, -5.00233e-08, -1, -0.156762, 0.987636, -4.37114e-08, 0.987636, 0.156762, -4.37114e-08, 0.0501236, -0.126986, -0.0437341)
+
+[node name="LeftHoldOffset" parent="." index="1"]
+transform = Transform3D(-4.31732e-08, 6.83797e-09, 1, 0.156434, 0.987688, 0, -0.987688, 0.156434, -4.37114e-08, -0.05, -0.127, -0.044)
+
+[node name="Collider" type="CollisionShape3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00541992, 0.00259095, -0.0245773)
+shape = SubResource("BoxShape3D_sx8xq")
+
+[node name="multiplayer_horn" parent="." index="6" instance=ExtResource("2_sq7mx")]

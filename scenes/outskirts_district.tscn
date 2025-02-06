@@ -1,4 +1,4 @@
-[gd_scene load_steps=165 format=4 uid="uid://c4ktn1nawksxn"]
+[gd_scene load_steps=166 format=4 uid="uid://c4ktn1nawksxn"]
 
 [ext_resource type="Script" uid="uid://b5sb5txnc5dg0" path="res://scripts/district.gd" id="1_eh05k"]
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_gt1j0"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ps4bqoeqyudb" path="res://scenes/innkeeper.tscn" id="9_hv3jq"]
 [ext_resource type="Material" uid="uid://eiv1v1auyxan" path="res://maps/textures/ground.tres" id="9_tv8p8"]
 [ext_resource type="Material" uid="uid://bfo3gwujj0ovf" path="res://maps/textures/planks.tres" id="10_eh05k"]
+[ext_resource type="PackedScene" uid="uid://bnx2rn6w1b03l" path="res://models/multiplayer_horn/multiplayer_horn.blend" id="15_eh05k"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tv8p8"]
 properties/0/path = NodePath(".:border_closed")
@@ -2030,6 +2031,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
 [node name="Innkeeper" parent="." instance=ExtResource("9_hv3jq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2.8)
+
+[node name="multiplayer_horn" parent="." instance=ExtResource("15_eh05k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 
 [connection signal="body_entered" from="GameOpener" to="GameOpener" method="_on_body_entered"]
 [connection signal="body_entered" from="FriendLobbyShower" to="FriendLobbyShower" method="_on_body_entered"]

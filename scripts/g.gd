@@ -2,7 +2,8 @@ extends Node
 
 enum HoldType {
 	NONE,
-	WEAPON
+	WEAPON,
+	HORN
 }
 
 class HitHandleResult:

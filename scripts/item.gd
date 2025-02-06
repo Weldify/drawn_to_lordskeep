@@ -7,6 +7,8 @@ signal holder_changed()
 @export var holdtype := G.HoldType.WEAPON
 @export var spin_axis := Vector3.LEFT
 
+@export_category("DO NOT TOUCH THIS!")
+
 @export var transform_mirror: Transform3D :
 	set(v):
 		global_transform = v
