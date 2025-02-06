@@ -9,3 +9,4 @@ Shipped as default 17176841
 - the walk animation is now directional (only the standing one as of now)
 - you can now join friends directly through steam
 - use correct hit effects when hitting players
+Shipped as default 17268644
