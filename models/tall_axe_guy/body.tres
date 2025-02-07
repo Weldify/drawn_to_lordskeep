@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dvrnf5hl34ip1"]
+
+[ext_resource type="Texture2D" uid="uid://od3waft5kdqw" path="res://models/tall_axe_guy/body.png" id="1_kkajb"]
+
+[resource]
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_kkajb")
+texture_filter = 0

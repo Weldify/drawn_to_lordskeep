@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://do6daqysbvpxj"]
+
+[ext_resource type="Texture2D" uid="uid://dnl4b3j01hwqm" path="res://models/tall_axe_guy/horns.png" id="1_l6o5b"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_l6o5b")
+texture_filter = 0

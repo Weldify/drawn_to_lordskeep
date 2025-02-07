@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=18 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
+[ext_resource type="PackedScene" uid="uid://con0l72om7e8x" path="res://scenes/tall_axe_guy.tscn" id="2_4mrxx"]
 [ext_resource type="Script" uid="uid://djq2d1uptreai" path="res://scripts/ping_counter.gd" id="5_1ew0l"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
@@ -202,6 +203,14 @@ _spawnable_scenes = PackedStringArray("uid://bhvnxcbnges4k", "uid://ep2mjq8vieyb
 spawn_path = NodePath("../Items")
 
 [node name="Items" type="Node" parent="."]
+
+[node name="EnemiesSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://con0l72om7e8x")
+spawn_path = NodePath("../Items")
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="TallAxeGuy" parent="Enemies" instance=ExtResource("2_4mrxx")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ryup7")

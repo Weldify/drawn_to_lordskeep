@@ -289,8 +289,8 @@ func _physics_process(delta: float) -> void:
 	if is_grounded:
 		var max_speed := 1 if crouchness != 0 else 2
 		
-		_apply_friction(5 * delta)
-		_accelerate(move_direction, 10 * delta, max_speed)
+		velocity = G.apply_friction(velocity, 5 * delta)
+		velocity = G.accelerate(velocity, move_direction, 10 * delta, max_speed)
 	else:
 		velocity += get_gravity() * delta
 	
@@ -310,8 +310,8 @@ func can_uncrouch() -> bool:
 
 var last_footstep_was_at := 0.0
 func play_footstep() -> void:
-	if !is_grounded or NetworkTime.time - last_footstep_was_at < 0.1: return
-	last_footstep_was_at = NetworkTime.time
+	if !is_grounded or NetworkTime.now - last_footstep_was_at < 0.1: return
+	last_footstep_was_at = NetworkTime.now
 	
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()
@@ -329,6 +329,7 @@ func evaluate_animations():
 	
 	$AnimationTree.set("parameters/horizontal speed (crouching)/blend_position", walk_speed)
 	
+	# @TODO: The *1.1 is a crutch to speed up the walk animations a bit, lets do that directly in the animtree using custom timelines!
 	$AnimationTree.set("parameters/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
 	$AnimationTree.set("parameters/crouchness/blend_amount", crouchness)
@@ -359,16 +360,3 @@ func _process(delta: float) -> void:
 	
 	var camera := get_viewport().get_camera_3d()
 	camera.global_transform = $HeadAttachment/Viewpoint.global_transform
-
-
-func _accelerate(direction: Vector3, acceleration: float, max_speed: float):
-	var projected_speed := velocity.dot(direction)
-	velocity += direction * clamp(max_speed - projected_speed, 0, acceleration)
-
-
-func _apply_friction(amount: float):
-	var speed := velocity.length()
-	if speed == 0: return
-	var drop := speed * amount
-	
-	velocity *= max(0, speed - drop) / speed

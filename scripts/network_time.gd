@@ -8,7 +8,7 @@ extends Node
 ## Current game time synchronized between all peers
 ## It's smooth and subtly corrects itself and never ever goes down.
 ## It can jump forward when the difference is too high.
-var time: float
+var now: float
 
 ## Round trip time to reach the server and back.
 var ping: float
@@ -28,7 +28,7 @@ func restart():
 	
 	ping = 0
 	unsmoothed_ping = 0
-	time = 0
+	now = 0
 	
 	if !multiplayer.is_server():
 		_client_needs_reliable_info = true
@@ -54,7 +54,7 @@ func _update_clock(delta: float, instant: bool):
 	if multiplayer.is_server():
 		ping = 0
 		unsmoothed_ping = 0
-		time = max(time, Time.get_unix_time_from_system())
+		now = max(now, Time.get_unix_time_from_system())
 		return
 	
 	var estimated_time := _last_known_server_timestamp + Time.get_unix_time_from_system() - _last_received_server_info_at + ping/2
@@ -62,17 +62,17 @@ func _update_clock(delta: float, instant: bool):
 	## For first-time sync and restarting
 	if instant:
 		ping = unsmoothed_ping
-		time = max(time, estimated_time)
+		now = max(now, estimated_time)
 		return
 		
 	ping = lerp(ping, unsmoothed_ping, delta)
 	
-	if estimated_time - time > 0.1:
-		time = estimated_time
-	elif estimated_time > time:
-		time += delta * 1.03
-	elif estimated_time < time:
-		time += delta * 0.97
+	if estimated_time - now > 0.1:
+		now = estimated_time
+	elif estimated_time > now:
+		now += delta * 1.03
+	elif estimated_time < now:
+		now += delta * 0.97
 
 
 @rpc("any_peer", "call_remote", "unreliable")
