@@ -113,6 +113,7 @@ alt={
 3d_physics/layer_1="World"
 3d_physics/layer_2="Creature"
 3d_physics/layer_3="Item"
+3d_physics/layer_4="Hitbox"
 
 [navigation]
 
@@ -134,6 +135,7 @@ common/physics_interpolation=true
 
 [rendering]
 
+lights_and_shadows/directional_shadow/size=8192
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
 occlusion_culling/use_occlusion_culling=true

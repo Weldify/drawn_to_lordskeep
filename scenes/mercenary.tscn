@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=80 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -304,6 +304,10 @@ nodes/look_alpha/position = Vector2(-560, -140)
 nodes/output/position = Vector2(540, 80)
 node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand timescale", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Left hand timescale", 0, &"Left hand", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand timescale", &"Right hand timescale", 0, &"Right hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"horizontal speed (movement multiplier)", &"crouchness", 0, &"horizontal speed (standing)", &"crouchness", 1, &"horizontal speed (crouching)", &"horizontal speed (movement multiplier)", 0, &"crouchness", &"output", 0, &"Upper body + lower body"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8xrqa"]
+resource_local_to_scene = true
+size = Vector3(0.2, 0.35, 0.2)
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_s636n"]
 random_pitch = 1.2
 streams_count = 3
@@ -385,7 +389,7 @@ parameters/crouchness/blend_amount = 0.0
 parameters/look_alpha/blend_position = 0.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.05809e-07, -1.49215e-07, -1, -0.0437892, 0.999041, -1.44439e-07, 0.999041, 0.0437892, -1.12242e-07, -3.49956e-08, 1.35708, -0.0176537)
+transform = Transform3D(-2.208e-07, -1.3423e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -2.26467e-07, -2.75097e-08, 1.35708, -0.0176538)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -400,6 +404,14 @@ target_position = Vector3(0, 0, -0.7)
 collision_mask = 5
 hit_back_faces = false
 
+[node name="Hitbox" type="StaticBody3D" parent="HeadAttachment"]
+transform = Transform3D(0.999864, -0.0165101, 0, 0.0165101, 0.999864, 0, 0, 0, 1, -5.82077e-11, 0.206135, 2.90046e-15)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadAttachment/Hitbox"]
+shape = SubResource("BoxShape3D_8xrqa")
+
 [node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_s636n")
 attenuation_model = 3
@@ -409,7 +421,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RightHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.408649, -0.347217, 0.844065, -0.156569, 0.937769, 0.309961, -0.899162, -0.00548933, -0.437582, -0.144885, 1.3338, 0.34021)
+transform = Transform3D(-0.0550526, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.0531201, 0.0521574, -0.733352, 1.31446, -0.00123276)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
@@ -431,7 +443,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LeftHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240301, -0.977472, 0.0550524, -0.997822, 0.0363407, -0.976216, -0.0614326, -0.207915, 0.176536, 0.73606, -0.0012233)
+transform = Transform3D(-0.0550525, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.05312, 0.0521574, 0.733352, 1.31446, -0.00123267)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
@@ -453,7 +465,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="BackAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.26141e-07, -1.51088e-07, -1, 0.0780585, 0.996949, -1.60474e-07, 0.996949, -0.0780585, -1.13963e-07, -1.20154e-09, 1.18731, 0.0142121)
+transform = Transform3D(-2.38456e-07, -1.22227e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -2.28187e-07, -7.52053e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true

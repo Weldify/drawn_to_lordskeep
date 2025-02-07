@@ -11,18 +11,18 @@
 [sub_resource type="Environment" id="Environment_ryup7"]
 background_mode = 1
 background_color = Color(0.439049, 0.439049, 0.439049, 1)
-ambient_light_source = 1
 ssao_intensity = 8.0
 ssao_detail = 5.0
 ssao_horizon = 0.5
 ssao_sharpness = 1.0
 ssao_light_affect = 1.0
 ssao_ao_channel_affect = 1.0
-sdfgi_enabled = true
 sdfgi_use_occlusion = true
 sdfgi_bounce_feedback = 0.0
 sdfgi_cascades = 3
 sdfgi_min_cell_size = 0.25
+sdfgi_cascade0_distance = 16.0
+sdfgi_max_distance = 128.0
 sdfgi_y_scale = 2
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.1
@@ -209,7 +209,6 @@ environment = SubResource("Environment_ryup7")
 [node name="Sunlight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.924206, 0.0988412, 0.36888, -0.336147, 0.668958, 0.662948, -0.181239, -0.736699, 0.65148, 0, 3.57483, 4.54588)
 shadow_enabled = true
-shadow_blur = 0.5
 directional_shadow_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]

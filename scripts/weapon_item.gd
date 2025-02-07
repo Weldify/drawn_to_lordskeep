@@ -154,7 +154,12 @@ func try_swing():
 	swing_effects.rpc()
 	
 	hitbox.clear_exceptions()
-	hitbox.add_exception(user)
+	add_user_hitbox_exceptions()
+
+
+func add_user_hitbox_exceptions():
+	for body in user.hitboxes:
+		hitbox.add_exception(body)
 
 
 @rpc("authority", "call_local", "reliable")

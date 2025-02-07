@@ -12,6 +12,8 @@ var is_grounded := false
 @export var look_yaw: float
 @export var trying_to_use := false
 
+var hitboxes: Array[StaticBody3D]
+
 @export var crouchness: float :
 	set(v):
 		crouchness = v
@@ -72,6 +74,8 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	hitboxes.append_array(find_children("Hitbox", "StaticBody3D", true))
+	
 	# So that we are not stuck in the editor debug pose for 1 frame
 	evaluate_animations()
 	
