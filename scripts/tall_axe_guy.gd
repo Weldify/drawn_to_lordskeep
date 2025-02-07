@@ -1,7 +1,15 @@
 extends CharacterBody3D
 
+signal anim_attack_swing_start
+signal anim_attack_swing_finish
+
+@export_category("DO NOT TOUCH THIS")
+@export var velocity_mirror: Vector3:
+	get(): return velocity
+	set(v): velocity = v
+
 var should_change_point_of_interest_at := 0.0
-@onready var point_of_interest := $PointOfInterest
+@onready var point_of_interest_node := $PointOfInterest
 
 var should_change_direction_at := 0.0
 var walk_direction: Vector3
@@ -11,11 +19,16 @@ var is_grounded := false
 
 var look_at_modifiers: Array[LookAtModifier3D]
 
+func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
+	G.flesh_hit_effects(weapon, position, normal)
+
 func _ready() -> void:
 	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
 
 
 func _physics_process(delta: float) -> void:
+	if !multiplayer.is_server(): return
+	
 	if NetworkTime.now > should_change_point_of_interest_at:
 		should_change_point_of_interest_at = NetworkTime.now + randf_range(2, 6)
 		
@@ -25,11 +38,7 @@ func _physics_process(delta: float) -> void:
 		target *= distance
 		target.y += randf_range(-1, 1)
 		
-		point_of_interest.global_position = target
-		
-		for modifier in look_at_modifiers:
-			modifier.target_node = ""
-			modifier.target_node = point_of_interest.get_path()
+		point_of_interest_target = target
 	
 	
 	if NetworkTime.now > should_change_direction_at:
@@ -49,6 +58,15 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	move_and_slide()
+
+@export var point_of_interest_target: Vector3:
+	set(v):
+		point_of_interest_target = v
+		
+		point_of_interest_node.position = point_of_interest_target
+		for modifier in look_at_modifiers:
+			modifier.target_node = ""
+			modifier.target_node = point_of_interest_node.get_path()
 
 
 var last_footstep_was_at := 0.0
@@ -83,9 +101,9 @@ func _process(delta: float) -> void:
 	var goal := atan2(velocity.x, velocity.z)
 	
 	# Should we face the point of interest or our move direction?
-	var face_poi := false
+	var face_poi := true
 	if face_poi:
-		var diff = point_of_interest.global_position - global_position
+		var diff = point_of_interest_target - global_position
 		goal = atan2(diff.x, diff.z)
 	
 	look_pitch = lerp_angle(look_pitch, goal, delta * 5)

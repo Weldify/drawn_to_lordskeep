@@ -72,15 +72,15 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:crouchness")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath(".:transform_mirror")
+properties/3/path = NodePath(".:velocity_mirror")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath(".:velocity_mirror")
+properties/4/path = NodePath(".:trying_to_use")
 properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath(".:trying_to_use")
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:position")
 properties/5/spawn = true
-properties/5/replication_mode = 2
+properties/5/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6cnxl"]
 radius = 0.4
