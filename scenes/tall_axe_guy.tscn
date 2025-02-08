@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://con0l72om7e8x"]
+[gd_scene load_steps=43 format=3 uid="uid://con0l72om7e8x"]
 
 [ext_resource type="Script" uid="uid://bou27x03gtprt" path="res://scripts/tall_axe_guy.gd" id="1_7ru6i"]
 [ext_resource type="PackedScene" uid="uid://1x70kpwhu4er" path="res://models/tall_axe_guy/tall_axe_guy.blend" id="1_d2jsa"]
@@ -48,6 +48,11 @@ _data = {
 random_pitch = 1.1
 streams_count = 1
 stream_0/stream = ExtResource("11_7bu2n")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_strw5"]
+resource_local_to_scene = true
+radius = 0.03
+height = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7ru6i"]
 radius = 0.4
@@ -122,7 +127,6 @@ states/idle/position = Vector2(340, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_y6yyj"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_d6gh5")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_i35w5"]
-graph_offset = Vector2(-982.8, -35.8205)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_7bu2n")
 nodes/Add2/position = Vector2(-400, 160)
 "nodes/Add2 2/node" = SubResource("AnimationNodeAdd2_x5tnr")
@@ -240,6 +244,15 @@ attenuation_filter_db = 0.0
 [node name="tall_axe" parent="RHold" instance=ExtResource("2_6x8bb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
+[node name="SpearHitbox" type="ShapeCast3D" parent="RHold"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -3.25963e-09, 2.47755e-08, 0.442359)
+enabled = false
+shape = SubResource("CapsuleShape3D_strw5")
+exclude_parent = false
+target_position = Vector3(0, 0, 0)
+max_results = 1
+collision_mask = 8
+
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_7ru6i")
@@ -265,6 +278,14 @@ max_distance = 8.0
 max_polyphony = 2
 attenuation_filter_db = 0.0
 
+[node name="Hitbox" type="StaticBody3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Head" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(0.0107993, 0.00296448, -0.999926, -0.332383, 0.943131, -0.000793603, 0.943081, 0.332367, 0.0111706, 0.000733717, 1.79687, 0.0890372)
+shape = SubResource("BoxShape3D_i35w5")
+
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-2.18246e-07, -7.46825e-08, -1, -0.0437891, 0.999041, -6.5054e-08, 0.999041, 0.0437891, -2.21307e-07, 1.417e-08, 1.56064, -0.0203018)
 bone_name = "head"
@@ -272,13 +293,10 @@ bone_idx = 11
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
-[node name="Hitbox" type="StaticBody3D" parent="HeadAttachment"]
-transform = Transform3D(0.999864, -0.0165101, 0, 0.0165101, 0.999864, 0, 0, 0, 1, 0, 0.241, 0)
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadAttachment/Hitbox"]
-shape = SubResource("BoxShape3D_i35w5")
+[node name="HeadHitbox" type="RemoteTransform3D" parent="HeadAttachment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, 0.247497, -5.82077e-11)
+remote_path = NodePath("../../Hitbox/Head")
+update_scale = false
 
 [editable path="Model"]
 [editable path="RHold/tall_axe"]

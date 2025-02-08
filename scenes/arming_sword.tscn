@@ -46,6 +46,7 @@ stream_0/stream = ExtResource("8_xo1ne")
 
 [node name="Hitbox" type="ShapeCast3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.482, 0)
+enabled = false
 shape = SubResource("CapsuleShape3D_8gtcb")
 exclude_parent = false
 target_position = Vector3(0, 0, 0)

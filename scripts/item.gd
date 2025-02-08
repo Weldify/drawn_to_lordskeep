@@ -110,7 +110,7 @@ func _process(delta: float) -> void:
 	var holder: CharacterBody3D = $/root/world/Mercenaries.get_node_or_null(holder_name)
 	if !is_instance_valid(holder): return
 	
-	var attachment: BoneAttachment3D = holder.get_node("RightHandAttachment" if is_in_right_hand else "LeftHandAttachment")
+	var attachment: BoneAttachment3D = holder.get_node("RHand0Attachment" if is_in_right_hand else "LHand0Attachment")
 	attachment.on_skeleton_update()
 	
 	var offset: Transform3D = ($RightHoldOffset if is_in_right_hand else $LeftHoldOffset).transform.inverse()

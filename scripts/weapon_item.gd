@@ -122,7 +122,7 @@ func hit():
 	hit_effects.rpc(collider.get_path(), hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "unreliable")
 func hit_effects(target_path: String, position: Vector3, normal: Vector3):
 	var hit_effect_handler: Node = get_node(target_path)
 	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
@@ -134,7 +134,7 @@ func hit_effects(target_path: String, position: Vector3, normal: Vector3):
 		$"../Clash".play()
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "unreliable")
 func hit_recoil_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
 	var parameter := "parameters/%s/playback" % hand_name
@@ -154,12 +154,7 @@ func try_swing():
 	swing_effects.rpc()
 	
 	hitbox.clear_exceptions()
-	add_user_hitbox_exceptions()
-
-
-func add_user_hitbox_exceptions():
-	for body in user.hitboxes:
-		hitbox.add_exception(body)
+	hitbox.add_exception(user.get_node("Hitbox"))
 
 
 @rpc("authority", "call_local", "reliable")

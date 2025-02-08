@@ -10,6 +10,9 @@ class HitHandleResult:
 	var extra_colliders_to_ignore: Array[CollisionObject3D]
 
 
+var my_mercenary: Mercenary
+
+
 func accelerate(velocity: Vector3, direction: Vector3, acceleration: float, max_speed: float) -> Vector3:
 	var projected_speed := velocity.dot(direction)
 	return velocity + direction * clamp(max_speed - projected_speed, 0, acceleration)
@@ -50,8 +53,8 @@ func send_dialogue_in_range(origin: Vector3, distance: float, text: String):
 			display_dialogue.rpc_id(mercenary.get_multiplayer_authority(), text)
 
 
-func flesh_hit_effects(weapon, position: Vector3, normal: Vector3):
-	if weapon.blunt:
+func flesh_hit_effects(blunt: bool, position: Vector3, normal: Vector3):
+	if blunt:
 		var damage_blunt := preload("res://scenes/damage_blunt.tscn").instantiate()
 		$"/root".add_child(damage_blunt, true)
 		

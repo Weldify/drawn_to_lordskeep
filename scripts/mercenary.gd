@@ -12,8 +12,6 @@ var is_grounded := false
 @export var look_yaw: float
 @export var trying_to_use := false
 
-var hitboxes: Array[StaticBody3D]
-
 @export var crouchness: float :
 	set(v):
 		crouchness = v
@@ -63,8 +61,12 @@ var right_throw_power := 0.0
 var left_throw_power := 0.0
 
 
+func handle_hit():
+	pass
+
+
 func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
-	G.flesh_hit_effects(weapon, position, normal)
+	G.flesh_hit_effects(weapon.blunt, position, normal)
 
 
 func _enter_tree() -> void:
@@ -74,8 +76,6 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	hitboxes.append_array(find_children("Hitbox", "StaticBody3D", true))
-	
 	# So that we are not stuck in the editor debug pose for 1 frame
 	evaluate_animations()
 	
@@ -83,7 +83,7 @@ func _ready() -> void:
 	crouchness = 0
 	
 	global_position = Vector3(0, 4, 0)
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	G.my_mercenary = self
 
 
 func _input(event: InputEvent) -> void:
@@ -149,11 +149,11 @@ func throw_effects(right_hand: bool, power: float):
 	power = remap(power, 0.2, 1, 0, 0.8)
 	
 	if right_hand:
-		$RightHandAttachment/Throw.volume_linear = power
-		$RightHandAttachment/Throw.play()
+		$RHand0Attachment/Throw.volume_linear = power
+		$RHand0Attachment/Throw.play()
 	else:
-		$LeftHandAttachment/Throw.volume_linear = power
-		$LeftHandAttachment/Throw.play()
+		$LHand0Attachment/Throw.volume_linear = power
+		$LHand0Attachment/Throw.play()
 
 
 @rpc("authority", "call_local")
@@ -238,9 +238,9 @@ func take_item_effects(right_hand: bool):
 	assert(multiplayer.get_remote_sender_id() == 1)
 	
 	if right_hand:
-		$RightHandAttachment/Take.play()
+		$RHand0Attachment/Take.play()
 	else:
-		$LeftHandAttachment/Take.play()
+		$LHand0Attachment/Take.play()
 
 
 func _physics_process(delta: float) -> void:
@@ -354,7 +354,7 @@ func _process(delta: float) -> void:
 	$Interpolator.apply()
 	evaluate_animations()
 	
-	$BackAttachment/Satchel.visible = satchel_name == ""
+	$Torso2Attachment/Satchel.visible = satchel_name == ""
 	
 	if !is_multiplayer_authority(): return
 	

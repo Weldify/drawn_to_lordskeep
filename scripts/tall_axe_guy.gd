@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Enemy
 
 signal anim_attack_swing_start
 signal anim_attack_swing_finish
@@ -20,7 +21,7 @@ var is_grounded := false
 var look_at_modifiers: Array[LookAtModifier3D]
 
 func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
-	G.flesh_hit_effects(weapon, position, normal)
+	G.flesh_hit_effects(weapon.blunt, position, normal)
 
 func _ready() -> void:
 	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
