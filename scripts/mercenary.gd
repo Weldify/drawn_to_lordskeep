@@ -7,6 +7,7 @@ const CROUCHING_HEIGHT = 1.0
 
 var is_grounded := false
 
+@export_category("[CLIENT] FOR THE LOVE OF GOD DO NOT TOUCH THIS")
 # Client owned
 @export var look_pitch: float
 @export var look_yaw: float
@@ -32,12 +33,13 @@ var is_grounded := false
 		velocity = v
 	get(): return velocity
 
+@export_category("[SERVER] FOR THE LOVE OF GOD DO NOT TOUCH THIS")
 # Serverside
 @export var right_hand_item_name: String
 @export var left_hand_item_name: String
-
-# Serverside
 @export var satchel_name := ""
+@export var health := 1.0
+
 var saved_items_in_satchel := [
 	["res://scenes/arming_sword.tscn", Transform3D(
 		Vector3(0.481379, -0.05948, -0.874492), 
@@ -84,6 +86,7 @@ func _ready() -> void:
 	
 	global_position = Vector3(0, 4, 0)
 	G.my_mercenary = self
+	G.viewer_mercenary = self
 
 
 func _input(event: InputEvent) -> void:

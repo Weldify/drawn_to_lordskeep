@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=28 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
 [ext_resource type="PackedScene" uid="uid://con0l72om7e8x" path="res://scenes/tall_axe_guy.tscn" id="2_4mrxx"]
+[ext_resource type="Material" uid="uid://yr7saub7qdbg" path="res://sprites/hurt_overlay_particle.tres" id="3_w7kh3"]
 [ext_resource type="Script" uid="uid://djq2d1uptreai" path="res://scripts/ping_counter.gd" id="5_1ew0l"]
+[ext_resource type="Script" uid="uid://fvop1m7ligm0" path="res://scripts/hurt_effects.gd" id="10_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 [ext_resource type="FontFile" uid="uid://cgssk0x0gww2c" path="res://fonts/Macondo-Regular.ttf" id="29_k83mh"]
@@ -28,6 +30,44 @@ sdfgi_y_scale = 2
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.1
 volumetric_fog_temporal_reprojection_enabled = false
+adjustment_enabled = true
+
+[sub_resource type="Curve" id="Curve_q5onr"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.498623, 0.250539), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jhx03"]
+curve = SubResource("Curve_q5onr")
+
+[sub_resource type="Gradient" id="Gradient_w7kh3"]
+colors = PackedColorArray(0.0980392, 0, 0.0941176, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e3hyu"]
+gradient = SubResource("Gradient_w7kh3")
+width = 2
+
+[sub_resource type="Curve" id="Curve_e3hyu"]
+_data = [Vector2(0, 0.481681), 0.0, 1.73965, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q5onr"]
+curve = SubResource("Curve_e3hyu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7r4gi"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.5, 0.5, 0.5)
+angle_min = 8.10001
+angle_max = 258.9
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_q5onr")
+color_ramp = SubResource("GradientTexture1D_e3hyu")
+alpha_curve = SubResource("CurveTexture_jhx03")
+hue_variation_min = -0.04
+hue_variation_max = 0.04
+
+[sub_resource type="QuadMesh" id="QuadMesh_w7kh3"]
+material = ExtResource("3_w7kh3")
+orientation = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_gggvi"]
 font = ExtResource("29_k83mh")
@@ -224,6 +264,14 @@ directional_shadow_mode = 1
 fov = 90.0
 far = 256.0
 
+[node name="HurtRadial" type="GPUParticles3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.175)
+amount = 20
+lifetime = 5.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_7r4gi")
+draw_pass_1 = SubResource("QuadMesh_w7kh3")
+
 [node name="SubtitlesUI" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = -1
@@ -294,3 +342,8 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2, 2)
 texture = ExtResource("15_hiqwa")
+
+[node name="HurtEffects" type="Node" parent="." node_paths=PackedStringArray("hurt_radial", "world_env")]
+script = ExtResource("10_w7kh3")
+hurt_radial = NodePath("../Camera3D/HurtRadial")
+world_env = NodePath("../WorldEnvironment")

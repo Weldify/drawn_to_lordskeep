@@ -63,8 +63,15 @@ func do_hitboxes():
 
 @rpc("any_peer", "call_local", "unreliable")
 func mercenary_hit_detected(target_path: NodePath, position: Vector3, normal: Vector3):
+	var mercenary_name := str(multiplayer.get_remote_sender_id())
+	var mercenary := $/root/world/Mercenaries.get_node_or_null(mercenary_name)
+	if !mercenary: return
+	
 	# @TODO: Assert that they sent a hit to their own mercenary.
 	G.flesh_hit_effects(false, position, normal)
+	
+	if multiplayer.is_server():
+		mercenary.health -= 0.4
 
 
 func _physics_process(delta: float):

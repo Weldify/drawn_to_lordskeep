@@ -12,6 +12,11 @@ class HitHandleResult:
 
 var my_mercenary: Mercenary
 
+## Whose eyes are we using to view the world?
+## Uses this guys' health for the damage overlay, etc.
+## Makes spectating easy
+var viewer_mercenary: Mercenary
+
 
 func accelerate(velocity: Vector3, direction: Vector3, acceleration: float, max_speed: float) -> Vector3:
 	var projected_speed := velocity.dot(direction)
