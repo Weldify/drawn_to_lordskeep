@@ -7,7 +7,7 @@ enum HoldType {
 }
 
 class HitHandleResult:
-	var extra_colliders_to_ignore: Array[CollisionObject3D]
+	pass
 
 
 var my_mercenary: Mercenary

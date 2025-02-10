@@ -92,7 +92,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority(): return
 	
-	if event is InputEventMouseMotion and G.mouse_unlockers.is_empty():
+	if event is InputEventMouseMotion and G.mouse_unlockers.is_empty() and health > 0:
 		look_pitch = fmod(look_pitch - event.relative.x * Settings.look_sensitivity * 0.01, PI*2)
 		look_yaw = clamp(look_yaw - event.relative.y * Settings.look_sensitivity * 0.01, -PI/2, PI/2)
 
@@ -291,6 +291,7 @@ func _physics_process(delta: float) -> void:
 	
 	if is_grounded:
 		var max_speed := 1 if crouchness != 0 else 2
+		if health <= 0: max_speed = 0
 		
 		velocity = G.apply_friction(velocity, 5 * delta)
 		velocity = G.accelerate(velocity, move_direction, 10 * delta, max_speed)
@@ -321,21 +322,21 @@ func play_footstep() -> void:
 
 
 func evaluate_animations():
-	$AnimationTree.set("parameters/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
+	$AnimationTree.set("parameters/regular_blendtree/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
 	var walk_dir := (hor_velocity * horizontal_look).normalized()
-	$AnimationTree.set("parameters/horizontal speed (standing)/blend_position", walk_speed)
-	$AnimationTree.set("parameters/horizontal speed (standing)/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (standing)/blend_position", walk_speed)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (standing)/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
 	
-	$AnimationTree.set("parameters/horizontal speed (crouching)/blend_position", walk_speed)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (crouching)/blend_position", walk_speed)
 	
 	# @TODO: The *1.1 is a crutch to speed up the walk animations a bit, lets do that directly in the animtree using custom timelines!
-	$AnimationTree.set("parameters/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
-	$AnimationTree.set("parameters/crouchness/blend_amount", crouchness)
+	$AnimationTree.set("parameters/regular_blendtree/crouchness/blend_amount", crouchness)
 
 	var right_holdtype := G.HoldType.NONE
 	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
@@ -345,8 +346,8 @@ func evaluate_animations():
 	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
 	if left_item: left_holdtype = left_item.holdtype
 	
-	$AnimationTree.set("parameters/Right hand/holdtype/blend_position", right_holdtype)
-	$AnimationTree.set("parameters/Left hand/holdtype/blend_position", left_holdtype)
+	$AnimationTree.set("parameters/regular_blendtree/Right hand/holdtype/blend_position", right_holdtype)
+	$AnimationTree.set("parameters/regular_blendtree/Left hand/holdtype/blend_position", left_holdtype)
 
 	$Model.transform = horizontal_look
 	# Otherwise it will be out of sync due to us changing the transform.

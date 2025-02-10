@@ -11,6 +11,7 @@ var cooldown_ends_at := 0.0
 		is_damaging = v
 		
 		if is_damaging:
+			previous_hit_detector_position = hit_detector.global_position
 			hit_detector.clear_exceptions()
 			hit_detector.add_exception(user.get_node("Hitbox"))
 
@@ -21,8 +22,10 @@ var previous_hit_detector_position: Vector3
 var original_hit_detector_position: Vector3
 
 func _ready():
-	user.anim_attack_swing_start.connect(try_start_swing_damage)
-	user.anim_attack_swing_finish.connect(try_stop_swing)
+	if multiplayer.is_server():
+		user.anim_attack_swing_start.connect(try_start_swing_damage)
+		user.anim_attack_swing_finish.connect(try_stop_swing)
+
 
 func try_start_swing_damage():
 	if !is_active or is_damaging: return
@@ -36,10 +39,10 @@ func damage_start_effects():
 
 
 func do_hitboxes():
+	if !is_damaging: return
+	
 	var hit_detector_position := previous_hit_detector_position
 	previous_hit_detector_position = hit_detector.global_position
-	
-	if !is_damaging: return
 	
 	hit_detector.global_position = hit_detector_position
 	hit_detector.target_position = -hit_detector.position
@@ -75,6 +78,8 @@ func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: V
 
 
 func _physics_process(_delta: float):
+	if user.health <= 0: return
+	
 	do_hitboxes()
 	
 	if !multiplayer.is_server(): return
@@ -91,7 +96,7 @@ func _process(_delta: float):
 
 @rpc("authority", "call_local", "unreliable")
 func swing_effects():
-	var playback: AnimationNodeStateMachinePlayback= $"../AnimationTree".get("parameters/upper body state/playback")
+	var playback: AnimationNodeStateMachinePlayback= $"../AnimationTree".get("parameters/regular_blendtree/upper body state/playback")
 	playback.start("attack")
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=46 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
@@ -23,10 +23,11 @@
 [ext_resource type="Animation" uid="uid://fqag2nen87m3" path="res://models/mercenary/walk_fr.res" id="17_7h54f"]
 [ext_resource type="Animation" uid="uid://dp10gb4w532f1" path="res://models/mercenary/walk_fl.res" id="18_aqvki"]
 [ext_resource type="Animation" uid="uid://dbmfp3esmwn4h" path="res://models/mercenary/both_hold_horn.res" id="19_cqwup"]
-[ext_resource type="AnimationNodeBlendSpace1D" uid="uid://cdvtlgkmyibvy" path="res://models/mercenary/holdtype_blendspace.tres" id="19_ol2am"]
 [ext_resource type="Animation" uid="uid://jujfcc6sodno" path="res://models/mercenary/both_blow_horn.res" id="20_8xrqa"]
 [ext_resource type="AudioStream" uid="uid://cvxok8ojx1557" path="res://sounds/throw.wav" id="20_73f88"]
 [ext_resource type="AudioStream" uid="uid://cbugxrgkapnjm" path="res://sounds/take.wav" id="21_6cnxl"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://d06wpdpvdxpwf" path="res://models/mercenary/regular_blendtree.res" id="21_8xrqa"]
+[ext_resource type="Animation" uid="uid://bp6nuh8ybd84c" path="res://models/mercenary/knockdown.res" id="21_dgshc"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -39,6 +40,7 @@ _data = {
 &"both_swing": ExtResource("7_5f0r2"),
 &"both_swing_recoil": ExtResource("8_2rkhb"),
 &"cwalk_ff": ExtResource("9_73f88"),
+&"knockdown": ExtResource("21_dgshc"),
 &"look_down": ExtResource("14_p6ykb"),
 &"look_up": ExtResource("13_5h5rc"),
 &"lower_idle_crouch": ExtResource("10_6cnxl"),
@@ -89,223 +91,28 @@ properties/5/replication_mode = 1
 radius = 0.4
 height = 1.75
 
-[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_k4fjk"]
-filter_enabled = true
-filters = ["..", "../RightHandAnimEvents", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_thumb"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p6ykb"]
-animation = &"RESET"
-
-[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_aqk2v"]
-filters = ["..", "Skeleton3D:head_2", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_thumb"]
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_2rkhb"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i7i1f"]
-animation = &"both_blow_horn"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cqwup"]
-animation = &"both_parry"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8xrqa"]
-animation = &"both_swing"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dgshc"]
-animation = &"both_swing_recoil"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i7i1f"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_apj5i"]
-xfade_time = 0.5
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bpalt"]
-xfade_time = 0.6
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p2esp"]
-xfade_time = 1.0
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6mumw"]
-xfade_time = 1.0
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7qe3q"]
-states/blow_horn/node = SubResource("AnimationNodeAnimation_i7i1f")
-states/blow_horn/position = Vector2(432, 231.243)
-states/holdtype/node = ExtResource("19_ol2am")
-states/holdtype/position = Vector2(432, 100)
-states/parry/node = SubResource("AnimationNodeAnimation_cqwup")
-states/parry/position = Vector2(608, 221.243)
-states/swing/node = SubResource("AnimationNodeAnimation_8xrqa")
-states/swing/position = Vector2(608, 100)
-states/swing_recoil/node = SubResource("AnimationNodeAnimation_dgshc")
-states/swing_recoil/position = Vector2(630, 159.243)
-transitions = ["Start", "holdtype", SubResource("AnimationNodeStateMachineTransition_i7i1f"), "swing", "holdtype", SubResource("AnimationNodeStateMachineTransition_apj5i"), "swing_recoil", "holdtype", SubResource("AnimationNodeStateMachineTransition_bpalt"), "parry", "holdtype", SubResource("AnimationNodeStateMachineTransition_p2esp"), "blow_horn", "holdtype", SubResource("AnimationNodeStateMachineTransition_6mumw")]
-graph_offset = Vector2(0, -22.7572)
-
-[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_7qe3q"]
-filter_enabled = true
-filters = ["..", "../LeftHandAnimEvents", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb"]
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_73f88"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c8xrr"]
-animation = &"both_blow_horn"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_73f88"]
-animation = &"both_parry"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_288uk"]
-animation = &"both_swing"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k4fjk"]
-animation = &"both_swing_recoil"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cqwup"]
-advance_mode = 2
+animation = &"knockdown"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8xrqa"]
-xfade_time = 0.5
-switch_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dgshc"]
-xfade_time = 0.6
-switch_mode = 2
+xfade_time = 0.2
 advance_mode = 2
+advance_expression = "health <= 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c8xrr"]
-xfade_time = 1.0
-switch_mode = 2
+xfade_time = 0.5
 advance_mode = 2
+advance_expression = "health > 0"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bxskn"]
-xfade_time = 1.0
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_p6ykb"]
-states/Start/position = Vector2(180, 100)
-states/blow_horn/node = SubResource("AnimationNodeAnimation_c8xrr")
-states/blow_horn/position = Vector2(458, 275.782)
-states/holdtype/node = ExtResource("19_ol2am")
-states/holdtype/position = Vector2(393, 153)
-states/parry/node = SubResource("AnimationNodeAnimation_73f88")
-states/parry/position = Vector2(598, 247)
-states/swing/node = SubResource("AnimationNodeAnimation_288uk")
-states/swing/position = Vector2(592, 111)
-states/swing_recoil/node = SubResource("AnimationNodeAnimation_k4fjk")
-states/swing_recoil/position = Vector2(616, 174)
-transitions = ["Start", "holdtype", SubResource("AnimationNodeStateMachineTransition_cqwup"), "swing", "holdtype", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "swing_recoil", "holdtype", SubResource("AnimationNodeStateMachineTransition_dgshc"), "parry", "holdtype", SubResource("AnimationNodeStateMachineTransition_c8xrr"), "blow_horn", "holdtype", SubResource("AnimationNodeStateMachineTransition_bxskn")]
-graph_offset = Vector2(-70, 10.7819)
-
-[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_s636n"]
-filter_enabled = true
-filters = ["..", "Skeleton3D:l_foot", "Skeleton3D:l_leg0", "Skeleton3D:l_leg1", "Skeleton3D:r_foot", "Skeleton3D:r_leg0", "Skeleton3D:r_leg1", "Skeleton3D:root"]
-
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_qqtx7"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qqtx7"]
-animation = &"lower_idle_crouch"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7qe3q"]
-animation = &"cwalk_ff"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_7qe3q"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_qqtx7")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_7qe3q")
-blend_point_1/pos = 1.0
-min_space = 0.0
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_s636n"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybq4i"]
-animation = &"RESET"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rji4q"]
-animation = &"walk_ff"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7h54f"]
-animation = &"walk_ff"
-play_mode = 1
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aqvki"]
-animation = &"walk_fl"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ol2am"]
-animation = &"walk_fr"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_cqwup"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_rji4q")
-blend_point_0/pos = Vector2(0, 1)
-blend_point_1/node = SubResource("AnimationNodeAnimation_7h54f")
-blend_point_1/pos = Vector2(0, -1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_aqvki")
-blend_point_2/pos = Vector2(-1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_ol2am")
-blend_point_3/pos = Vector2(1, 0)
-sync = true
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_s636n"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_ybq4i")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("AnimationNodeBlendSpace2D_cqwup")
-blend_point_1/pos = 2.0
-min_space = 0.0
-max_space = 2.0
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dwbse"]
-animation = &"look_down"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pkg7o"]
-animation = &"look_up"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_gbfbk"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_dwbse")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_pkg7o")
-blend_point_1/pos = 1.0
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aqk2v"]
-graph_offset = Vector2(-1074.22, -96.1528)
-nodes/Add2/node = SubResource("AnimationNodeAdd2_k4fjk")
-nodes/Add2/position = Vector2(-740, -80)
-nodes/Animation/node = SubResource("AnimationNodeAnimation_p6ykb")
-nodes/Animation/position = Vector2(-980, -200)
-"nodes/Arms + vertical look/node" = SubResource("AnimationNodeAdd2_aqk2v")
-"nodes/Arms + vertical look/position" = Vector2(-300, 0)
-"nodes/Left hand/node" = SubResource("AnimationNodeStateMachine_7qe3q")
-"nodes/Left hand/position" = Vector2(-1220, 160)
-"nodes/Left hand timescale/node" = SubResource("AnimationNodeTimeScale_2rkhb")
-"nodes/Left hand timescale/position" = Vector2(-980, 160)
-"nodes/Right arm + left arm/node" = SubResource("AnimationNodeAdd2_7qe3q")
-"nodes/Right arm + left arm/position" = Vector2(-560, 80)
-"nodes/Right hand/node" = SubResource("AnimationNodeStateMachine_p6ykb")
-"nodes/Right hand/position" = Vector2(-1220, -20)
-"nodes/Right hand timescale/node" = SubResource("AnimationNodeTimeScale_73f88")
-"nodes/Right hand timescale/position" = Vector2(-980, -20)
-"nodes/Upper body + lower body/node" = SubResource("AnimationNodeAdd2_s636n")
-"nodes/Upper body + lower body/position" = Vector2(240, 380)
-nodes/crouchness/node = SubResource("AnimationNodeBlend2_qqtx7")
-nodes/crouchness/position = Vector2(-280, 560)
-"nodes/horizontal speed (crouching)/node" = SubResource("AnimationNodeBlendSpace1D_7qe3q")
-"nodes/horizontal speed (crouching)/position" = Vector2(-560, 740)
-"nodes/horizontal speed (movement multiplier)/node" = SubResource("AnimationNodeTimeScale_s636n")
-"nodes/horizontal speed (movement multiplier)/position" = Vector2(-120, 560)
-"nodes/horizontal speed (standing)/node" = SubResource("AnimationNodeBlendSpace1D_s636n")
-"nodes/horizontal speed (standing)/position" = Vector2(-560, 560)
-nodes/look_alpha/node = SubResource("AnimationNodeBlendSpace1D_gbfbk")
-nodes/look_alpha/position = Vector2(-560, -140)
-nodes/output/position = Vector2(540, 80)
-node_connections = [&"Add2", 0, &"Animation", &"Add2", 1, &"Right hand timescale", &"Arms + vertical look", 0, &"look_alpha", &"Arms + vertical look", 1, &"Right arm + left arm", &"Left hand timescale", 0, &"Left hand", &"Right arm + left arm", 0, &"Add2", &"Right arm + left arm", 1, &"Left hand timescale", &"Right hand timescale", 0, &"Right hand", &"Upper body + lower body", 0, &"Arms + vertical look", &"Upper body + lower body", 1, &"horizontal speed (movement multiplier)", &"crouchness", 0, &"horizontal speed (standing)", &"crouchness", 1, &"horizontal speed (crouching)", &"horizontal speed (movement multiplier)", 0, &"crouchness", &"output", 0, &"Upper body + lower body"]
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8xrqa"]
+states/knockdown/node = SubResource("AnimationNodeAnimation_dgshc")
+states/knockdown/position = Vector2(578, 177)
+states/regular_blendtree/node = ExtResource("21_8xrqa")
+states/regular_blendtree/position = Vector2(366, 100)
+transitions = ["Start", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "regular_blendtree", "knockdown", SubResource("AnimationNodeStateMachineTransition_dgshc"), "knockdown", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_c8xrr")]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8xrqa"]
 resource_local_to_scene = true
@@ -385,46 +192,46 @@ shape = SubResource("CapsuleShape3D_6cnxl")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 process_priority = -1
 root_node = NodePath("../Model")
-tree_root = SubResource("AnimationNodeBlendTree_aqk2v")
+tree_root = SubResource("AnimationNodeStateMachine_8xrqa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
-parameters/Add2/add_amount = 1.0
-"parameters/Arms + vertical look/add_amount" = 1.0
-"parameters/Left hand/holdtype/blend_position" = 0
-"parameters/Left hand timescale/scale" = 1.0
-"parameters/Right arm + left arm/add_amount" = 1.0
-"parameters/Right hand/holdtype/blend_position" = 2.24138
-"parameters/Right hand timescale/scale" = 1.0
-"parameters/Upper body + lower body/add_amount" = 1.0
-parameters/crouchness/blend_amount = 0.0
-"parameters/horizontal speed (crouching)/blend_position" = 0
-"parameters/horizontal speed (movement multiplier)/scale" = 1.0
-"parameters/horizontal speed (standing)/blend_position" = -0.293103
-"parameters/horizontal speed (standing)/1/blend_position" = Vector2(-0.519833, 1.1978)
-parameters/look_alpha/blend_position = 0.0
+parameters/regular_blendtree/Add2/add_amount = 1.0
+"parameters/regular_blendtree/Arms + vertical look/add_amount" = 1.0
+"parameters/regular_blendtree/Left hand/holdtype/blend_position" = 0
+"parameters/regular_blendtree/Left hand timescale/scale" = 1.0
+"parameters/regular_blendtree/Right arm + left arm/add_amount" = 1.0
+"parameters/regular_blendtree/Right hand/holdtype/blend_position" = 0
+"parameters/regular_blendtree/Right hand timescale/scale" = 1.0
+"parameters/regular_blendtree/Upper body + lower body/add_amount" = 1.0
+parameters/regular_blendtree/crouchness/blend_amount = 1.0
+"parameters/regular_blendtree/horizontal speed (crouching)/blend_position" = 0
+"parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
+"parameters/regular_blendtree/horizontal speed (standing)/blend_position" = 0
+"parameters/regular_blendtree/horizontal speed (standing)/1/blend_position" = Vector2(0, 0)
+parameters/regular_blendtree/look_alpha/blend_position = 0
 
 [node name="Hitbox" type="StaticBody3D" parent="."]
 collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.58912e-07, -1.48825e-07, -1, -0.0272879, 0.999588, -1.44439e-07, 0.999588, 0.0272879, -1.62921e-07, -6.57541e-08, 1.56302, -0.00862725)
+transform = Transform3D(-1.58911e-07, -1.48824e-07, -0.999989, -0.0272877, 0.999583, -1.44437e-07, 0.999582, 0.0272877, -1.62919e-07, -6.57541e-08, 0.968253, -0.00862725)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.74943e-07, -1.47261e-07, -1, 0.0780555, 0.996911, -1.60474e-07, 0.996911, -0.0780555, -1.62921e-07, -1.13851e-08, 1.2545, 0.00895083)
+transform = Transform3D(-1.74942e-07, -1.4726e-07, -1, 0.078055, 0.996904, -1.60474e-07, 0.996904, -0.078055, -1.62921e-07, -1.13851e-08, 0.659739, 0.00895083)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.58979e-07, -3.21828e-09, -1, -0.0216752, 0.999638, 1.32373e-08, 0.999638, 0.0216752, -7.58967e-07, -9.15465e-10, 1.06376, 0.0115332)
+transform = Transform3D(-7.58979e-07, -3.21828e-09, -1, -0.0216752, 0.999638, 1.32373e-08, 0.999638, 0.0216752, -7.58967e-07, -9.15465e-10, 0.468997, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59424e-07, -5.09408e-09, -1, -0.0424764, 0.999081, 2.71691e-08, 0.999081, 0.0424764, -7.58967e-07, -3.85547e-10, 0.880303, 0.00510673)
+transform = Transform3D(-7.59411e-07, -5.094e-09, -1, -0.0424757, 0.999065, 2.71691e-08, 0.999065, 0.0424757, -7.58967e-07, -3.85547e-10, 0.28554, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.05809e-07, -1.49215e-07, -1, -0.0437892, 0.999041, -1.44439e-07, 0.999041, 0.0437892, -1.12242e-07, -3.49956e-08, 1.35708, -0.0176537)
+transform = Transform3D(-2.208e-07, -1.3423e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -2.26467e-07, -2.75097e-08, 1.35708, -0.0176538)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
@@ -453,7 +260,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.408649, -0.347217, 0.844065, -0.156569, 0.937769, 0.309961, -0.899162, -0.00548933, -0.437582, -0.144885, 1.3338, 0.34021)
+transform = Transform3D(-0.0550526, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.0531201, 0.0521574, -0.733352, 1.31446, -0.00123276)
 bone_name = "r_hand0"
 bone_idx = 14
 use_external_skeleton = true
@@ -475,7 +282,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240301, -0.977472, 0.0550524, -0.997822, 0.0363407, -0.976216, -0.0614326, -0.207915, 0.176536, 0.73606, -0.0012233)
+transform = Transform3D(-0.0550525, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.05312, 0.0521574, 0.733352, 1.31446, -0.00123267)
 bone_name = "l_hand0"
 bone_idx = 19
 use_external_skeleton = true
@@ -497,7 +304,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="Torso2Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.26141e-07, -1.51088e-07, -1, 0.0780585, 0.996949, -1.60474e-07, 0.996949, -0.0780585, -1.13963e-07, -1.20154e-09, 1.18731, 0.0142121)
+transform = Transform3D(-2.38456e-07, -1.22227e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -2.28187e-07, -7.52053e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 10
 use_external_skeleton = true
@@ -512,7 +319,7 @@ update_scale = false
 transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.00762183, 0.38637, -0.385322, 0.028445, 0.103528, -0.0754887, 0.0437575, 0.0096081)
 
 [node name="Torso1Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-7.17398e-07, -2.31499e-09, -1, -0.021678, 0.999765, 1.32373e-08, 0.999765, 0.021678, -7.1728e-07, -7.62825e-10, 0.99784, 0.0101039)
+transform = Transform3D(-7.16927e-07, 5.68505e-11, -1, -0.0216779, 0.999765, 1.55983e-08, 0.999765, 0.0216779, -7.16757e-07, -7.62825e-10, 0.99784, 0.0101039)
 bone_name = "torso1"
 bone_idx = 9
 use_external_skeleton = true

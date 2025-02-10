@@ -58,7 +58,7 @@ func try_stop_blowing():
 @rpc("authority", "call_local", "unreliable")
 func blowing_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
-	var parameter := "parameters/%s/playback" % hand_name
+	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("blow_horn")
 	
 	$"../Blow".play()

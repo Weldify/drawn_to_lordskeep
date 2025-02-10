@@ -1,0 +1,86 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=17 format=3 uid="uid://c0jb3gytn5ehs"]
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_x5tnr"]
+filter_enabled = true
+filters = ["..", "Skeleton3D:head", "Skeleton3D:l_arm0", "Skeleton3D:l_arm1", "Skeleton3D:l_hand0", "Skeleton3D:l_hand1", "Skeleton3D:l_thumb", "Skeleton3D:r_arm0", "Skeleton3D:r_arm1", "Skeleton3D:r_hand0", "Skeleton3D:r_hand1", "Skeleton3D:r_hold", "Skeleton3D:r_thumb", "Skeleton3D:torso0", "Skeleton3D:torso1", "Skeleton3D:torso2"]
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_7bu2n"]
+filter_enabled = true
+filters = ["..", "Skeleton3D:l_foot", "Skeleton3D:l_leg0", "Skeleton3D:l_leg1", "Skeleton3D:r_foot", "Skeleton3D:r_leg0", "Skeleton3D:r_leg1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y6yyj"]
+animation = &"RESET"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_1kduv"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1kduv"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s5fne"]
+animation = &"walk_ff"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aefer"]
+animation = &"walk_ff"
+play_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xydli"]
+animation = &"walk_fr"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rasum"]
+animation = &"walk_fl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_7bu2n"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_s5fne")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_aefer")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_xydli")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_rasum")
+blend_point_3/pos = Vector2(-1, 0)
+sync = true
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_x5tnr"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_1kduv")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeBlendSpace2D_7bu2n")
+blend_point_1/pos = 0.2
+min_space = 0.0
+max_space = 0.2
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x5tnr"]
+animation = &"attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_strw5"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y6yyj"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d6gh5"]
+xfade_time = 1.0
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1y0ek"]
+states/attack/node = SubResource("AnimationNodeAnimation_x5tnr")
+states/attack/position = Vector2(557, 161)
+states/idle/node = SubResource("AnimationNodeAnimation_strw5")
+states/idle/position = Vector2(340, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_y6yyj"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_d6gh5")]
+
+[resource]
+graph_offset = Vector2(-711.11, 6.50554)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_7bu2n")
+nodes/Add2/position = Vector2(-400, 160)
+"nodes/Add2 2/node" = SubResource("AnimationNodeAdd2_x5tnr")
+"nodes/Add2 2/position" = Vector2(-640, 0)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_y6yyj")
+nodes/Animation/position = Vector2(-900, -60)
+"nodes/horizontal speed/node" = SubResource("AnimationNodeBlendSpace1D_x5tnr")
+"nodes/horizontal speed/position" = Vector2(-1140, 360)
+"nodes/horizontal speed (movement multiplier)/node" = SubResource("AnimationNodeTimeScale_1kduv")
+"nodes/horizontal speed (movement multiplier)/position" = Vector2(-860, 360)
+"nodes/upper body state/node" = SubResource("AnimationNodeStateMachine_1y0ek")
+"nodes/upper body state/position" = Vector2(-1000, 140)
+node_connections = [&"Add2", 0, &"Add2 2", &"Add2", 1, &"horizontal speed (movement multiplier)", &"Add2 2", 0, &"Animation", &"Add2 2", 1, &"upper body state", &"horizontal speed (movement multiplier)", 0, &"horizontal speed", &"output", 0, &"Add2"]

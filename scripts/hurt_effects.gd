@@ -9,6 +9,8 @@ func _process(_delta: float) -> void:
 		world_env.environment.adjustment_saturation = 1
 		return
 	
+	var health := clampf(G.viewer_mercenary.health, 0, 1)
+	
 	hurt_radial.emitting = true
-	hurt_radial.amount_ratio = 1 - G.viewer_mercenary.health
-	world_env.environment.adjustment_saturation = G.viewer_mercenary.health
+	hurt_radial.amount_ratio = 1 - health
+	world_env.environment.adjustment_saturation = health

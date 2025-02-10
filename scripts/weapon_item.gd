@@ -82,9 +82,9 @@ func _process(delta: float) -> void:
 	if user:
 		var timescale := 0 if hitstop_time_left > 0 else 1
 		if item.is_in_right_hand:
-			user.get_node("AnimationTree").set("parameters/Right hand timescale/scale", timescale)
+			user.get_node("AnimationTree").set("parameters/regular_blendtree/Right hand timescale/scale", timescale)
 		else:
-			user.get_node("AnimationTree").set("parameters/Left hand timescale/scale", timescale)
+			user.get_node("AnimationTree").set("parameters/regular_blendtree/Left hand timescale/scale", timescale)
 
 func do_hitboxes():
 	var hitbox_position := previous_hitbox_position
@@ -114,12 +114,13 @@ func hit():
 	while hit_handler and hit_handler.get("handle_hit") == null:
 		hit_handler = hit_handler.get_parent()
 	
-	if hit_handler and hit_handler.get("handle_hit"): 
-		var result: G.HitHandleResult = hit_handler.handle_hit()
-		if !result.extra_colliders_to_ignore.is_empty():
-			for v in result.extra_colliders_to_ignore: hitbox.add_exception(v)
+	var hit_pos := hitbox.get_collision_point(0)
+	var hit_normal := hitbox.get_collision_normal(0)
 	
-	hit_effects.rpc(collider.get_path(), hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
+	if hit_handler and hit_handler.get("handle_hit"): 
+		var result: G.HitHandleResult = hit_handler.handle_hit(self, hit_pos, hit_normal)
+	
+	hit_effects.rpc(collider.get_path(), hit_pos, hit_normal)
 
 
 @rpc("authority", "call_local", "unreliable")
@@ -137,7 +138,7 @@ func hit_effects(target_path: String, position: Vector3, normal: Vector3):
 @rpc("authority", "call_local", "unreliable")
 func hit_recoil_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
-	var parameter := "parameters/%s/playback" % hand_name
+	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("swing_recoil")
 
 
@@ -160,7 +161,7 @@ func try_swing():
 @rpc("authority", "call_local", "reliable")
 func swing_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
-	var parameter := "parameters/%s/playback" % hand_name
+	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("swing")
 
 
@@ -193,7 +194,7 @@ func try_stop_parry():
 @rpc("authority", "call_local", "reliable")
 func parry_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
-	var parameter := "parameters/%s/playback" % hand_name
+	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("parry")
 	
 	$"../ParrySwing".play()

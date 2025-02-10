@@ -5,6 +5,7 @@ class_name Enemy
 @warning_ignore("unused_signal") signal anim_attack_swing_finish
 
 @export_category("DO NOT TOUCH THIS")
+@export var health := 1.0
 @export var velocity_mirror: Vector3:
 	get(): return velocity
 	set(v): velocity = v
@@ -19,6 +20,10 @@ var look_pitch := 0.0
 var is_grounded := false
 
 var look_at_modifiers: Array[LookAtModifier3D]
+
+func handle_hit(_weapon, _pos: Vector3, _normal: Vector3):
+	if multiplayer.is_server():
+		health -= 0.4
 
 func handle_hit_effect(weapon, pos: Vector3, normal: Vector3):
 	G.flesh_hit_effects(weapon.blunt, pos, normal)
@@ -52,6 +57,7 @@ func _physics_process(delta: float) -> void:
 	
 	if is_grounded:
 		var max_speed := 0.5
+		if health <= 0: max_speed = 0
 		
 		velocity = G.apply_friction(velocity, 1 * delta)
 		velocity = G.accelerate(velocity, walk_direction, 1 * delta, max_speed)
@@ -85,11 +91,11 @@ func _evaluate_animations():
 	var walk_speed := hor_velocity.length()
 	var walk_dir := (hor_velocity * horizontal_look).normalized()
 	
-	$AnimationTree.set("parameters/horizontal speed/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
-	$AnimationTree.set("parameters/horizontal speed/blend_position", walk_speed)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed/blend_position", walk_speed)
 	
 	# @TODO: Read same line in mercenary.gd 
-	$AnimationTree.set("parameters/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
 	
 	$Model.transform = horizontal_look
@@ -99,12 +105,16 @@ func _process(delta: float) -> void:
 	$Interpolator.apply()
 	_evaluate_animations()
 	
-	var goal := atan2(velocity.x, velocity.z)
+	for modifier in look_at_modifiers:
+		modifier.active = health > 0
 	
-	# Should we face the point of interest or our move direction?
-	var face_poi := true
-	if face_poi:
-		var diff = point_of_interest_target - global_position
-		goal = atan2(diff.x, diff.z)
-	
-	look_pitch = lerp_angle(look_pitch, goal, delta * 5)
+	if health > 0:
+		var goal := atan2(velocity.x, velocity.z)
+		
+		# Should we face the point of interest or our move direction?
+		var face_poi := true
+		if face_poi:
+			var diff = point_of_interest_target - global_position
+			goal = atan2(diff.x, diff.z)
+		
+		look_pitch = lerp_angle(look_pitch, goal, delta * 5)
