@@ -1,8 +1,8 @@
 extends CharacterBody3D
 class_name Enemy
 
-signal anim_attack_swing_start
-signal anim_attack_swing_finish
+@warning_ignore("unused_signal") signal anim_attack_swing_start
+@warning_ignore("unused_signal") signal anim_attack_swing_finish
 
 @export_category("DO NOT TOUCH THIS")
 @export var velocity_mirror: Vector3:
@@ -20,8 +20,8 @@ var is_grounded := false
 
 var look_at_modifiers: Array[LookAtModifier3D]
 
-func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
-	G.flesh_hit_effects(weapon.blunt, position, normal)
+func handle_hit_effect(weapon, pos: Vector3, normal: Vector3):
+	G.flesh_hit_effects(weapon.blunt, pos, normal)
 
 func _ready() -> void:
 	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))

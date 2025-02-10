@@ -67,8 +67,8 @@ func handle_hit():
 	pass
 
 
-func handle_hit_effect(weapon, position: Vector3, normal: Vector3):
-	G.flesh_hit_effects(weapon.blunt, position, normal)
+func handle_hit_effect(weapon, pos: Vector3, normal: Vector3):
+	G.flesh_hit_effects(weapon.blunt, pos, normal)
 
 
 func _enter_tree() -> void:
@@ -353,7 +353,7 @@ func evaluate_animations():
 	$HeadAttachment.on_skeleton_update()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$Interpolator.apply()
 	evaluate_animations()
 	

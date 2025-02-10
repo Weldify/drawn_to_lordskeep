@@ -58,7 +58,7 @@ func _ready() -> void:
 	load_settings()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		G.ui_affecting_mouse_set_visible(self, !visible)
 

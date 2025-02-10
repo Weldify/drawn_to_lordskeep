@@ -98,7 +98,7 @@ func _on_peer_connected(peer_id: int) -> void:
 		_spawn_mercenary_for_peer(peer_id)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if OS.has_feature("steam"):
 		Steam.run_callbacks()
 	

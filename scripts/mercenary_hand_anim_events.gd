@@ -5,5 +5,6 @@ extends Node
 # If there weren't 2 separate nodes for this, we wouldn't be able to tell
 # which is which!
 
+@warning_ignore_start("unused_signal")
 signal swing_damaging
 signal swing_over

@@ -62,7 +62,7 @@ func do_hitboxes():
 ## Mercenaries detect their own hits clientside
 
 @rpc("any_peer", "call_local", "unreliable")
-func mercenary_hit_detected(target_path: NodePath, position: Vector3, normal: Vector3):
+func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: Vector3):
 	var mercenary_name := str(multiplayer.get_remote_sender_id())
 	var mercenary := $/root/world/Mercenaries.get_node_or_null(mercenary_name)
 	if !mercenary: return
@@ -74,7 +74,7 @@ func mercenary_hit_detected(target_path: NodePath, position: Vector3, normal: Ve
 		mercenary.health -= 0.4
 
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	do_hitboxes()
 	
 	if !multiplayer.is_server(): return
@@ -85,7 +85,7 @@ func _physics_process(delta: float):
 	swing_effects.rpc()
 
 
-func _process(delta: float):
+func _process(_delta: float):
 	$"../RHold/ProtonTrail".emit = is_damaging
 
 

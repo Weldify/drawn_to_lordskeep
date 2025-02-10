@@ -84,7 +84,7 @@ func _recalculate_spin_speed():
 	spin_speed = (local_angular_velocity * spin_axis).length()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !multiplayer.is_server(): return
 	
 	_recalculate_spin_speed()
@@ -106,7 +106,7 @@ func play_collision_sound(volume: float):
 	$Collision.play()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var holder: CharacterBody3D = $/root/world/Mercenaries.get_node_or_null(holder_name)
 	if !is_instance_valid(holder): return
 	

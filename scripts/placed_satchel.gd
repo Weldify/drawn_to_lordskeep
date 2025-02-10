@@ -1,6 +1,8 @@
 extends StaticBody3D
 
 
+## The animation player emits this signal.
+@warning_ignore("unused_signal")
 signal outro_finished
 
 
