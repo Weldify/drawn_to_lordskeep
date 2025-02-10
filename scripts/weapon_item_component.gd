@@ -1,8 +1,8 @@
-extends Node
+extends Node3D
 
 @onready var item := $".."
 
-@onready var hitbox: ShapeCast3D = $"../Hitbox"
+@onready var hitbox: ShapeCast3D = $Hitbox
 @onready var original_hitbox_position: Vector3 = hitbox.position
 
 ## Blunt weapons stop even on successful hits.
@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
 	
 
 func _process(delta: float) -> void:
-	$"../ProtonTrail".emit = swing_damaging
+	$ProtonTrail.emit = swing_damaging
 	
 	hitstop_time_left = max(0, hitstop_time_left - delta)
 	if user:
@@ -132,7 +132,7 @@ func hit_effects(target_path: String, position: Vector3, normal: Vector3):
 	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
 		hit_effect_handler.handle_hit_effect(self, position, normal)
 	else:
-		$"../Clash".play()
+		$Clash.play()
 
 
 @rpc("authority", "call_local", "unreliable")
@@ -174,7 +174,7 @@ func try_start_swing_damaging():
 
 @rpc("authority", "call_local", "reliable")
 func start_swing_damaging_effects():
-	$"../Swing".play()
+	$Swing.play()
 
 
 
@@ -197,4 +197,4 @@ func parry_effects():
 	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("parry")
 	
-	$"../ParrySwing".play()
+	$ParrySwing.play()
