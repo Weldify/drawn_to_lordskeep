@@ -100,7 +100,7 @@ func _evaluate_animations():
 
 
 func _process(delta: float) -> void:
-	#$Interpolator.apply()
+	$Interpolator.apply()
 	_evaluate_animations()
 	
 	for modifier in look_at_modifiers:

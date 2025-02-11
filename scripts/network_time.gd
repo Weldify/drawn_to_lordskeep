@@ -5,6 +5,7 @@ extends Node
 ## 2. Provide ping measurements
 ## 3. Tick system mostly used by NetSynchronizers
 
+signal before_tick()
 signal on_tick(delta: float)
 signal after_tick
 
@@ -39,6 +40,7 @@ func restart():
 
 
 func _physics_process(delta: float):
+	before_tick.emit()
 	on_tick.emit(delta)
 	after_tick.emit()
 	

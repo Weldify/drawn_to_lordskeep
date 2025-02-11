@@ -1,8 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://con0l72om7e8x"]
+[gd_scene load_steps=34 format=3 uid="uid://con0l72om7e8x"]
 
 [ext_resource type="Script" uid="uid://bou27x03gtprt" path="res://scripts/tall_axe_guy.gd" id="1_7ru6i"]
 [ext_resource type="PackedScene" uid="uid://1x70kpwhu4er" path="res://models/tall_axe_guy/tall_axe_guy.blend" id="1_d2jsa"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_1y0ek"]
+[ext_resource type="Script" uid="uid://cod6hn12hn8g" path="res://scripts/interpolator.gd" id="2_4qjp1"]
 [ext_resource type="PackedScene" uid="uid://cjt3bt14ih7ca" path="res://models/tall_axe/tall_axe.blend" id="2_6x8bb"]
 [ext_resource type="Script" uid="uid://t8bti7kwcidf" path="res://scripts/enemy_attack_swing.gd" id="2_rasum"]
 [ext_resource type="Animation" uid="uid://cgp0fa52u0wql" path="res://models/mercenary/walk_ff.res" id="4_qx6e7"]
@@ -100,6 +101,11 @@ script = ExtResource("1_7ru6i")
 script = ExtResource("2_1y0ek")
 networked_properties = Array[String]([":position UNRELIABLE", ":velocity UNRELIABLE", ":point_of_interest_target", ":health"])
 metadata/_custom_type_script = ExtResource("2_1y0ek")
+
+[node name="Interpolator" type="Node" parent="."]
+script = ExtResource("2_4qjp1")
+properties = Array[StringName]([&":position", &":velocity"])
+metadata/_custom_type_script = ExtResource("2_4qjp1")
 
 [node name="Swing" type="Node" parent="."]
 script = ExtResource("2_rasum")
@@ -222,7 +228,7 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.60721e-07, -7.42369e-08, -0.999484, -0.0302208, 0.999166, -6.93364e-08, 0.999366, 0.0302148, -1.62837e-07, -6.63088e-09, 1.8076, -0.0403871)
+transform = Transform3D(-1.60785e-07, -6.5611e-08, -0.999484, -0.0334762, 0.999062, -6.01836e-08, 0.999264, 0.0334694, -1.62837e-07, 1.2243e-08, 1.80785, -0.0329478)
 shape = SubResource("BoxShape3D_i35w5")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]

@@ -5,6 +5,9 @@ class_name NetSynchronizer
 @export var networked_properties: Array[StringName] 
 
 
+const _SNAPSHOT_DELAY_TICKS = 2
+
+
 class PropertyInfo:
 	var path: NodePath
 	var reliable: bool
@@ -12,7 +15,7 @@ class PropertyInfo:
 
 class PendingSnapshot:
 	var tick: int
-	var state: Array
+	var changes: Array
 
 
 var _root: Node
@@ -43,6 +46,7 @@ func configure():
 
 func _ready():
 	_root = get_parent()
+	NetworkTime.before_tick.connect(_before_tick)
 	NetworkTime.after_tick.connect(_after_tick)
 	
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -52,6 +56,31 @@ func _on_peer_connected(_peer: int):
 	## For simplicity's sake, we only keep deltas globally, not per peer.
 	_should_send_full_snapshot = true
 	print("Connected ", _peer, " we ", multiplayer.multiplayer_peer.get_unique_id())
+
+
+func _before_tick():
+	if is_multiplayer_authority(): return
+	
+	var extra_snapshots := _pending_snapshots.size() - _SNAPSHOT_DELAY_TICKS
+	if extra_snapshots < 1: return
+
+	var ticks_to_process = 1
+	
+	## We received too many ticks, so we probably lagged out?
+	## Process all the etxra ones.
+	if extra_snapshots > _SNAPSHOT_DELAY_TICKS: ticks_to_process = _SNAPSHOT_DELAY_TICKS
+
+	for i in ticks_to_process:
+		var snapshot: PendingSnapshot = _pending_snapshots.pop_front()
+		_last_tick = snapshot.tick
+		
+		
+		for change in snapshot.changes:
+			var index: int = change[0]
+			var value = change[1]
+			
+			var info := _properties[index]
+			_set_value(info.path, value)
 
 
 func _after_tick():
@@ -86,16 +115,32 @@ func _receive_changes(tick: int, changes: Array[Array]):
 		push_warning("Ignoring property snapshot from non-authority.")
 		return
 	
-	## Most likely outdated/out of order unreliable delta
+	## On the receiving end, _last_tick refers to the last ALREADY applied tick,
+	## so this information is irrelevant to us.
 	if tick <= _last_tick: return
-	#_last_tick = tick
 	
-	for change in changes:
-		var index: int = change[0]
-		var value = change[1]
+	var snapshot: PendingSnapshot
+	var insertion_index := 0
+	
+	for i in _pending_snapshots.size():
+		var pending := _pending_snapshots[i]
 		
-		var info := _properties[index]
-		_set_value(info.path, value)
+		if pending.tick == tick:
+			snapshot = pending
+			break
+		elif pending.tick < tick:
+			## This is only used when the current tick doesn't exist,
+			## So there is effectively a missing tick at this index.
+			## We use this to insert ticks in chronological order.
+			insertion_index = i + 1
+	
+	if !snapshot:
+		snapshot = PendingSnapshot.new()
+		snapshot.tick = tick
+		_pending_snapshots.insert(insertion_index, snapshot)
+	
+	## Combines changes from unreliable and reliable rpcs.
+	snapshot.changes.append_array(changes)
 
 
 func _get_value(path: NodePath):
