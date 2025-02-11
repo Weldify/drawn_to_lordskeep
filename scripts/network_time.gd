@@ -3,6 +3,10 @@ extends Node
 ## The purpose of this node is to
 ## 1. Provide a synchronized time variable synchronized across all peers
 ## 2. Provide ping measurements
+## 3. Tick system mostly used by NetSynchronizers
+
+signal on_tick(delta: float)
+signal after_tick
 
 
 ## Current game time synchronized between all peers
@@ -34,7 +38,10 @@ func restart():
 		_client_needs_reliable_info = true
 
 
-func _physics_process(_delta: float):
+func _physics_process(delta: float):
+	on_tick.emit(delta)
+	after_tick.emit()
+	
 	if multiplayer.is_server() or multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED: return
 	
 	if _client_needs_reliable_info:

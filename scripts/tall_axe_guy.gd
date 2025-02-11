@@ -4,12 +4,7 @@ class_name Enemy
 @warning_ignore("unused_signal") signal anim_attack_swing_start
 @warning_ignore("unused_signal") signal anim_attack_swing_finish
 
-@export_category("DO NOT TOUCH THIS")
-@export var health := 1.0
-@export var velocity_mirror: Vector3:
-	get(): return velocity
-	set(v): velocity = v
-
+var health := 1.0
 var should_change_point_of_interest_at := 0.0
 @onready var point_of_interest_node := $PointOfInterest
 
@@ -30,9 +25,12 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 func _ready() -> void:
 	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
+	
+	$NetSynchronizer.configure()
+	NetworkTime.on_tick.connect(_on_tick)
 
 
-func _physics_process(delta: float) -> void:
+func _on_tick(delta: float) -> void:
 	if !multiplayer.is_server(): return
 	
 	if NetworkTime.now > should_change_point_of_interest_at:
@@ -102,7 +100,7 @@ func _evaluate_animations():
 
 
 func _process(delta: float) -> void:
-	$Interpolator.apply()
+	#$Interpolator.apply()
 	_evaluate_animations()
 	
 	for modifier in look_at_modifiers:
