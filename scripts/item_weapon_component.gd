@@ -1,4 +1,5 @@
 extends Node3D
+class_name ItemWeaponComponent
 
 @onready var item := $".."
 
@@ -37,8 +38,8 @@ func _holder_changed():
 		if is_instance_valid(user):
 			# We don't know which hand this was in. Disconnect everything!!
 			var names := ["RightHandAnimEvents", "LeftHandAnimEvents"]
-			for name in names:
-				var events := user.get_node(name)
+			for node_name in names:
+				var events := user.get_node(node_name)
 				G.safe_disconnect(events.swing_over, try_stop_swing)
 				G.safe_disconnect(events.swing_damaging, try_start_swing_damaging)
 	
@@ -118,19 +119,19 @@ func hit():
 	var hit_normal := hitbox.get_collision_normal(0)
 	
 	if hit_handler and hit_handler.get("handle_hit"): 
-		var result: G.HitHandleResult = hit_handler.handle_hit(self, hit_pos, hit_normal)
+		hit_handler.handle_hit(self, hit_pos, hit_normal)
 	
 	hit_effects.rpc(collider.get_path(), hit_pos, hit_normal)
 
 
 @rpc("authority", "call_local", "unreliable")
-func hit_effects(target_path: String, position: Vector3, normal: Vector3):
+func hit_effects(target_path: String, pos: Vector3, normal: Vector3):
 	var hit_effect_handler: Node = get_node(target_path)
 	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
 		hit_effect_handler = hit_effect_handler.get_parent()
 	
 	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
-		hit_effect_handler.handle_hit_effect(self, position, normal)
+		hit_effect_handler.handle_hit_effect(self, pos, normal)
 	else:
 		$Clash.play()
 
@@ -158,7 +159,7 @@ func try_swing():
 	hitbox.add_exception(user.get_node("Hitbox"))
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "unreliable")
 func swing_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
 	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
@@ -172,16 +173,15 @@ func try_start_swing_damaging():
 	
 	start_swing_damaging_effects.rpc()
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "unreliable")
 func start_swing_damaging_effects():
 	$Swing.play()
-
 
 
 func try_parry():
 	if parrying or swinging: return
 	parrying = true
-	parry_timer = 0.5
+	parry_timer = 0.2
 	
 	parry_effects.rpc()
 
@@ -191,10 +191,15 @@ func try_stop_parry():
 	parrying = false
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "unreliable")
 func parry_effects():
 	var hand_name := "Right hand" if item.is_in_right_hand else "Left hand"
 	var parameter := "parameters/regular_blendtree/%s/playback" % hand_name
 	user.get_node("AnimationTree").get(parameter).start("parry")
 	
 	$ParrySwing.play()
+
+@rpc("authority", "call_local", "unreliable")
+func do_parry_success_effects():
+	$Parry.play()
+	$ParryParticles.restart()

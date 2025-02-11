@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://c3v8nlxywqyqa"]
+[gd_scene load_steps=19 format=3 uid="uid://c3v8nlxywqyqa"]
 
 [ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="1_8fqm1"]
-[ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/weapon_item_component.gd" id="1_8qe33"]
+[ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/item_weapon_component.gd" id="1_8qe33"]
 [ext_resource type="AudioStream" uid="uid://c063r8wnxd3ak" path="res://sounds/parry.wav" id="2_8qe33"]
 [ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="3_yxk4n"]
 [ext_resource type="AudioStream" uid="uid://eeke6pi5ko7x" path="res://sounds/parry_swing.wav" id="4_kbh2r"]
@@ -41,7 +41,40 @@ resource_local_to_scene = true
 radius = 0.03
 height = 0.7
 
-[node name="WeaponItemComponent" type="Node3D"]
+[sub_resource type="Curve" id="Curve_3v00d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ilgqc"]
+curve = SubResource("Curve_3v00d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3v00d"]
+resource_local_to_scene = true
+particle_flag_align_y = true
+emission_shape = 3
+emission_box_extents = Vector3(0.02, 0.3, 0.02)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_min = 4.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_ilgqc")
+turbulence_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v00d"]
+albedo_color = Color(0.847059, 0.611765, 0, 1)
+emission_enabled = true
+emission = Color(0.845336, 0.376351, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ilgqc"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_3v00d")
+size = Vector3(0.01, 0.01, 0.01)
+
+[node name="ItemWeaponComponent" type="Node3D"]
 script = ExtResource("1_8qe33")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
@@ -97,3 +130,13 @@ exclude_parent = false
 target_position = Vector3(0, 0, 0)
 max_results = 1
 collision_mask = 9
+
+[node name="ParryParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+emitting = false
+amount = 20
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3v00d")
+draw_pass_1 = SubResource("BoxMesh_ilgqc")

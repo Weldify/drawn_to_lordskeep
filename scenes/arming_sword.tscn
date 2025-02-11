@@ -2,14 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_imw4u"]
 [ext_resource type="PackedScene" uid="uid://ty43ydihrr7h" path="res://models/arming_sword/arming_sword.blend" id="2_imw4u"]
-[ext_resource type="PackedScene" uid="uid://c3v8nlxywqyqa" path="res://scenes/weapon_item_component.tscn" id="2_u0ixc"]
+[ext_resource type="PackedScene" uid="uid://c3v8nlxywqyqa" path="res://scenes/item_weapon_component.tscn" id="2_u0ixc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gghyl"]
 size = Vector3(0.0438965, 0.991211, 0.0734619)
 
 [node name="ArmingSword" instance=ExtResource("1_imw4u")]
 
-[node name="WeaponItemComponent" parent="." index="0" instance=ExtResource("2_u0ixc")]
+[node name="ItemWeaponComponent" parent="." index="0" instance=ExtResource("2_u0ixc")]
 
 [node name="model" parent="." index="1" instance=ExtResource("2_imw4u")]
 

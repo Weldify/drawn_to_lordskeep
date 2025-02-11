@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=30 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
 [ext_resource type="PackedScene" uid="uid://con0l72om7e8x" path="res://scenes/tall_axe_guy.tscn" id="2_4mrxx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Material" uid="uid://yr7saub7qdbg" path="res://sprites/hurt_overlay_particle.tres" id="3_w7kh3"]
 [ext_resource type="Script" uid="uid://djq2d1uptreai" path="res://scripts/ping_counter.gd" id="5_1ew0l"]
 [ext_resource type="Script" uid="uid://fvop1m7ligm0" path="res://scripts/hurt_effects.gd" id="10_w7kh3"]
+[ext_resource type="Script" uid="uid://bjfxf2r111i3x" path="res://scripts/fallen_things_deleter.gd" id="12_q5onr"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 [ext_resource type="FontFile" uid="uid://cgssk0x0gww2c" path="res://fonts/Macondo-Regular.ttf" id="29_k83mh"]
@@ -14,7 +15,7 @@
 
 [sub_resource type="Environment" id="Environment_ryup7"]
 background_mode = 1
-background_color = Color(0.439049, 0.439049, 0.439049, 1)
+background_color = Color(0.252028, 0.252028, 0.252028, 1)
 ssao_intensity = 8.0
 ssao_detail = 5.0
 ssao_horizon = 0.5
@@ -248,6 +249,10 @@ spawn_path = NodePath("../Items")
 [node name="Mace" parent="Items" instance=ExtResource("2_e3hyu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
 
+[node name="FallenItemsDeleter" type="Node" parent="." node_paths=PackedStringArray("node_to_query")]
+script = ExtResource("12_q5onr")
+node_to_query = NodePath("../Items")
+
 [node name="EnemiesSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://con0l72om7e8x")
 spawn_path = NodePath("../Items")
@@ -255,6 +260,10 @@ spawn_path = NodePath("../Items")
 [node name="Enemies" type="Node" parent="."]
 
 [node name="TallAxeGuy" parent="Enemies" instance=ExtResource("2_4mrxx")]
+
+[node name="FallenEnemiesDeleter" type="Node" parent="." node_paths=PackedStringArray("node_to_query")]
+script = ExtResource("12_q5onr")
+node_to_query = NodePath("../Enemies")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ryup7")

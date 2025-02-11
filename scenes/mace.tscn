@@ -2,14 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_tjgbw"]
 [ext_resource type="PackedScene" uid="uid://cu36f6ay085bx" path="res://models/mace/mace.blend" id="2_3o362"]
-[ext_resource type="PackedScene" uid="uid://c3v8nlxywqyqa" path="res://scenes/weapon_item_component.tscn" id="2_u8qil"]
+[ext_resource type="PackedScene" uid="uid://c3v8nlxywqyqa" path="res://scenes/item_weapon_component.tscn" id="2_u8qil"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gghyl"]
 size = Vector3(0.2, 1, 0.2)
 
 [node name="Mace" instance=ExtResource("1_tjgbw")]
 
-[node name="WeaponItemComponent" parent="." index="0" instance=ExtResource("2_u8qil")]
+[node name="ItemWeaponComponent" parent="." index="0" instance=ExtResource("2_u8qil")]
 blunt = true
 
 [node name="mace" parent="." index="3" instance=ExtResource("2_3o362")]

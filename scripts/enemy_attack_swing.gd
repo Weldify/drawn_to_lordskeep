@@ -59,7 +59,18 @@ func do_hitboxes():
 	
 	
 	if hit_handler == G.my_mercenary:
-		mercenary_hit_detected.rpc(collider.get_path(), hit_detector.get_collision_point(0), hit_detector.get_collision_normal(0))
+		var parrying_wep_component: ItemWeaponComponent
+		
+		for item_name in [hit_handler.right_hand_item_name, hit_handler.left_hand_item_name]:
+			var item := $/root/world/Items.get_node_or_null(item_name)
+			if item:
+				var wep_component := item.get_node_or_null("ItemWeaponComponent")
+				if wep_component and wep_component.parrying: parrying_wep_component = wep_component
+		
+		if parrying_wep_component:
+			parrying_wep_component.do_parry_success_effects.rpc()
+		else:
+			mercenary_hit_detected.rpc(collider.get_path(), hit_detector.get_collision_point(0), hit_detector.get_collision_normal(0))
 
 
 ## Mercenaries detect their own hits clientside
