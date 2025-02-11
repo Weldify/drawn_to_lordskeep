@@ -21,5 +21,6 @@ func _physics_process(_delta: float) -> void:
 	var child := node_to_query.get_child(next_index_to_check)
 	if child is Node3D and child.global_position.y < -5:
 		child.free()
+		print("Swoop")
 	
 	next_index_to_check += 1

@@ -43,11 +43,7 @@ func _ready():
 	var outskirts := preload("res://scenes/outskirts_district.tscn").instantiate()
 	$/root/world/Districts.add_child(outskirts, true)
 	
-	var latest_district := $/root/world/Districts.get_child(-1)
-	if latest_district:
-		var tenurial := preload("res://scenes/tenurial_district.tscn").instantiate()
-		$/root/world/Districts.add_child(tenurial, true)
-		tenurial.global_position = latest_district.get_node("Exit").global_position
+	outskirts.generate_next_district()
 	
 	_spawn_mercenary_for_peer(1)
 	

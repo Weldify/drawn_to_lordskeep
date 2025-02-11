@@ -10,3 +10,8 @@ Shipped as default 17176841
 - you can now join friends directly through steam
 - use correct hit effects when hitting players
 Shipped as default 17268644
+
+
+- added an enemy
+- you can now take damage and die
+- extra fixes and tweaks

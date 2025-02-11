@@ -26,6 +26,20 @@ func _ready() -> void:
 		border_base_position = district_border.position
 	
 	border_closed = true
+	
+	if scene_file_path == "res://scenes/tenurial_district.tscn":
+		var enemy := preload("res://scenes/tall_axe_guy.tscn").instantiate()
+		$/root/world/Enemies.add_child(enemy, true)
+		enemy.global_position = $EnemySpawnpoint.global_position
+		print("Hello sire?")
+
+
+func generate_next_district():
+	var last_district: District = get_parent().get_child(-1)
+	
+	var new_district: District = load("res://scenes/tenurial_district.tscn").instantiate()
+	new_district.global_transform = last_district.get_node("Exit").global_transform
+	get_parent().add_child(new_district, true)
 
 
 func advance():
@@ -34,12 +48,10 @@ func advance():
 	var index_in_parent := get_index()
 	assert(index_in_parent == get_parent().get_child_count() - 2)
 	
-	var next_district: District = get_parent().get_child(-1)
-	next_district.border_closed = false
+	var last_district: District = get_parent().get_child(-1)
+	last_district.border_closed = false
 	
-	var new_district: District = load("res://scenes/tenurial_district.tscn").instantiate()
-	get_parent().add_child(new_district, true)
-	new_district.global_transform = next_district.get_node("Exit").global_transform
+	generate_next_district()
 	
 	assert(get_parent().get_child_count() <= 4)
 	if get_parent().get_child_count() == 4:

@@ -170,7 +170,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0588, 0.905761)
 top_level = true
 
 [node name="RHold" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.196396, 0.751779, -0.62949, 0.015238, 0.644255, 0.764659, 0.980406, 0.140583, -0.137985, -0.250385, 1.58243, 0.190645)
+transform = Transform3D(-0.196212, 0.751948, -0.629345, 0.0155528, 0.644126, 0.764761, 0.980438, 0.140267, -0.13808, -0.250313, 1.58363, 0.189766)
 bone_name = "r_hold"
 bone_idx = 17
 use_external_skeleton = true
@@ -239,11 +239,11 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.59916e-07, -7.19106e-08, -0.999485, -0.0434785, 0.998678, -6.48809e-08, 0.998881, 0.0434696, -1.62837e-07, -3.78132e-09, 1.80791, -0.0101547)
+transform = Transform3D(-2.7859e-07, -8.72928e-08, -0.999485, -0.0429106, 0.998703, -7.52478e-08, 0.998903, 0.042902, -2.81985e-07, -2.6966e-08, 1.80794, -0.0115125)
 shape = SubResource("BoxShape3D_i35w5")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-2.18171e-07, -7.44722e-08, -1, -0.043486, 0.999054, -6.49143e-08, 0.999054, 0.043486, -2.21203e-07, 1.45921e-08, 1.56065, -0.0209174)
+transform = Transform3D(-2.20048e-07, -8.48088e-08, -1, -0.0429181, 0.999078, -7.52866e-08, 0.999079, 0.0429181, -2.23485e-07, -6.03432e-09, 1.56067, -0.0221346)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true
