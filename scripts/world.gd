@@ -52,15 +52,18 @@ func _ready():
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
 	DiscordRPC.refresh()
 	
-	# Pressing "join game" when the game isn't launched 
-	# launches it with a specific commandline argument.
-	if OS.has_feature("steam"):
-		var args := OS.get_cmdline_args()
-		for i in args.size():
-			var argument := args[i]
-			if argument == "+connect_lobby":
-				var lobby_id := int(args[i + 1])
-				Steam.joinLobby(lobby_id)
+
+	var args := OS.get_cmdline_args()
+	for i in args.size():
+		var argument := args[i]
+		if argument == "+connect_lobby":
+			## Steam starts us with this when we click Join Game
+			var lobby_id := int(args[i + 1])
+			Steam.joinLobby(lobby_id)
+		elif argument == "+quickjoin":
+			join_by_ip("127.0.0.1")
+		elif argument == "+quickhost":
+			start_hosting()
 
 
 ## Call this BEFORE setting the multiplayer peer to the new thing!
@@ -135,3 +138,16 @@ func start_hosting() -> void:
 		assert(peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED)
 		
 		multiplayer.multiplayer_peer = peer
+
+
+func join_by_ip(ip: String):
+	if OS.has_feature("steam"): 
+		push_error("Can't direct connect with steam version!")
+		return
+	
+	var peer := ENetMultiplayerPeer.new()
+	peer.create_client(ip, 1337)
+	assert(peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED)
+	
+	$/root/world.reset_all_multiplayer_things()
+	multiplayer.multiplayer_peer = peer
