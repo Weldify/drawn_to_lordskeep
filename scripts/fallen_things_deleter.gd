@@ -9,7 +9,7 @@ extends Node
 
 var next_index_to_check := 0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !multiplayer.is_server(): return
 	
 	var child_count := node_to_query.get_child_count()

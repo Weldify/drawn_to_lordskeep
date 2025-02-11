@@ -63,11 +63,7 @@ var right_throw_power := 0.0
 var left_throw_power := 0.0
 
 
-func handle_hit():
-	pass
-
-
-func handle_hit_effect(weapon, pos: Vector3, normal: Vector3):
+func handle_hit(weapon, pos: Vector3, normal: Vector3):
 	G.flesh_hit_effects(weapon.blunt, pos, normal)
 
 

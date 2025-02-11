@@ -111,29 +111,23 @@ func hit():
 	else:
 		hitstop_time_left = 0.1
 	
+	do_hit.rpc(collider.get_path(), hitbox.get_collision_point(0), hitbox.get_collision_normal(0))
+
+
+@rpc("authority", "call_local", "unreliable")
+func do_hit(collider_path: String, pos: Vector3, normal: Vector3):
+	var collider := get_node_or_null(collider_path)
+	if collider is not CollisionObject3D:
+		push_error("Shit ourselves and blow up;")
+		return
+	
+	
 	var hit_handler: Node = collider.get_parent()
 	while hit_handler and hit_handler.get("handle_hit") == null:
 		hit_handler = hit_handler.get_parent()
 	
-	var hit_pos := hitbox.get_collision_point(0)
-	var hit_normal := hitbox.get_collision_normal(0)
-	
-	if hit_handler and hit_handler.get("handle_hit"): 
-		hit_handler.handle_hit(self, hit_pos, hit_normal)
-	
-	hit_effects.rpc(collider.get_path(), hit_pos, hit_normal)
-
-
-@rpc("authority", "call_local", "unreliable")
-func hit_effects(target_path: String, pos: Vector3, normal: Vector3):
-	var hit_effect_handler: Node = get_node(target_path)
-	while hit_effect_handler and hit_effect_handler.get("handle_hit_effect") == null:
-		hit_effect_handler = hit_effect_handler.get_parent()
-	
-	if hit_effect_handler and hit_effect_handler.get("handle_hit_effect"): 
-		hit_effect_handler.handle_hit_effect(self, pos, normal)
-	else:
-		$Clash.play()
+	if hit_handler: hit_handler.handle_hit(self, pos, normal)
+	else: $Clash.play()
 
 
 @rpc("authority", "call_local", "unreliable")

@@ -21,12 +21,12 @@ var is_grounded := false
 
 var look_at_modifiers: Array[LookAtModifier3D]
 
-func handle_hit(_weapon, _pos: Vector3, _normal: Vector3):
+func handle_hit(weapon, pos: Vector3, normal: Vector3):
+	G.flesh_hit_effects(weapon.blunt, pos, normal)
+	
 	if multiplayer.is_server():
 		health -= 0.4
 
-func handle_hit_effect(weapon, pos: Vector3, normal: Vector3):
-	G.flesh_hit_effects(weapon.blunt, pos, normal)
 
 func _ready() -> void:
 	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
