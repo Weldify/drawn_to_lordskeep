@@ -14,4 +14,6 @@ Shipped as default 17268644
 
 - added an enemy
 - you can now take damage and die
+- parrying is now functional
 - extra fixes and tweaks
+Shipped as default 17314480
