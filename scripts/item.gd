@@ -103,6 +103,18 @@ func play_collision_sound(volume: float):
 
 
 func _process(_delta: float) -> void:
+	transform_to_holder_if_valid()
+
+
+# @NOTE:
+# Item :transform networking is DELAYED so we can interpolate it properly.
+# However, the synchronizer never changes its authority, meaning it is 
+# ALWAYS interpolated.
+# Some items, like weapons, rely on the transform being up to date for their logic.
+# For these items, you can call this function in .on_tick so that the item is actually
+# properly positioned in your hand!
+## TL;DR call this in .on_tick if you plan on using :transform in any way.
+func transform_to_holder_if_valid():
 	var holder: CharacterBody3D = $/root/world/Mercenaries.get_node_or_null(holder_name)
 	if !is_instance_valid(holder): return
 	

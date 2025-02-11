@@ -17,3 +17,7 @@ Shipped as default 17268644
 - parrying is now functional
 - extra fixes and tweaks
 Shipped as default 17314480
+
+
+- reworked netcode, everything should now be smooth as butter (please @ me if you notice that something is jittery/doesn't look right)
+Shipped as default 17327275

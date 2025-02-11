@@ -72,7 +72,7 @@ script = ExtResource("1_8qe33")
 
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_ilgqc")
-networked_properties = Array[StringName]([&":swing_damaging", &":hitstop_time_left UNRELIABLE"])
+networked_properties = Array[StringName]([&":swing_damaging", &":hitstop_time_left"])
 metadata/_custom_type_script = ExtResource("2_ilgqc")
 
 [node name="Clash" type="AudioStreamPlayer3D" parent="."]

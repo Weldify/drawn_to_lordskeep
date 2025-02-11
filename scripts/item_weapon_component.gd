@@ -28,6 +28,8 @@ func _ready() -> void:
 	# _holder_changed is called when the item is first created,
 	# but it won't get called for someone who joined the game later.
 	_holder_changed()
+	
+	NetworkTime.on_tick.connect(_on_tick)
 
 
 func _holder_changed():
@@ -63,8 +65,10 @@ func _holder_changed():
 		events.swing_damaging.connect(try_start_swing_damaging)
 
 
-func _physics_process(delta: float) -> void:
+func _on_tick(delta: float) -> void:
 	if !is_multiplayer_authority() or !user: return
+	
+	item.transform_to_holder_if_valid()
 	
 	if parrying:
 		parry_timer -= delta
