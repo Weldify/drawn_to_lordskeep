@@ -7,13 +7,6 @@ signal holder_changed()
 @export var holdtype := G.HoldType.WEAPON
 @export var spin_axis := Vector3.LEFT
 
-@export_category("DO NOT TOUCH THIS!")
-
-@export var transform_mirror: Transform3D :
-	set(v):
-		global_transform = v
-	get(): return global_transform
-
 var holder_name: String : 
 	get(): return holder_info[0]
 
@@ -22,7 +15,7 @@ var is_in_right_hand: bool :
 	
 var last_recorded_speed: float
 
-@export var spin_speed: float :
+var spin_speed: float :
 	set(v):
 		if v == spin_speed: return
 		spin_speed = v
@@ -33,13 +26,13 @@ var last_recorded_speed: float
 		
 		$Spin.pitch_scale = max(0.01, remap(v, 0, 20, 0, 1.5))
 	get(): return spin_speed
-		
+
 
 ## Think of this as storing .holder_name and .is_in_right_hand in one variable.
 ## We have to do this so that they get networked at the same time.
 ## Also, this is a reference type, so please construct it from scratch
 ## every time you change it, otherwise the synchronizer won't pick up the change.
-@export var holder_info: Array = ["", true] :
+var holder_info: Array = ["", true] :
 	set(v):
 		if holder_info == v: return
 		holder_info = v
@@ -49,6 +42,9 @@ var last_recorded_speed: float
 
 func _ready() -> void:
 	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")
+	
+	NetworkTime.on_tick.connect(_on_tick)
+	$NetSynchronizer.configure()
 	
 	holder_changed.connect(_on_holder_changed)
 	_on_holder_changed()
@@ -84,7 +80,7 @@ func _recalculate_spin_speed():
 	spin_speed = (local_angular_velocity * spin_axis).length()
 
 
-func _physics_process(_delta: float) -> void:
+func _on_tick(_delta: float) -> void:
 	if !multiplayer.is_server(): return
 	
 	_recalculate_spin_speed()

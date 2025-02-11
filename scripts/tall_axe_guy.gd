@@ -24,10 +24,10 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
-	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
-	
 	$NetSynchronizer.configure()
 	NetworkTime.on_tick.connect(_on_tick)
+	
+	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
 
 
 func _on_tick(delta: float) -> void:

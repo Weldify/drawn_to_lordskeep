@@ -51,7 +51,11 @@ func _holder_changed():
 		return
 	
 	user = new
-	set_multiplayer_authority(int(new.name))
+	
+	var authority := int(new.name)
+	set_multiplayer_authority(authority, false)
+	$NetSynchronizer.set_multiplayer_authority(authority)
+	$NetSynchronizer.configure()
 	
 	if is_multiplayer_authority():
 		var events := user.get_node("RightHandAnimEvents") if item.is_in_right_hand else user.get_node("LeftHandAnimEvents")

@@ -1,19 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://chqyy74rkrt2t"]
 
 [ext_resource type="Script" uid="uid://cr4j1s3eunqkt" path="res://scripts/item.gd" id="1_g4pv6"]
+[ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_kdhv7"]
 [ext_resource type="AudioStream" uid="uid://bne15j2qv4qgn" path="res://sounds/collision.wav" id="2_ysa82"]
 [ext_resource type="AudioStream" uid="uid://okhahx0xbtcj" path="res://sounds/thrown_loop.wav" id="3_vgm52"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ysa82"]
-properties/0/path = NodePath(".:transform_mirror")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:holder_info")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath(".:spin_speed")
-properties/2/spawn = true
-properties/2/replication_mode = 1
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vgm52"]
 random_pitch = 1.1
@@ -29,14 +19,16 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_g4pv6")
 
+[node name="NetSynchronizer" type="Node" parent="."]
+script = ExtResource("2_kdhv7")
+networked_properties = Array[StringName]([&":transform UNRELIABLE DELAYED", &":spin_speed UNRELIABLE", &":holder_info"])
+metadata/_custom_type_script = ExtResource("2_kdhv7")
+
 [node name="RightHoldOffset" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 4.37114e-08, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, -4.37114e-08, 0.0383395, 1.52724e-08, 0.0566442)
 
 [node name="LeftHoldOffset" type="Node3D" parent="."]
 transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, -0.038, 0, 0.057)
-
-[node name="ItemSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_ysa82")
 
 [node name="Collision" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_vgm52")

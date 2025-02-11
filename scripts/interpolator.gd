@@ -15,26 +15,23 @@ var _ticked := false
 
 func _ready() -> void:
 	RenderingServer.frame_post_draw.connect(restore)
-	configure()
-	_update_to()
+	reconfigure()
 
 
 func _physics_process(_delta: float) -> void:
 	_ticked = true
 
 
-func configure() -> void:
-	var paths_to_erase := _paths.duplicate()
+func reconfigure() -> void:
+	_from.clear()
+	_to.clear()
 	_paths.clear()
 	
 	for path_name in properties:
 		var path := NodePath(path_name)
 		_paths.append(path)
-		paths_to_erase.erase(path)
 	
-	for path in paths_to_erase:
-		_from.erase(path)
-		_to.erase(path)
+	_update_to()
 
 
 func restore() -> void:

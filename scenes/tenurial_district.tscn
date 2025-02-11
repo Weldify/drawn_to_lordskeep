@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_t83kr"]
 [ext_resource type="Script" uid="uid://b5sb5txnc5dg0" path="res://scripts/district.gd" id="1_wajts"]
+[ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_sv3lo"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_tpddv"]
 [ext_resource type="Script" uid="uid://dpwlgd0rgdcvd" path="res://scripts/worldspawn.gd" id="3_i561w"]
 [ext_resource type="Material" uid="uid://eiv1v1auyxan" path="res://maps/textures/ground.tres" id="4_eu0my"]
@@ -13,14 +14,6 @@
 [ext_resource type="Material" uid="uid://dx4fvt7bqrpd4" path="res://maps/textures/roofing_tiles.tres" id="8_sv3lo"]
 [ext_resource type="Material" uid="uid://bfo3gwujj0ovf" path="res://maps/textures/planks.tres" id="10_71ko1"]
 [ext_resource type="Script" uid="uid://vm0u0c2qgded" path="res://scripts/debug_advance_zone.gd" id="13_njfka"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_njfka"]
-properties/0/path = NodePath(".:border_closed")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:transform_mirror")
-properties/1/spawn = true
-properties/1/replication_mode = 2
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_sv3lo"]
 resource_local_to_scene = true
@@ -2169,8 +2162,10 @@ data = PackedVector3Array(-1, 1.5, -0.5, -1, -1.5, -0.5, 1, -1.5, -0.5, -1, 1.5,
 script = ExtResource("1_wajts")
 district_border = NodePath("FuncGodotMap/entity_86_func_district_border")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_njfka")
+[node name="NetSynchronizer" type="Node" parent="."]
+script = ExtResource("2_sv3lo")
+networked_properties = Array[StringName]([&":border_closed", &":transform"])
+metadata/_custom_type_script = ExtResource("2_sv3lo")
 
 [node name="Exit" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -24)

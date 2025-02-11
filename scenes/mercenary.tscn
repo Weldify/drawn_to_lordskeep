@@ -1,6 +1,7 @@
-[gd_scene load_steps=46 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=45 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
+[ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_c8xrr"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
 [ext_resource type="Animation" uid="uid://ck0moiw8hr0ox" path="res://models/mercenary/RESET.res" id="4_ij2o5"]
 [ext_resource type="Animation" uid="uid://cu2igi0ieyhs8" path="res://models/mercenary/both_hold_none.res" id="5_5h5rc"]
@@ -52,40 +53,6 @@ _data = {
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ybq4i"]
 size = Vector3(0.8, 0.2, 0.6)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qqtx7"]
-properties/0/path = NodePath(".:right_hand_item_name")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:left_hand_item_name")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath(".:satchel_name")
-properties/2/spawn = true
-properties/2/replication_mode = 2
-properties/3/path = NodePath(".:health")
-properties/3/spawn = true
-properties/3/replication_mode = 2
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k4fjk"]
-properties/0/path = NodePath(".:look_pitch")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:look_yaw")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:crouchness")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath(".:velocity_mirror")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-properties/4/path = NodePath(".:trying_to_use")
-properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath(".:position")
-properties/5/spawn = true
-properties/5/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6cnxl"]
 radius = 0.4
@@ -153,6 +120,16 @@ collision_mask = 3
 floor_snap_length = 0.4
 script = ExtResource("1_m6yd2")
 
+[node name="ServerSynchronizer" type="Node" parent="."]
+script = ExtResource("2_c8xrr")
+networked_properties = Array[StringName]([&":right_hand_item_name", &":left_hand_item_name", &":satchel_name", &":health"])
+metadata/_custom_type_script = ExtResource("2_c8xrr")
+
+[node name="ClientSynchronizer" type="Node" parent="."]
+script = ExtResource("2_c8xrr")
+networked_properties = Array[StringName]([&":look_pitch UNRELIABLE DELAYED", &":look_yaw UNRELIABLE DELAYED", &":position UNRELIABLE DELAYED", &":crouchness UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":trying_to_use"])
+metadata/_custom_type_script = ExtResource("2_c8xrr")
+
 [node name="Interpolator" type="Node" parent="."]
 script = ExtResource("8_k4fjk")
 properties = Array[StringName]([&":crouchness", &":position", &":velocity"])
@@ -178,12 +155,6 @@ shape = SubResource("BoxShape3D_ybq4i")
 exclude_parent = false
 max_results = 1
 collision_mask = 7
-
-[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_qqtx7")
-
-[node name="ClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_k4fjk")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
@@ -227,7 +198,7 @@ transform = Transform3D(-7.58979e-07, -3.21828e-09, -1, -0.0216752, 0.999638, 1.
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59411e-07, -5.094e-09, -1, -0.0424757, 0.999065, 2.71691e-08, 0.999065, 0.0424757, -7.58967e-07, -3.85547e-10, 0.28554, 0.00510673)
+transform = Transform3D(-7.59412e-07, -5.094e-09, -1, -0.0424758, 0.999065, 2.71691e-08, 0.999065, 0.0424758, -7.58967e-07, -3.85547e-10, 0.28554, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]

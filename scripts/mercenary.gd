@@ -69,8 +69,22 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 func _enter_tree() -> void:
 	var peer_id := int(name)
-	set_multiplayer_authority(peer_id)
-	$ServerSynchronizer.set_multiplayer_authority(1)
+	set_multiplayer_authority(peer_id, false)
+	
+	$ServerSynchronizer.configure()
+	
+	$ClientSynchronizer.set_multiplayer_authority(peer_id)
+	$ClientSynchronizer.configure()
+	
+	if !is_multiplayer_authority():
+		$Interpolator.properties.append(":look_pitch")
+		$Interpolator.properties.append(":look_yaw")
+		$Interpolator.reconfigure()
+		print("Reconfiguh ", multiplayer.multiplayer_peer.get_unique_id())
+	else:
+		## @NOTE: OHH MY GOD MULTIPLAYER SPAWNER SUCKS SO MUCH GRAH!!
+		print("Noreconfig")
+		print($Interpolator.properties)
 
 
 func _ready() -> void:

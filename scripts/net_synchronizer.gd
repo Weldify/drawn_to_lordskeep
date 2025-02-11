@@ -2,6 +2,15 @@ extends Node
 class_name NetSynchronizer
 
 
+# @NOTE: Using non DELAYED properties with Interpolator looks broken,
+# but it's actually just unsupported. Keep that in mind!
+
+# @NOTE: You MUST call configure() after changing the authority of this node!
+# @NOTE: configure() MUST be called at the same time on all peers!
+
+# @NOTE: Make sure to update your networked properties during .on_tick instead of _physics_process
+# Otherwise you might delay replication by 1 tick.
+
 @export var networked_properties: Array[StringName] 
 
 
@@ -10,7 +19,8 @@ const _SNAPSHOT_DELAY_TICKS = 2
 
 class PropertyInfo:
 	var path: NodePath
-	var reliable: bool
+	var reliable := true
+	var delayed := false
 
 
 class PendingSnapshot:
@@ -24,9 +34,10 @@ var _should_send_full_snapshot := false
 var _last_state: Array
 
 var _last_tick := 0
-var _pending_snapshots: Array[PendingSnapshot]
+var _delayed_snapshots: Array[PendingSnapshot]
 
 func configure():
+	_root = get_parent()
 	_last_tick = 0
 	_should_send_full_snapshot = true
 	_last_state.clear()
@@ -38,14 +49,20 @@ func configure():
 		
 		var property := PropertyInfo.new()
 		property.path = NodePath(args[0])
-		property.reliable = args.size() < 2 or args[1] != "UNRELIABLE"
+		
+		args.remove_at(0) # Index 0 is path, everything else is args
+		for arg in args:
+			if arg == "UNRELIABLE":
+				property.reliable = false
+			elif arg == "DELAYED":
+				property.delayed = true
+			else: assert(false, "What the fuck did you give me?")
 		
 		_properties.append(property)
 		_last_state.append(_get_value(property.path))
 
 
 func _ready():
-	_root = get_parent()
 	NetworkTime.before_tick.connect(_before_tick)
 	NetworkTime.after_tick.connect(_after_tick)
 	
@@ -55,23 +72,24 @@ func _ready():
 func _on_peer_connected(_peer: int):
 	## For simplicity's sake, we only keep deltas globally, not per peer.
 	_should_send_full_snapshot = true
-	print("Connected ", _peer, " we ", multiplayer.multiplayer_peer.get_unique_id())
 
 
 func _before_tick():
 	if is_multiplayer_authority(): return
 	
-	var extra_snapshots := _pending_snapshots.size() - _SNAPSHOT_DELAY_TICKS
+	var extra_snapshots := _delayed_snapshots.size() - _SNAPSHOT_DELAY_TICKS
 	if extra_snapshots < 1: return
 
-	var ticks_to_process = 1
+	var ticks_to_process := 1
 	
 	## We received too many ticks, so we probably lagged out?
 	## Process all the etxra ones.
-	if extra_snapshots > _SNAPSHOT_DELAY_TICKS: ticks_to_process = _SNAPSHOT_DELAY_TICKS
+	if extra_snapshots > _SNAPSHOT_DELAY_TICKS: 
+		push_warning("Received too many snapshots. Processing all extra ones.")
+		ticks_to_process = _SNAPSHOT_DELAY_TICKS
 
 	for i in ticks_to_process:
-		var snapshot: PendingSnapshot = _pending_snapshots.pop_front()
+		var snapshot: PendingSnapshot = _delayed_snapshots.pop_front()
 		_last_tick = snapshot.tick
 		
 		
@@ -122,8 +140,8 @@ func _receive_changes(tick: int, changes: Array[Array]):
 	var snapshot: PendingSnapshot
 	var insertion_index := 0
 	
-	for i in _pending_snapshots.size():
-		var pending := _pending_snapshots[i]
+	for i in _delayed_snapshots.size():
+		var pending := _delayed_snapshots[i]
 		
 		if pending.tick == tick:
 			snapshot = pending
@@ -137,10 +155,15 @@ func _receive_changes(tick: int, changes: Array[Array]):
 	if !snapshot:
 		snapshot = PendingSnapshot.new()
 		snapshot.tick = tick
-		_pending_snapshots.insert(insertion_index, snapshot)
+		_delayed_snapshots.insert(insertion_index, snapshot)
 	
-	## Combines changes from unreliable and reliable rpcs.
-	snapshot.changes.append_array(changes)
+	for change in changes:
+		var property_index: int = change[0]
+		var info := _properties[property_index]
+		if info.delayed:
+			snapshot.changes.append(change)
+		else:
+			_set_value(info.path, change[1])
 
 
 func _get_value(path: NodePath):
