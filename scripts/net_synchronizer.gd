@@ -122,12 +122,14 @@ func _after_tick():
 	
 	_last_tick += 1
 	
-	if !reliable_changes.is_empty(): _send_changes_reliable.rpc(_last_tick, reliable_changes)
-	if !unreliable_changes.is_empty(): _send_changes_unreliable.rpc(_last_tick, unreliable_changes)
+	_send_snapshot.rpc(_last_tick, reliable_changes)
+	if !unreliable_changes.is_empty(): _send_unreliable_extra.rpc(_last_tick, unreliable_changes)
 
 	_should_send_full_snapshot = false
 
 
+# Multiple changes received for the same tick are added together
+# that way we can send unreliable changes separately to the main snapshot!
 func _receive_changes(tick: int, changes: Array[Array]):
 	if multiplayer.get_remote_sender_id() != get_multiplayer_authority():
 		push_warning("Ignoring property snapshot from non-authority.")
@@ -177,10 +179,10 @@ func _set_value(path: NodePath, value):
 
 
 @rpc("authority", "call_remote", "reliable")
-func _send_changes_reliable(tick: int, changes: Array[Array]): 
+func _send_snapshot(tick: int, changes: Array[Array]): 
 	_receive_changes(tick, changes)
 
 
 @rpc("authority", "call_remote", "unreliable")
-func _send_changes_unreliable(tick: int, changes: Array[Array]): 
+func _send_unreliable_extra(tick: int, changes: Array[Array]): 
 	_receive_changes(tick, changes)

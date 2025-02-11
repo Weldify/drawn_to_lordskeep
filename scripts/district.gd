@@ -28,7 +28,6 @@ func _ready() -> void:
 		var enemy := preload("res://scenes/tall_axe_guy.tscn").instantiate()
 		$/root/world/Enemies.add_child(enemy, true)
 		enemy.global_position = $EnemySpawnpoint.global_position
-		print("Hello sire?")
 
 
 func generate_next_district():

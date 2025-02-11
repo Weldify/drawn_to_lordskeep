@@ -3275,6 +3275,6 @@ shape = SubResource("BoxShape3D_tflse")
 text = "Walk into me to do the thing"
 
 [node name="EnemySpawnpoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5.13831, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.86169, -17)
 
 [connection signal="body_entered" from="DistrictAdvancer" to="DistrictAdvancer" method="_on_body_entered"]

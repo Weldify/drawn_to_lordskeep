@@ -1,7 +1,12 @@
 extends Node
 class_name Interpolator
 
-@export var properties: Array[StringName]
+@export var default_properties: Array[StringName]
+
+## @NOTE: We can't just directly use the @export property above...
+## Because for whatever reason modifying it carries over to 
+## scenes you instantiate afterwards, too?? So it's global????
+var properties: Array[StringName]
 
 # Usage:
 # Call Interpolator.apply() during _process to apply the interpolated values.
@@ -14,6 +19,7 @@ var _paths: Array[NodePath]
 var _ticked := false
 
 func _ready() -> void:
+	properties.append_array(default_properties)
 	RenderingServer.frame_post_draw.connect(restore)
 	reconfigure()
 

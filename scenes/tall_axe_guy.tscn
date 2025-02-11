@@ -104,7 +104,7 @@ metadata/_custom_type_script = ExtResource("2_1y0ek")
 
 [node name="Interpolator" type="Node" parent="."]
 script = ExtResource("2_4qjp1")
-properties = Array[StringName]([&":position", &":velocity"])
+default_properties = Array[StringName]([&":position", &":velocity"])
 metadata/_custom_type_script = ExtResource("2_4qjp1")
 
 [node name="Swing" type="Node" parent="."]
@@ -159,7 +159,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0588, 0.905761)
 top_level = true
 
 [node name="RHold" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.196165, 0.751994, -0.629304, 0.0152878, 0.644041, 0.764838, 0.980452, 0.140414, -0.137834, -0.250294, 1.59489, 0.181734)
+transform = Transform3D(-0.196186, 0.751975, -0.629321, 0.0156073, 0.644107, 0.764776, 0.980443, 0.140217, -0.138101, -0.250303, 1.58565, 0.188296)
 bone_name = "r_hold"
 bone_idx = 17
 use_external_skeleton = true
@@ -228,11 +228,11 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.60103e-07, -7.84492e-08, -0.999484, -0.0369275, 0.998941, -7.24736e-08, 0.999141, 0.0369202, -1.62837e-07, -1.74002e-08, 1.80799, -0.0250865)
+transform = Transform3D(-1.6007e-07, -7.08518e-08, -0.999484, -0.0417911, 0.998749, -6.40917e-08, 0.998952, 0.0417826, -1.62837e-07, -1.09213e-09, 1.80797, -0.0139727)
 shape = SubResource("BoxShape3D_i35w5")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-2.19391e-07, -8.0669e-08, -1, -0.0369341, 0.999317, -7.25109e-08, 0.999318, 0.0369341, -2.22221e-07, 2.50693e-09, 1.56066, -0.0342276)
+transform = Transform3D(-2.17981e-07, -7.33001e-08, -1, -0.0417984, 0.999126, -6.41248e-08, 0.999126, 0.0417984, -2.20854e-07, 1.69912e-08, 1.56069, -0.0243177)
 bone_name = "head"
 bone_idx = 11
 use_external_skeleton = true

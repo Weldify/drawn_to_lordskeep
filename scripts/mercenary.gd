@@ -22,17 +22,6 @@ var is_grounded := false
 		$Collider.position.y = height/2
 
 
-# @UGLY: Because Godot can't just network this??
-@export var transform_mirror: Transform3D :
-	set(v):
-		global_transform = v
-	get(): return global_transform
-	
-@export var velocity_mirror: Vector3 :
-	set(v):
-		velocity = v
-	get(): return velocity
-
 @export_category("[SERVER] FOR THE LOVE OF GOD DO NOT TOUCH THIS")
 # Serverside
 @export var right_hand_item_name: String
@@ -80,11 +69,6 @@ func _enter_tree() -> void:
 		$Interpolator.properties.append(":look_pitch")
 		$Interpolator.properties.append(":look_yaw")
 		$Interpolator.reconfigure()
-		print("Reconfiguh ", multiplayer.multiplayer_peer.get_unique_id())
-	else:
-		## @NOTE: OHH MY GOD MULTIPLAYER SPAWNER SUCKS SO MUCH GRAH!!
-		print("Noreconfig")
-		print($Interpolator.properties)
 
 
 func _ready() -> void:

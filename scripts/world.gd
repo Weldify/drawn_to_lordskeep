@@ -71,6 +71,7 @@ func reset_all_multiplayer_things():
 	for district in $Districts.get_children(): district.free()
 	for merc in $Mercenaries.get_children(): merc.free()
 	for item in $Items.get_children(): item.free()
+	for enemy in $Enemies.get_children(): enemy.free()
 	
 	NetworkTime.restart()
 
