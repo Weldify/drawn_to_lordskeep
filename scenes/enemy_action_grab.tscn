@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cman88677hufe"]
+
+[ext_resource type="Script" uid="uid://dkrluie0gt2oo" path="res://scripts/enemy_action_grab.gd" id="1_gheds"]
+[ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_td4l6"]
+
+[node name="Grab" type="Node"]
+script = ExtResource("1_gheds")
+
+[node name="NetSynchronizer" type="Node" parent="."]
+script = ExtResource("2_td4l6")
+networked_properties = Array[StringName]([&":is_damaging"])
+metadata/_custom_type_script = ExtResource("2_td4l6")
