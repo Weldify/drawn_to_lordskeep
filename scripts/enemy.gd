@@ -1,10 +1,22 @@
 extends CharacterBody3D
 class_name Enemy
 
+@export var look_at_modifiers: Array[LookAtModifier3D] 
+
 @warning_ignore("unused_signal") signal anim_attack_swing_start
 @warning_ignore("unused_signal") signal anim_attack_swing_finish
 
-var health := 1.0
+var health := 1.0 :
+	set(v):
+		if v == health: return
+		health = v
+		
+		if health <= 0:
+			if is_instance_valid(current_action):
+				current_action.stop()
+				current_action = null
+
+
 var should_change_point_of_interest_at := 0.0
 @onready var point_of_interest_node := $PointOfInterest
 
@@ -13,8 +25,6 @@ var walk_direction: Vector3
 
 var look_pitch := 0.0
 var is_grounded := false
-
-var look_at_modifiers: Array[LookAtModifier3D]
 
 func handle_hit(weapon, pos: Vector3, normal: Vector3):
 	G.flesh_hit_effects(weapon.blunt, pos, normal)
@@ -26,12 +36,12 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 func _ready() -> void:
 	$NetSynchronizer.configure()
 	NetworkTime.on_tick.connect(_on_tick)
-	
-	look_at_modifiers.append_array(find_children("LookAt*", "LookAtModifier3D"))
 
 
 func _on_tick(delta: float) -> void:
 	if !multiplayer.is_server(): return
+	
+	_do_actions()
 	
 	if NetworkTime.now > should_change_point_of_interest_at:
 		should_change_point_of_interest_at = NetworkTime.now + randf_range(2, 6)
@@ -64,8 +74,33 @@ func _on_tick(delta: float) -> void:
 	
 	move_and_slide()
 
-@export var point_of_interest_target: Vector3:
+
+var action_cooldown_ends_at := 0.0
+var current_action: Node
+var _next_action_index_to_try := 0
+func _do_actions():
+	var child_count := $Actions.get_child_count()
+	if child_count == 0: return
+	
+	if is_instance_valid(current_action) and !current_action.is_active: 
+		current_action = null
+	
+	if NetworkTime.now < action_cooldown_ends_at or current_action: return
+	
+	if _next_action_index_to_try > child_count-1:
+		_next_action_index_to_try = 0
+	
+	var action := $Actions.get_child(_next_action_index_to_try)
+	action.try_activate()
+	if action.is_active:
+		current_action = action
+	
+	_next_action_index_to_try += 1
+
+
+var point_of_interest_target: Vector3:
 	set(v):
+		if v == point_of_interest_target: return
 		point_of_interest_target = v
 		
 		point_of_interest_node.position = point_of_interest_target

@@ -3632,11 +3632,11 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": 0
 },
-"death": {
+"idle": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://models/tall_axe_guy/death.res",
-"settings/loop_mode": 0,
+"save_to_file/path": "res://models/tall_axe_guy/idle.res",
+"settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -5431,11 +5431,11 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": 0
 },
-"idle": {
+"stab_lunge": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://models/tall_axe_guy/idle.res",
-"settings/loop_mode": 1,
+"save_to_file/path": "res://models/tall_axe_guy/stab_lunge.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

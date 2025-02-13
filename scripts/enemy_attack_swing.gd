@@ -1,14 +1,18 @@
 extends Node
 
-@export_category("DO NOT TOUCH THIS")
+@export var state_machine_parameter: StringName
+@export var state_name: StringName
+
+var activated_at := 0.0
 var is_active := false
-var cooldown_ends_at := 0.0
 
 # @NOTE: Yes, this looks evil, but this is the easiest way to sync this.
-@export var is_damaging: bool :
+var is_damaging: bool :
 	set(v):
 		if v == is_damaging: return
 		is_damaging = v
+		
+		$"../../RHold/ProtonTrail".emit = is_damaging
 		
 		if is_damaging:
 			previous_hit_detector_position = hit_detector.global_position
@@ -16,15 +20,19 @@ var cooldown_ends_at := 0.0
 			hit_detector.add_exception(user.get_node("Hitbox"))
 
 
-@onready var user: Enemy = $".."
-@onready var hit_detector := $"../RHold/SpearHitbox"
+@onready var user: Enemy = $"../.."
+@onready var hit_detector := $"../../RHold/SpearHitbox"
 var previous_hit_detector_position: Vector3
 var original_hit_detector_position: Vector3
 
 func _ready():
+	$NetSynchronizer.configure()
+	
+	NetworkTime.on_tick.connect(_on_tick)
+	
 	if multiplayer.is_server():
 		user.anim_attack_swing_start.connect(try_start_swing_damage)
-		user.anim_attack_swing_finish.connect(try_stop_swing)
+		user.anim_attack_swing_finish.connect(stop)
 
 
 func try_start_swing_damage():
@@ -35,11 +43,11 @@ func try_start_swing_damage():
 
 @rpc("authority", "call_local", "unreliable")
 func damage_start_effects():
-	$"../RHold/Swing".play()
+	$"../../RHold/Swing".play()
 
 
 func do_hitboxes():
-	if !is_damaging: return
+	if !is_damaging or user.health <= 0: return
 	
 	var hit_detector_position := previous_hit_detector_position
 	previous_hit_detector_position = hit_detector.global_position
@@ -88,32 +96,28 @@ func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: V
 		mercenary.health -= 0.4
 
 
-func _physics_process(_delta: float):
-	if user.health <= 0: return
-	
-	do_hitboxes()
-	
-	if !multiplayer.is_server(): return
-	
-	if is_active or NetworkTime.now < cooldown_ends_at: return
+func try_activate():
+	if user.current_action or user.health <= 0: return
 	is_active = true
+	activated_at = NetworkTime.now
 	
 	swing_effects.rpc()
 
 
-func _process(_delta: float):
-	$"../RHold/ProtonTrail".emit = is_damaging
-
-
-@rpc("authority", "call_local", "unreliable")
-func swing_effects():
-	var playback: AnimationNodeStateMachinePlayback= $"../AnimationTree".get("parameters/regular_blendtree/upper body state/playback")
-	playback.start("attack")
-
-
-func try_stop_swing():
+func stop():
 	if !is_active: return
 	is_active = false
 	is_damaging = false
 	
-	cooldown_ends_at = NetworkTime.now + 2
+	user.action_cooldown_ends_at = NetworkTime.now + 2
+
+
+func _on_tick(_delta: float):
+	do_hitboxes()
+	if !is_active: return
+
+
+@rpc("authority", "call_local", "unreliable")
+func swing_effects():
+	var playback: AnimationNodeStateMachinePlayback= $"../../AnimationTree".get(state_machine_parameter)
+	playback.start(state_name)

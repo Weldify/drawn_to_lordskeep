@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs2aossubdske"]
+
+[ext_resource type="Script" uid="uid://t8bti7kwcidf" path="res://scripts/enemy_attack_swing.gd" id="1_0g0v8"]
+[ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_4nyx7"]
+
+[node name="Swing" type="Node"]
+script = ExtResource("1_0g0v8")
+
+[node name="NetSynchronizer" type="Node" parent="."]
+script = ExtResource("2_4nyx7")
+networked_properties = Array[StringName]([&":is_damaging"])
+metadata/_custom_type_script = ExtResource("2_4nyx7")

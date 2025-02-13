@@ -25,7 +25,7 @@ func _ready() -> void:
 	border_closed = true
 	
 	if scene_file_path == "res://scenes/tenurial_district.tscn":
-		var enemy := preload("res://scenes/tall_axe_guy.tscn").instantiate()
+		var enemy := preload("res://scenes/spearman.tscn").instantiate()
 		$/root/world/Enemies.add_child(enemy, true)
 		enemy.global_position = $EnemySpawnpoint.global_position
 

@@ -4,8 +4,8 @@ render_mode diffuse_toon,specular_disabled;
 uniform sampler2D tex: filter_nearest;
 
 void vertex() {
-	VERTEX.y += sin(TIME + VERTEX.x) * 0.02;
-	VERTEX.y += cos(TIME + VERTEX.z) * 0.02;
+	VERTEX.y += sin(TIME + VERTEX.x) * 0.1;
+	VERTEX.y += cos(TIME + VERTEX.z) * 0.1;
 }
 
 void fragment() {

@@ -1,0 +1,196 @@
+[gd_scene load_steps=27 format=3 uid="uid://d4acu662uxdd3"]
+
+[ext_resource type="PackedScene" uid="uid://ct2u6ioagouid" path="res://scenes/base_enemy.tscn" id="1_rxai7"]
+[ext_resource type="PackedScene" uid="uid://cs2aossubdske" path="res://scenes/enemy_action_swing.tscn" id="2_dk0sx"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://c0jb3gytn5ehs" path="res://models/tall_axe_guy/regular_blendtree.tres" id="2_xf186"]
+[ext_resource type="PackedScene" uid="uid://1x70kpwhu4er" path="res://models/tall_axe_guy/tall_axe_guy.blend" id="3_jvmjk"]
+[ext_resource type="Animation" uid="uid://cnri8x6lwxx5c" path="res://models/tall_axe_guy/RESET.res" id="4_2ofd2"]
+[ext_resource type="Animation" uid="uid://deudtd7uq0l5x" path="res://models/tall_axe_guy/attack.res" id="5_bo2cg"]
+[ext_resource type="Animation" uid="uid://cs74douqk7pgq" path="res://models/tall_axe_guy/death.res" id="6_t5mya"]
+[ext_resource type="Animation" uid="uid://bnsab52r1rngb" path="res://models/tall_axe_guy/idle.res" id="7_dk0sx"]
+[ext_resource type="Animation" uid="uid://cgp0fa52u0wql" path="res://models/mercenary/walk_ff.res" id="8_1q64m"]
+[ext_resource type="Animation" uid="uid://dp10gb4w532f1" path="res://models/mercenary/walk_fl.res" id="9_esba6"]
+[ext_resource type="Animation" uid="uid://fqag2nen87m3" path="res://models/mercenary/walk_fr.res" id="10_53kvo"]
+[ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="11_t5mya"]
+[ext_resource type="Animation" uid="uid://d23rrl1m40pyr" path="res://models/tall_axe_guy/stab_lunge.res" id="12_1q64m"]
+[ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="12_dk0sx"]
+[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="13_1q64m"]
+[ext_resource type="PackedScene" uid="uid://cjt3bt14ih7ca" path="res://models/tall_axe/tall_axe.blend" id="14_esba6"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d6gh5"]
+animation = &"death"
+use_custom_timeline = true
+timeline_length = 0.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1y0ek"]
+animation = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d6gh5"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_du1ch"]
+advance_mode = 2
+advance_expression = "health <= 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3uc3c"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hp4xw"]
+states/dead/node = SubResource("AnimationNodeAnimation_d6gh5")
+states/dead/position = Vector2(706, 100)
+states/death/node = SubResource("AnimationNodeAnimation_1y0ek")
+states/death/position = Vector2(558, 100)
+states/regular_blendtree/node = ExtResource("2_xf186")
+states/regular_blendtree/position = Vector2(381, 100)
+transitions = ["Start", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_d6gh5"), "regular_blendtree", "death", SubResource("AnimationNodeStateMachineTransition_du1ch"), "death", "dead", SubResource("AnimationNodeStateMachineTransition_3uc3c")]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s5fne"]
+_data = {
+&"RESET": ExtResource("4_2ofd2"),
+&"attack": ExtResource("5_bo2cg"),
+&"death": ExtResource("6_t5mya"),
+&"idle": ExtResource("7_dk0sx"),
+&"stab_lunge": ExtResource("12_1q64m"),
+&"walk_ff": ExtResource("8_1q64m"),
+&"walk_fl": ExtResource("9_esba6"),
+&"walk_fr": ExtResource("10_53kvo")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_53kvo"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("13_1q64m")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hp4xw"]
+resource_local_to_scene = true
+radius = 0.03
+height = 0.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xf186"]
+resource_local_to_scene = true
+size = Vector3(0.3, 0.405, 0.3)
+
+[node name="Spearman" node_paths=PackedStringArray("look_at_modifiers") instance=ExtResource("1_rxai7")]
+look_at_modifiers = [NodePath("Model/Skeleton3D/LookAtTorsoLower"), NodePath("Model/Skeleton3D/LookAtTorsoUpper"), NodePath("Model/Skeleton3D/LookAtHead")]
+
+[node name="Swing" parent="Actions" index="0" instance=ExtResource("2_dk0sx")]
+state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
+state_name = &"attack"
+
+[node name="Swing2" parent="Actions" index="1" instance=ExtResource("2_dk0sx")]
+state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
+state_name = &"stab_lunge"
+
+[node name="AnimationTree" parent="." index="5"]
+root_node = NodePath("../Model")
+tree_root = SubResource("AnimationNodeStateMachine_hp4xw")
+anim_player = NodePath("../Model/AnimationPlayer")
+parameters/regular_blendtree/Add2/add_amount = 1.0
+"parameters/regular_blendtree/Add2 2/add_amount" = 1.0
+"parameters/regular_blendtree/horizontal speed/blend_position" = 0
+"parameters/regular_blendtree/horizontal speed/1/blend_position" = Vector2(0, 0)
+"parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
+
+[node name="Model" parent="." index="7" instance=ExtResource("3_jvmjk")]
+
+[node name="LookAtTorsoLower" type="LookAtModifier3D" parent="Model/Skeleton3D" index="2"]
+active = false
+influence = 0.25
+target_node = NodePath("../../../PointOfInterest")
+bone_name = "torso1"
+bone = 9
+forward_axis = 0
+duration = 1.0
+transition_type = 7
+ease_type = 1
+
+[node name="LookAtTorsoUpper" type="LookAtModifier3D" parent="Model/Skeleton3D" index="3"]
+active = false
+influence = 0.25
+target_node = NodePath("../../../PointOfInterest")
+bone_name = "torso2"
+bone = 10
+forward_axis = 0
+duration = 1.0
+transition_type = 7
+ease_type = 1
+
+[node name="LookAtHead" type="LookAtModifier3D" parent="Model/Skeleton3D" index="4"]
+active = false
+influence = 0.5
+target_node = NodePath("../../../PointOfInterest")
+bone_name = "head"
+bone = 11
+forward_axis = 0
+duration = 1.0
+transition_type = 7
+ease_type = 1
+
+[node name="AnimationPlayer" parent="Model" index="1"]
+deterministic = true
+libraries = {
+&"": SubResource("AnimationLibrary_s5fne")
+}
+
+[node name="HeadAttachment" type="BoneAttachment3D" parent="." index="8"]
+transform = Transform3D(-2.18246e-07, -7.46825e-08, -1, -0.0437891, 0.999041, -6.5054e-08, 0.999041, 0.0437891, -2.21307e-07, 1.417e-08, 1.56064, -0.0203018)
+bone_name = "head"
+bone_idx = 11
+use_external_skeleton = true
+external_skeleton = NodePath("../Model/Skeleton3D")
+
+[node name="HeadHitbox" type="RemoteTransform3D" parent="HeadAttachment" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, 0.247497, -5.82077e-11)
+remote_path = NodePath("../../Hitbox/Head")
+update_scale = false
+
+[node name="RHold" type="BoneAttachment3D" parent="." index="9"]
+transform = Transform3D(-1.23307e-06, -1, 3.94648e-08, 1, -1.20699e-06, 7.97212e-07, -8.08388e-07, 2.10712e-08, 1, -0.902161, 1.47605, -0.00141756)
+bone_name = "r_hold"
+bone_idx = 17
+use_external_skeleton = true
+external_skeleton = NodePath("../Model/Skeleton3D")
+
+[node name="ProtonTrail" type="Node3D" parent="RHold" index="0"]
+transform = Transform3D(1, -1.49012e-08, 3.72529e-09, -1.49012e-08, 1, -1.58325e-08, 1.11759e-08, -4.65661e-08, 1, 0, 0, 0)
+script = ExtResource("11_t5mya")
+material = ExtResource("12_dk0sx")
+smooth = 1.0
+cast_shadow = false
+metadata/_custom_type_script = ExtResource("11_t5mya")
+
+[node name="Top" type="Marker3D" parent="RHold/ProtonTrail" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.12227e-09, 0.783439)
+
+[node name="Bottom" type="Marker3D" parent="RHold/ProtonTrail" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.65661e-10, 3.49246e-10, 0.102678)
+
+[node name="Swing" type="AudioStreamPlayer3D" parent="RHold" index="1"]
+transform = Transform3D(1, 0, -2.6077e-08, 1.49012e-08, 1, 4.05125e-07, -7.45058e-09, 1.58325e-08, 1, -1.30656e-08, 2.17418e-07, 0.501037)
+stream = SubResource("AudioStreamRandomizer_53kvo")
+attenuation_model = 3
+max_distance = 10.0
+attenuation_filter_db = 0.0
+
+[node name="tall_axe" parent="RHold" index="2" instance=ExtResource("14_esba6")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="SpearHitbox" type="ShapeCast3D" parent="RHold" index="3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -3.25963e-09, 2.47755e-08, 0.442359)
+enabled = false
+shape = SubResource("CapsuleShape3D_hp4xw")
+exclude_parent = false
+target_position = Vector3(0, 0, 0)
+max_results = 1
+collision_mask = 8
+
+[node name="Head" type="CollisionShape3D" parent="Hitbox" index="0"]
+transform = Transform3D(-1.6001e-07, -7.90553e-08, -0.999484, -0.0378973, 0.998904, -7.29246e-08, 0.999106, 0.0378897, -1.62837e-07, -1.89569e-08, 1.808, -0.0228765)
+shape = SubResource("BoxShape3D_xf186")
+
+[editable path="Model"]
+[editable path="RHold/tall_axe"]
