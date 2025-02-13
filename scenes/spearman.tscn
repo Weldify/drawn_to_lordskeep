@@ -81,10 +81,14 @@ look_at_modifiers = [NodePath("Model/Skeleton3D/LookAtTorsoLower"), NodePath("Mo
 [node name="Swing" parent="Actions" index="0" instance=ExtResource("2_dk0sx")]
 state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
 state_name = &"attack"
+damage_start_time = 0.6
+finish_time = 0.94
 
 [node name="Grab" parent="Actions" index="1" instance=ExtResource("3_esba6")]
 state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
 state_name = &"stab_lunge"
+damage_start_time = 0.8
+finish_time = 1.067
 
 [node name="AnimationTree" parent="." index="5"]
 root_node = NodePath("../Model")
@@ -190,7 +194,7 @@ max_results = 1
 collision_mask = 8
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(-2.78786e-07, -8.59141e-08, -0.999484, -0.041051, 0.998781, -7.4387e-08, 0.998977, 0.0410429, -2.81984e-07, -2.40316e-08, 1.80799, -0.0156745)
+transform = Transform3D(-0.46775, 0.0104194, -0.8833, -0.364765, 0.908141, 0.20374, 0.804861, 0.417628, -0.420999, -0.0213408, 1.78468, 0.152705)
 shape = SubResource("BoxShape3D_xf186")
 
 [editable path="Model"]

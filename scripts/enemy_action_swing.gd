@@ -2,6 +2,8 @@ extends Node
 
 @export var state_machine_parameter: StringName
 @export var state_name: StringName
+@export var damage_start_time: float
+@export var finish_time: float
 
 var activated_at := 0.0
 var is_active := false
@@ -27,12 +29,7 @@ var original_hit_detector_position: Vector3
 
 func _ready():
 	$NetSynchronizer.configure()
-	
 	NetworkTime.on_tick.connect(_on_tick)
-	
-	if multiplayer.is_server():
-		user.anim_attack_swing_start.connect(try_start_swing_damage)
-		user.anim_attack_swing_finish.connect(stop)
 
 
 func try_start_swing_damage():
@@ -115,6 +112,10 @@ func stop():
 func _on_tick(_delta: float):
 	do_hitboxes()
 	if !is_active: return
+	
+	var elapsed := NetworkTime.now - activated_at
+	if elapsed > damage_start_time: try_start_swing_damage()
+	if elapsed > finish_time: stop()
 
 
 @rpc("authority", "call_local", "unreliable")

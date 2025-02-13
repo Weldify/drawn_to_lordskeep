@@ -3,9 +3,6 @@ class_name Enemy
 
 @export var look_at_modifiers: Array[LookAtModifier3D] 
 
-@warning_ignore("unused_signal") signal anim_attack_swing_start
-@warning_ignore("unused_signal") signal anim_attack_swing_finish
-
 var health := 1.0 :
 	set(v):
 		if v == health: return
