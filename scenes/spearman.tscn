@@ -96,7 +96,6 @@ swing_finish_time = 2.0
 grab_state_name = &"stab_throw"
 grab_finish_time = 2.2
 grab_point = NodePath("../../RHold/GrabPoint")
-grab_height_offset = -1.5
 grab_throw_velocity = Vector3(0, 2, -5)
 
 [node name="AnimationTree" parent="." index="5"]
@@ -110,6 +109,7 @@ parameters/regular_blendtree/Add2/add_amount = 1.0
 "parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
 
 [node name="Model" parent="." index="7" instance=ExtResource("3_jvmjk")]
+top_level = true
 
 [node name="LookAtTorsoLower" type="LookAtModifier3D" parent="Model/Skeleton3D" index="2"]
 active = false
@@ -203,10 +203,10 @@ max_results = 1
 collision_mask = 8
 
 [node name="GrabPoint" type="Node3D" parent="RHold" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.68434e-14, 0, 0.635921)
+transform = Transform3D(-4.37114e-08, -4.37114e-08, -1, -1.31134e-07, -1, 4.37114e-08, -1, 1.31134e-07, 4.37114e-08, -1.20904e-08, -3.62711e-08, 0.359326)
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(-1.60899e-07, -7.18191e-08, -0.999484, -0.0286668, 0.999214, -6.71678e-08, 0.999414, 0.0286611, -1.62837e-07, 4.64184e-09, 1.80738, -0.0454335)
+transform = Transform3D(-1.59888e-07, -7.20987e-08, -0.999484, -0.0437815, 0.998666, -6.50205e-08, 0.998866, 0.0437727, -1.62837e-07, -4.25551e-09, 1.8079, -0.00946411)
 shape = SubResource("BoxShape3D_xf186")
 
 [connection signal="skeleton_updated" from="Model/Skeleton3D" to="." method="_skeleton_finalized"]

@@ -22,8 +22,16 @@ var crouchness: float :
 
 
 # Serverside
-var grab_point_path: NodePath
-var grab_height_offset: float
+var grab_point_path: NodePath :
+	set(v):
+		if grab_point_path == v: return
+		grab_point_path = v
+		
+		if !v:
+			print("Gluck")
+			## @TODO: CRUTCH!!
+			## @BUG: This doesn't properly set the position of client peers!
+			position = $Model.global_position
 
 var right_hand_item_name: String
 var left_hand_item_name: String
@@ -73,7 +81,10 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.MERCENARY_PROCESS_PRIORITY
+	
+	NetworkTime.on_tick.connect(_on_tick)
 	
 	if !is_multiplayer_authority(): return
 	crouchness = 0
@@ -86,9 +97,11 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority(): return
 	
-	if event is InputEventMouseMotion and G.mouse_unlockers.is_empty() and health > 0:
-		look_pitch = fmod(look_pitch - event.relative.x * Settings.look_sensitivity * 0.01, PI*2)
-		look_yaw = clamp(look_yaw - event.relative.y * Settings.look_sensitivity * 0.01, -PI/2, PI/2)
+	if event is not InputEventMouseMotion: return 
+	if !G.mouse_unlockers.is_empty() or health <= 0: return
+	
+	look_pitch = fmod(look_pitch - event.relative.x * Settings.look_sensitivity * 0.01, PI*2)
+	look_yaw = clamp(look_yaw - event.relative.y * Settings.look_sensitivity * 0.01, -PI/2, PI/2)
 
 
 func take_satchel():
@@ -240,7 +253,7 @@ func take_item_effects(right_hand: bool):
 		$LHand0Attachment/Take.play()
 
 
-func _physics_process(delta: float) -> void:
+func _on_tick(delta: float) -> void:
 	if multiplayer.is_server():
 		if trying_to_use:
 			use()
@@ -271,24 +284,39 @@ func _physics_process(delta: float) -> void:
 		place_satchel.rpc_id(1)
 	
 	var grab_point: Node3D = get_node_or_null(grab_point_path)
-	if grab_point:
-		_apply_grab_transform(grab_point)
-	else:
+	if !grab_point:
 		_do_movement(delta)
 
 
-func _apply_grab_transform(grab_point: Node3D):
-	global_position = grab_point.global_position + Vector3.UP * grab_height_offset
-
+var _grab_throw_after_finish := false
+var _grab_throw_velocity: Vector3
+var _grab_throw_pitch: float
 
 @rpc("any_peer", "call_local", "unreliable")
-func punch(power: Vector3):
+func grab_throw(power: Vector3, pitch: float):
 	if multiplayer.get_remote_sender_id() != 1: return
+	_try_apply_grab_throw(power, pitch)
+
+
+func _try_apply_grab_throw(power: Vector3, pitch: float):
+	print("Jaking it ")
+	var grab_point := get_node_or_null(grab_point_path)
+	if grab_point:
+		_grab_throw_after_finish = true
+		_grab_throw_velocity = power
+		_grab_throw_pitch = pitch
+		return
 	
-	velocity += power
+	_grab_throw_after_finish = false
+	velocity = power
+	look_pitch = pitch
+	look_yaw = 0
 
 
 func _do_movement(delta: float):
+	if _grab_throw_after_finish:
+		_try_apply_grab_throw(_grab_throw_velocity, _grab_throw_pitch)
+	
 	if Input.is_action_pressed("crouch"):
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
 	elif can_uncrouch():
@@ -338,6 +366,7 @@ func evaluate_animations(delta: float):
 	$AnimationTree.set("parameters/regular_blendtree/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
+	
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
 	var walk_dir := (hor_velocity * horizontal_look).normalized()
@@ -361,8 +390,14 @@ func evaluate_animations(delta: float):
 	
 	$AnimationTree.set("parameters/regular_blendtree/Right hand/holdtype/blend_position", right_holdtype)
 	$AnimationTree.set("parameters/regular_blendtree/Left hand/holdtype/blend_position", left_holdtype)
-
-	$Model.transform = horizontal_look
+	
+	var grab_point: Node3D = get_node_or_null(grab_point_path)
+	if grab_point:
+		var bone_idx: int = $Model/Skeleton3D.find_bone("torso2")
+		var bone_trans: Transform3D = $Model/Skeleton3D.get_bone_global_pose(bone_idx)
+		$Model.global_transform = grab_point.global_transform * bone_trans.inverse()
+	else:
+		$Model.global_transform = horizontal_look.translated(global_position)
 	
 	$AnimationTree.advance(delta)
 
@@ -370,10 +405,6 @@ func evaluate_animations(delta: float):
 func _process(delta: float) -> void:
 	$Interpolator.apply()
 	evaluate_animations(delta)
-	
-	var grab_point: Node3D = get_node_or_null(grab_point_path)
-	if grab_point:
-		_apply_grab_transform(grab_point)
 	
 	$Torso2Attachment/Satchel.visible = satchel_name == ""
 	

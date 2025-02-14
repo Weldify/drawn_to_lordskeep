@@ -21,6 +21,11 @@ var my_mercenary: Mercenary
 var viewer_mercenary: Mercenary
 
 
+func dir_to_pitch(dir: Vector3) -> float:
+	var pitch := atan2(dir.x, dir.z)
+	return pitch
+
+
 func accelerate(velocity: Vector3, direction: Vector3, acceleration: float, max_speed: float) -> Vector3:
 	var projected_speed := velocity.dot(direction)
 	return velocity + direction * clamp(max_speed - projected_speed, 0, acceleration)

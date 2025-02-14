@@ -1,7 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=28 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
-[ext_resource type="PackedScene" uid="uid://d4acu662uxdd3" path="res://scenes/spearman.tscn" id="3_e3hyu"]
 [ext_resource type="Material" uid="uid://yr7saub7qdbg" path="res://sprites/hurt_overlay_particle.tres" id="3_w7kh3"]
 [ext_resource type="Script" uid="uid://djq2d1uptreai" path="res://scripts/ping_counter.gd" id="5_1ew0l"]
 [ext_resource type="Script" uid="uid://fvop1m7ligm0" path="res://scripts/hurt_effects.gd" id="10_w7kh3"]
@@ -254,8 +253,6 @@ _spawnable_scenes = PackedStringArray("uid://d4acu662uxdd3")
 spawn_path = NodePath("../Enemies")
 
 [node name="Enemies" type="Node" parent="."]
-
-[node name="Spearman" parent="Enemies" instance=ExtResource("3_e3hyu")]
 
 [node name="FallenEnemiesDeleter" type="Node" parent="." node_paths=PackedStringArray("node_to_query")]
 script = ExtResource("12_q5onr")

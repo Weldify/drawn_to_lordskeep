@@ -39,6 +39,7 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
+	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.ENEMY_PROCESS_PRIORITY
 	
 	$NetSynchronizer.configure()
@@ -134,7 +135,7 @@ func _evaluate_animations(delta: float):
 	# @TODO: Read same line in mercenary.gd 
 	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
-	$Model.transform = horizontal_look
+	$Model.global_transform = horizontal_look.translated(global_position)
 	
 	$AnimationTree.advance(delta)
 	

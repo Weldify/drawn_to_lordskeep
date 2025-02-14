@@ -53,6 +53,11 @@ func _ready():
 	DiscordRPC.refresh()
 	
 
+	if true:
+		var debug_spearman := preload("res://scenes/spearman.tscn").instantiate()
+		$/root/world/Enemies.add_child(debug_spearman, true)
+		
+	
 	var args := OS.get_cmdline_args()
 	for i in args.size():
 		var argument := args[i]

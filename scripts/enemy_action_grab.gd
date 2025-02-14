@@ -11,8 +11,8 @@ extends EnemyAction
 @export var grab_state_name: StringName
 @export var grab_finish_time: float
 @export var grab_point: Node3D
-@export var grab_height_offset: float
 @export var grab_throw_velocity: Vector3
+@export var grab_throw_look_angle: float
 
 var activated_at := 0.0
 
@@ -109,14 +109,21 @@ var _grabbed_mercenary: Mercenary
 var _grabbing := false
 var _grab_started_at := 0.0
 func _try_grab(mercenary: Mercenary):
+	if _grabbing: return
 	_grabbing = true
 	_grab_started_at = NetworkTime.now
 	block_look_at = true
 	
+	_stop_damage()
+	
 	_grabbed_mercenary = mercenary
 	mercenary.grab_point_path = grab_point.get_path()
-	mercenary.grab_height_offset = grab_height_offset
 	
+	_grab_effects.rpc()
+
+
+@rpc("authority", "call_local", "unreliable")
+func _grab_effects():
 	var playback: AnimationNodeStateMachinePlayback= $"../../AnimationTree".get(swing_state_machine_parameter)
 	playback.start(grab_state_name)
 
@@ -141,8 +148,8 @@ func stop():
 		var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, user.look_pitch)
 		var throw_velocity := horizontal_look * grab_throw_velocity
 		
-		_grabbed_mercenary.punch.rpc_id(_grabbed_mercenary.get_multiplayer_authority(), throw_velocity)
 		_grabbed_mercenary.grab_point_path = ^""
+		_grabbed_mercenary.grab_throw.rpc_id(_grabbed_mercenary.get_multiplayer_authority(), throw_velocity, user.look_pitch + grab_throw_look_angle)
 	
 	user.active_action = null
 	user.action_cooldown_ends_at = NetworkTime.now + 2
