@@ -1,4 +1,4 @@
-extends Node
+extends EnemyAction
 
 @export var state_machine_parameter: StringName
 @export var state_name: StringName
@@ -6,7 +6,6 @@ extends Node
 @export var finish_time: float
 
 var activated_at := 0.0
-var is_active := false
 
 # @NOTE: Yes, this looks evil, but this is the easiest way to sync this.
 var is_damaging: bool :
@@ -33,7 +32,7 @@ func _ready():
 
 
 func try_start_swing_damage():
-	if !is_active or is_damaging: return
+	if is_damaging: return
 	is_damaging = true
 	damage_start_effects.rpc()
 
@@ -94,16 +93,18 @@ func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: V
 
 
 func try_activate():
-	if user.current_action or user.health <= 0: return
-	is_active = true
+	return
+	
+	if user.active_action or user.health <= 0: return
+	user.active_action = self
 	activated_at = NetworkTime.now
 	
 	swing_effects.rpc()
 
 
 func stop():
-	if !is_active: return
-	is_active = false
+	if user.active_action != self: return
+	user.active_action = null
 	is_damaging = false
 	
 	user.action_cooldown_ends_at = NetworkTime.now + 2
@@ -111,7 +112,7 @@ func stop():
 
 func _on_tick(_delta: float):
 	do_hitboxes()
-	if !is_active: return
+	if user.active_action != self: return
 	
 	var elapsed := NetworkTime.now - activated_at
 	if elapsed > damage_start_time: try_start_swing_damage()

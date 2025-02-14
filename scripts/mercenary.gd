@@ -7,13 +7,12 @@ const CROUCHING_HEIGHT = 1.0
 
 var is_grounded := false
 
-@export_category("[CLIENT] FOR THE LOVE OF GOD DO NOT TOUCH THIS")
 # Client owned
-@export var look_pitch: float
-@export var look_yaw: float
-@export var trying_to_use := false
+var look_pitch: float
+var look_yaw: float
+var trying_to_use := false
 
-@export var crouchness: float :
+var crouchness: float :
 	set(v):
 		crouchness = v
 		
@@ -22,12 +21,14 @@ var is_grounded := false
 		$Collider.position.y = height/2
 
 
-@export_category("[SERVER] FOR THE LOVE OF GOD DO NOT TOUCH THIS")
 # Serverside
-@export var right_hand_item_name: String
-@export var left_hand_item_name: String
-@export var satchel_name := ""
-@export var health := 1.0
+var grab_point_path: NodePath
+var grab_height_offset: float
+
+var right_hand_item_name: String
+var left_hand_item_name: String
+var satchel_name := ""
+var health := 1.0
 
 var saved_items_in_satchel := [
 	["res://scenes/arming_sword.tscn", Transform3D(
@@ -72,8 +73,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	# So that we are not stuck in the editor debug pose for 1 frame
-	evaluate_animations()
+	process_priority = G.MERCENARY_PROCESS_PRIORITY
 	
 	if !is_multiplayer_authority(): return
 	crouchness = 0
@@ -270,6 +270,25 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("place_satchel"):
 		place_satchel.rpc_id(1)
 	
+	var grab_point: Node3D = get_node_or_null(grab_point_path)
+	if grab_point:
+		_apply_grab_transform(grab_point)
+	else:
+		_do_movement(delta)
+
+
+func _apply_grab_transform(grab_point: Node3D):
+	global_position = grab_point.global_position + Vector3.UP * grab_height_offset
+
+
+@rpc("any_peer", "call_local", "unreliable")
+func punch(power: Vector3):
+	if multiplayer.get_remote_sender_id() != 1: return
+	
+	velocity += power
+
+
+func _do_movement(delta: float):
 	if Input.is_action_pressed("crouch"):
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
 	elif can_uncrouch():
@@ -315,7 +334,7 @@ func play_footstep() -> void:
 	$Footsteps.play()
 
 
-func evaluate_animations():
+func evaluate_animations(delta: float):
 	$AnimationTree.set("parameters/regular_blendtree/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
@@ -344,17 +363,25 @@ func evaluate_animations():
 	$AnimationTree.set("parameters/regular_blendtree/Left hand/holdtype/blend_position", left_holdtype)
 
 	$Model.transform = horizontal_look
-	# Otherwise it will be out of sync due to us changing the transform.
-	$HeadAttachment.on_skeleton_update()
+	
+	$AnimationTree.advance(delta)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	$Interpolator.apply()
-	evaluate_animations()
+	evaluate_animations(delta)
+	
+	var grab_point: Node3D = get_node_or_null(grab_point_path)
+	if grab_point:
+		_apply_grab_transform(grab_point)
 	
 	$Torso2Attachment/Satchel.visible = satchel_name == ""
 	
 	if !is_multiplayer_authority(): return
+	
+	# We manually stepped the animation tree above, so this will be out of sync.
+	# Re-sync it!
+	$HeadAttachment.on_skeleton_update()
 	
 	var camera := get_viewport().get_camera_3d()
 	camera.global_transform = $HeadAttachment/Viewpoint.global_transform

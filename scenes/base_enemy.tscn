@@ -24,7 +24,7 @@ script = ExtResource("1_2kb2m")
 
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_kegi0")
-networked_properties = Array[StringName]([&":position UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":point_of_interest_target", &":health"])
+networked_properties = Array[StringName]([&":position UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":point_of_interest_target", &":health", &":look_at_active"])
 metadata/_custom_type_script = ExtResource("2_kegi0")
 
 [node name="Interpolator" type="Node" parent="."]
@@ -39,7 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_2kb2m")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-process_priority = -1
+callback_mode_process = 2
 advance_expression_base_node = NodePath("..")
 
 [node name="Footsteps" type="AudioStreamPlayer3D" parent="."]

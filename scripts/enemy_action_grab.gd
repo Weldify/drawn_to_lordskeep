@@ -1,12 +1,20 @@
-extends Node
+extends EnemyAction
 
-@export var state_machine_parameter: StringName
-@export var state_name: StringName
-@export var damage_start_time: float
-@export var finish_time: float
+@export_group("Swing", "swing_")
+@export var swing_state_machine_parameter: StringName
+@export var swing_state_name: StringName
+@export var swing_damage_start_time: float
+@export var swing_damage_finish_time: float
+@export var swing_finish_time: float
+
+@export_group("Grab", "grab_")
+@export var grab_state_name: StringName
+@export var grab_finish_time: float
+@export var grab_point: Node3D
+@export var grab_height_offset: float
+@export var grab_throw_velocity: Vector3
 
 var activated_at := 0.0
-var is_active := false
 
 # @NOTE: Yes, this looks evil, but this is the easiest way to sync this.
 var is_damaging: bool :
@@ -22,6 +30,9 @@ var is_damaging: bool :
 			hit_detector.add_exception(user.get_node("Hitbox"))
 
 
+var _finished_damaging: bool
+
+
 @onready var user: Enemy = $"../.."
 @onready var hit_detector := $"../../RHold/SpearHitbox"
 var previous_hit_detector_position: Vector3
@@ -33,7 +44,7 @@ func _ready():
 
 
 func try_start_swing_damage():
-	if !is_active or is_damaging: return
+	if is_damaging or _finished_damaging: return
 	is_damaging = true
 	damage_start_effects.rpc()
 
@@ -91,34 +102,72 @@ func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: V
 	
 	if multiplayer.is_server():
 		mercenary.health -= 0.4
+		_try_grab(mercenary)
+
+
+var _grabbed_mercenary: Mercenary
+var _grabbing := false
+var _grab_started_at := 0.0
+func _try_grab(mercenary: Mercenary):
+	_grabbing = true
+	_grab_started_at = NetworkTime.now
+	block_look_at = true
+	
+	_grabbed_mercenary = mercenary
+	mercenary.grab_point_path = grab_point.get_path()
+	mercenary.grab_height_offset = grab_height_offset
+	
+	var playback: AnimationNodeStateMachinePlayback= $"../../AnimationTree".get(swing_state_machine_parameter)
+	playback.start(grab_state_name)
 
 
 func try_activate():
-	if user.current_action or user.health <= 0: return
-	is_active = true
-	activated_at = NetworkTime.now
+	if user.active_action or user.health <= 0: return
+	user.active_action = self
+	_finished_damaging = false
+	_grabbing = false
+	_grabbed_mercenary = null
+	block_look_at = false
 	
+	activated_at = NetworkTime.now
 	swing_effects.rpc()
 
 
 func stop():
-	if !is_active: return
-	is_active = false
-	is_damaging = false
+	if user.active_action != self: return
+	_stop_damage()
 	
+	if is_instance_valid(_grabbed_mercenary):
+		var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, user.look_pitch)
+		var throw_velocity := horizontal_look * grab_throw_velocity
+		
+		_grabbed_mercenary.punch.rpc_id(_grabbed_mercenary.get_multiplayer_authority(), throw_velocity)
+		_grabbed_mercenary.grab_point_path = ^""
+	
+	user.active_action = null
 	user.action_cooldown_ends_at = NetworkTime.now + 2
+
+
+func _stop_damage():
+	is_damaging = false
+	_finished_damaging = true
 
 
 func _on_tick(_delta: float):
 	do_hitboxes()
-	if !is_active: return
+	if user.active_action != self: return
 	
-	var elapsed := NetworkTime.now - activated_at
-	if elapsed > damage_start_time: try_start_swing_damage()
-	if elapsed > finish_time: stop()
+	if _grabbing:
+		var elapsed := NetworkTime.now - _grab_started_at
+		if elapsed > grab_finish_time: stop()
+	else:
+		var elapsed := NetworkTime.now - activated_at
+		if elapsed > swing_damage_start_time: try_start_swing_damage()
+		if elapsed > swing_damage_finish_time: _stop_damage()
+		if elapsed > swing_finish_time: stop()
 
 
 @rpc("authority", "call_local", "unreliable")
 func swing_effects():
-	var playback: AnimationNodeStateMachinePlayback= $"../../AnimationTree".get(state_machine_parameter)
-	playback.start(state_name)
+	var playback: AnimationNodeStateMachinePlayback= $"../../AnimationTree".get(swing_state_machine_parameter)
+	playback.start(swing_state_name)

@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeBlendTree" load_steps=20 format=3 uid="uid://c0jb3gytn5ehs"]
+[gd_resource type="AnimationNodeBlendTree" load_steps=23 format=3 uid="uid://c0jb3gytn5ehs"]
 
 [sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_x5tnr"]
 filter_enabled = true
@@ -57,6 +57,9 @@ animation = &"idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d27ru"]
 animation = &"stab_lunge"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vnec3"]
+animation = &"stab_throw"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y6yyj"]
 advance_mode = 2
 
@@ -75,18 +78,30 @@ xfade_curve = SubResource("Curve_d27ru")
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="Curve" id="Curve_mlycs"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d4rv4"]
+xfade_time = 0.5
+xfade_curve = SubResource("Curve_mlycs")
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1y0ek"]
 states/attack/node = SubResource("AnimationNodeAnimation_x5tnr")
 states/attack/position = Vector2(557, 161)
 states/idle/node = SubResource("AnimationNodeAnimation_strw5")
 states/idle/position = Vector2(340, 100)
 states/stab_lunge/node = SubResource("AnimationNodeAnimation_d27ru")
-states/stab_lunge/position = Vector2(381, 251)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_y6yyj"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_d6gh5"), "stab_lunge", "idle", SubResource("AnimationNodeStateMachineTransition_vnec3")]
+states/stab_lunge/position = Vector2(284, 287)
+states/stab_throw/node = SubResource("AnimationNodeAnimation_vnec3")
+states/stab_throw/position = Vector2(407, 287)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_y6yyj"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_d6gh5"), "stab_lunge", "idle", SubResource("AnimationNodeStateMachineTransition_vnec3"), "stab_throw", "idle", SubResource("AnimationNodeStateMachineTransition_d4rv4")]
 graph_offset = Vector2(-141, 55)
 
 [resource]
-graph_offset = Vector2(-1437.84, 164.155)
+graph_offset = Vector2(-1116.02, 153.106)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_7bu2n")
 nodes/Add2/position = Vector2(-400, 160)
 "nodes/Add2 2/node" = SubResource("AnimationNodeAdd2_x5tnr")

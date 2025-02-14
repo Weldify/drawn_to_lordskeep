@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d4acu662uxdd3"]
+[gd_scene load_steps=29 format=3 uid="uid://d4acu662uxdd3"]
 
 [ext_resource type="PackedScene" uid="uid://ct2u6ioagouid" path="res://scenes/base_enemy.tscn" id="1_rxai7"]
 [ext_resource type="PackedScene" uid="uid://cs2aossubdske" path="res://scenes/enemy_action_swing.tscn" id="2_dk0sx"]
@@ -16,6 +16,7 @@
 [ext_resource type="Animation" uid="uid://d23rrl1m40pyr" path="res://models/tall_axe_guy/stab_lunge.res" id="12_1q64m"]
 [ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="12_dk0sx"]
 [ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="13_1q64m"]
+[ext_resource type="Animation" uid="uid://c74haa3qog3yj" path="res://models/tall_axe_guy/stab_throw.res" id="14_53kvo"]
 [ext_resource type="PackedScene" uid="uid://cjt3bt14ih7ca" path="res://models/tall_axe/tall_axe.blend" id="14_esba6"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d6gh5"]
@@ -56,6 +57,7 @@ _data = {
 &"death": ExtResource("6_t5mya"),
 &"idle": ExtResource("7_dk0sx"),
 &"stab_lunge": ExtResource("12_1q64m"),
+&"stab_throw": ExtResource("14_53kvo"),
 &"walk_ff": ExtResource("8_1q64m"),
 &"walk_fl": ExtResource("9_esba6"),
 &"walk_fr": ExtResource("10_53kvo")
@@ -76,6 +78,7 @@ resource_local_to_scene = true
 size = Vector3(0.3, 0.405, 0.3)
 
 [node name="Spearman" node_paths=PackedStringArray("look_at_modifiers") instance=ExtResource("1_rxai7")]
+collision_layer = 2
 look_at_modifiers = [NodePath("Model/Skeleton3D/LookAtTorsoLower"), NodePath("Model/Skeleton3D/LookAtTorsoUpper"), NodePath("Model/Skeleton3D/LookAtHead")]
 
 [node name="Swing" parent="Actions" index="0" instance=ExtResource("2_dk0sx")]
@@ -84,11 +87,17 @@ state_name = &"attack"
 damage_start_time = 0.6
 finish_time = 0.94
 
-[node name="Grab" parent="Actions" index="1" instance=ExtResource("3_esba6")]
-state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
-state_name = &"stab_lunge"
-damage_start_time = 0.8
-finish_time = 1.067
+[node name="Grab" parent="Actions" index="1" node_paths=PackedStringArray("grab_point") instance=ExtResource("3_esba6")]
+swing_state_machine_parameter = &"parameters/regular_blendtree/upper body state/playback"
+swing_state_name = &"stab_lunge"
+swing_damage_start_time = 0.8
+swing_damage_finish_time = 1.067
+swing_finish_time = 2.0
+grab_state_name = &"stab_throw"
+grab_finish_time = 2.2
+grab_point = NodePath("../../RHold/GrabPoint")
+grab_height_offset = -1.5
+grab_throw_velocity = Vector3(0, 2, -5)
 
 [node name="AnimationTree" parent="." index="5"]
 root_node = NodePath("../Model")
@@ -193,9 +202,14 @@ target_position = Vector3(0, 0, 0)
 max_results = 1
 collision_mask = 8
 
+[node name="GrabPoint" type="Node3D" parent="RHold" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.68434e-14, 0, 0.635921)
+
 [node name="Head" type="CollisionShape3D" parent="Hitbox" index="0"]
-transform = Transform3D(-0.46775, 0.0104194, -0.8833, -0.364765, 0.908141, 0.20374, 0.804861, 0.417628, -0.420999, -0.0213408, 1.78468, 0.152705)
+transform = Transform3D(-1.60899e-07, -7.18191e-08, -0.999484, -0.0286668, 0.999214, -6.71678e-08, 0.999414, 0.0286611, -1.62837e-07, 4.64184e-09, 1.80738, -0.0454335)
 shape = SubResource("BoxShape3D_xf186")
+
+[connection signal="skeleton_updated" from="Model/Skeleton3D" to="." method="_skeleton_finalized"]
 
 [editable path="Model"]
 [editable path="RHold/tall_axe"]

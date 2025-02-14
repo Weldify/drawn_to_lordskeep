@@ -9,9 +9,17 @@ var health := 1.0 :
 		health = v
 		
 		if health <= 0:
-			if is_instance_valid(current_action):
-				current_action.stop()
-				current_action = null
+			if is_instance_valid(active_action):
+				active_action.stop()
+
+
+var look_at_active: bool :
+	set(v):
+		if v == look_at_active: return
+		look_at_active = v
+		
+		for modifier in look_at_modifiers: 
+			modifier.active = v
 
 
 var should_change_point_of_interest_at := 0.0
@@ -31,6 +39,8 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
+	process_priority = G.ENEMY_PROCESS_PRIORITY
+	
 	$NetSynchronizer.configure()
 	NetworkTime.on_tick.connect(_on_tick)
 
@@ -40,7 +50,9 @@ func _on_tick(delta: float) -> void:
 	
 	_do_actions()
 	
-	if NetworkTime.now > should_change_point_of_interest_at:
+	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)
+	
+	if !is_instance_valid(active_action) and NetworkTime.now > should_change_point_of_interest_at:
 		should_change_point_of_interest_at = NetworkTime.now + randf_range(2, 6)
 		
 		var angle := randf_range(-PI, PI)
@@ -73,24 +85,19 @@ func _on_tick(delta: float) -> void:
 
 
 var action_cooldown_ends_at := 0.0
-var current_action: Node
+var active_action: EnemyAction
 var _next_action_index_to_try := 0
 func _do_actions():
 	var child_count := $Actions.get_child_count()
 	if child_count == 0: return
 	
-	if is_instance_valid(current_action) and !current_action.is_active: 
-		current_action = null
-	
-	if NetworkTime.now < action_cooldown_ends_at or current_action: return
+	if NetworkTime.now < action_cooldown_ends_at or active_action: return
 	
 	if _next_action_index_to_try > child_count-1:
 		_next_action_index_to_try = 0
 	
 	var action := $Actions.get_child(_next_action_index_to_try)
 	action.try_activate()
-	if action.is_active:
-		current_action = action
 	
 	_next_action_index_to_try += 1
 
@@ -115,7 +122,7 @@ func play_footstep() -> void:
 	$Footsteps.play()
 
 
-func _evaluate_animations():
+func _evaluate_animations(delta: float):
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
@@ -127,16 +134,20 @@ func _evaluate_animations():
 	# @TODO: Read same line in mercenary.gd 
 	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
 	
-	
 	$Model.transform = horizontal_look
+	
+	$AnimationTree.advance(delta)
+	
+	# @NOTE: Mercenaries are attached to this when they are grabbed.
+	# If we don't update this here and don't run _process() on all the enemies
+	# BEFORE the mercenaries, their screen will jitter!!!
+	# @NOTE: Apparently that's not the case. I do not fucking understand.
+	#$"RHold".on_skeleton_update()
 
 
 func _process(delta: float) -> void:
 	$Interpolator.apply()
-	_evaluate_animations()
-	
-	for modifier in look_at_modifiers:
-		modifier.active = health > 0
+	_evaluate_animations(delta)
 	
 	if health > 0:
 		var goal := atan2(velocity.x, velocity.z)
