@@ -253,6 +253,21 @@ func take_item_effects(right_hand: bool):
 		$LHand0Attachment/Take.play()
 
 
+var is_mantling := false
+var mantle_started_at: float
+func try_mantle():
+	if is_mantling: return
+	is_mantling = true
+	mantle_started_at = NetworkTime.now
+	mantle_effects.rpc()
+
+
+@rpc("authority", "call_local", "unreliable")
+func mantle_effects():
+	var playback: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
+	playback.travel("mantle_medium")
+
+
 func _on_tick(delta: float) -> void:
 	if multiplayer.is_server():
 		if trying_to_use:
@@ -262,10 +277,13 @@ func _on_tick(delta: float) -> void:
 	
 	trying_to_use = G.mouse_unlockers.is_empty() and Input.is_action_pressed("use")
 	
-	if Input.is_action_pressed("mobility"):
-		var playback: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
-		playback.travel("mantle_medium")
-		pass
+	if Input.is_action_just_pressed("mobility"):
+		try_mantle()
+	
+	if is_mantling and NetworkTime.now - mantle_started_at > 1.15:
+		is_mantling = false
+		global_position = $Model.global_position
+		$Interpolator.snap(":position")
 	
 	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
 		if Input.is_action_pressed("left_action"):
@@ -288,9 +306,7 @@ func _on_tick(delta: float) -> void:
 	if Input.is_action_just_pressed("place_satchel"):
 		place_satchel.rpc_id(1)
 	
-	var grab_point: Node3D = get_node_or_null(grab_point_path)
-	if !grab_point:
-		_do_movement(delta)
+	_do_movement(delta)
 
 
 var _grab_throw_after_finish := false
@@ -319,6 +335,11 @@ func _try_apply_grab_throw(power: Vector3, pitch: float):
 
 
 func _do_movement(delta: float):
+	if is_mantling: return
+	
+	var grab_point: Node3D = get_node_or_null(grab_point_path)
+	if grab_point: return
+	
 	if _grab_throw_after_finish:
 		_try_apply_grab_throw(_grab_throw_velocity, _grab_throw_pitch)
 	
@@ -367,6 +388,7 @@ func play_footstep() -> void:
 	$Footsteps.play()
 
 
+var model_offset: Vector3
 func evaluate_animations(delta: float):
 	$AnimationTree.set("parameters/regular_blendtree/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
 	
@@ -396,13 +418,20 @@ func evaluate_animations(delta: float):
 	$AnimationTree.set("parameters/regular_blendtree/Right hand/holdtype/blend_position", right_holdtype)
 	$AnimationTree.set("parameters/regular_blendtree/Left hand/holdtype/blend_position", left_holdtype)
 	
+	
+	if is_mantling:
+		model_offset += horizontal_look * $AnimationTree.get_root_motion_position()
+	else:
+		model_offset = Vector3.ZERO
+	
+	
 	var grab_point: Node3D = get_node_or_null(grab_point_path)
 	if grab_point:
 		var bone_idx: int = $Model/Skeleton3D.find_bone("torso2")
 		var bone_trans: Transform3D = $Model/Skeleton3D.get_bone_global_pose(bone_idx)
 		$Model.global_transform = grab_point.global_transform * bone_trans.inverse()
 	else:
-		$Model.global_transform = horizontal_look.translated(global_position)
+		$Model.global_transform = horizontal_look.translated(global_position + model_offset)
 	
 	$AnimationTree.advance(delta)
 

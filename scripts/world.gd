@@ -58,7 +58,7 @@ func _ready():
 	DiscordRPC.refresh()
 	
 
-	if true:
+	if false:
 		var debug_spearman := preload("res://scenes/spearman.tscn").instantiate()
 		$/root/world/Enemies.add_child(debug_spearman, true)
 		

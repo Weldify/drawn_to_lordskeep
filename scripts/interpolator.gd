@@ -18,9 +18,36 @@ var _paths: Array[NodePath]
 
 var _ticked := false
 
+
+func apply() -> void:
+	if _ticked:
+		_ticked = false
+		_record()
+	
+	var parent := get_parent()
+	var fraction := Engine.get_physics_interpolation_fraction()
+	for path in _from:
+		if !_to.has(path): continue
+		
+		var node := parent.get_node(path)
+		var a = _from[path]
+		var b = _to[path]
+		
+		node.set_indexed(path.get_as_property_path(), lerp(a, b, fraction))
+
+
+func snap(path: NodePath) -> void:
+	assert(_from.has(path))
+	
+	var parent := get_parent()
+	var node := parent.get_node(path)
+	_to[path] = node.get_indexed(path.get_as_property_path())
+	_from[path] = _to[path]
+
+
 func _ready() -> void:
 	properties.append_array(default_properties)
-	RenderingServer.frame_post_draw.connect(restore)
+	RenderingServer.frame_post_draw.connect(_restore)
 	reconfigure()
 
 
@@ -40,7 +67,7 @@ func reconfigure() -> void:
 	_update_to()
 
 
-func restore() -> void:
+func _restore() -> void:
 	var parent := get_parent()
 	
 	for path in _to:
@@ -49,33 +76,11 @@ func restore() -> void:
 		node.set_indexed(path.get_as_property_path(), _to[path])
 
 
-func record() -> void:
+func _record() -> void:
 	for path in _to:
 		_from[path] = _to[path]
 	
 	_update_to()
-
-
-func teleport() -> void:
-	for path in _to:
-		_from[path] = _to[path]
-
-
-func apply() -> void:
-	if _ticked:
-		_ticked = false
-		record()
-	
-	var parent := get_parent()
-	var fraction := Engine.get_physics_interpolation_fraction()
-	for path in _from:
-		if !_to.has(path): continue
-		
-		var node := parent.get_node(path)
-		var a = _from[path]
-		var b = _to[path]
-		
-		node.set_indexed(path.get_as_property_path(), lerp(a, b, fraction))
 
 
 func _update_to() -> void:

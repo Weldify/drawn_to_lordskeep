@@ -149,7 +149,7 @@ script = ExtResource("1_m6yd2")
 
 [node name="ServerSynchronizer" type="Node" parent="."]
 script = ExtResource("2_c8xrr")
-networked_properties = Array[StringName]([&":right_hand_item_name", &":left_hand_item_name", &":satchel_name", &":health", &":grab_point_path", &":grab_height_offset"])
+networked_properties = Array[StringName]([&":right_hand_item_name", &":left_hand_item_name", &":satchel_name", &":health", &":grab_point_path", &":grab_height_offset", &":is_mantling"])
 metadata/_custom_type_script = ExtResource("2_c8xrr")
 
 [node name="ClientSynchronizer" type="Node" parent="."]
@@ -190,6 +190,8 @@ shape = SubResource("CapsuleShape3D_6cnxl")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")
+root_motion_track = NodePath("Skeleton3D:root")
+root_motion_local = false
 tree_root = SubResource("AnimationNodeStateMachine_8xrqa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
@@ -213,25 +215,25 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.58896e-07, -1.48811e-07, -0.999826, -0.0272852, 0.999491, -1.44414e-07, 0.99949, 0.0272852, -1.62892e-07, -6.57541e-08, 1.56302, -0.00862725)
+transform = Transform3D(-1.58896e-07, -1.4881e-07, -0.999824, -0.027285, 0.999486, -1.44413e-07, 0.999484, 0.0272851, -1.62892e-07, -6.57541e-08, 1.56302, -0.00862725)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.74924e-07, -1.47248e-07, -0.999829, 0.0780471, 0.99682, -1.60446e-07, 0.996803, -0.0780484, -1.62893e-07, -1.13851e-08, 1.2545, 0.00895083)
+transform = Transform3D(-1.74924e-07, -1.47246e-07, -0.999824, 0.078047, 0.996807, -1.60446e-07, 0.996803, -0.0780474, -1.62892e-07, -1.13851e-08, 1.2545, 0.00895083)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.58948e-07, -3.21821e-09, -0.999827, -0.0216743, 0.999618, 1.3235e-08, 0.999597, 0.0216748, -7.58836e-07, -9.15465e-10, 1.06376, 0.0115332)
+transform = Transform3D(-7.58955e-07, -3.2182e-09, -0.999824, -0.0216745, 0.999612, 1.3235e-08, 0.999606, 0.0216747, -7.58833e-07, -9.15465e-10, 1.06376, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59373e-07, -5.09369e-09, -0.999903, -0.0424736, 0.999005, 2.71665e-08, 0.999014, 0.0424732, -7.58893e-07, -3.85547e-10, 0.880303, 0.00510673)
+transform = Transform3D(-7.59361e-07, -5.09366e-09, -0.999869, -0.0424729, 0.998999, 2.71655e-08, 0.998999, 0.0424729, -7.58868e-07, -3.85547e-10, 0.880303, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-2.208e-07, -1.3423e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -2.26467e-07, -2.75097e-08, 1.35708, -0.0176538)
 bone_name = "head"
-bone_idx = 11
+bone_idx = 12
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -261,7 +263,7 @@ attenuation_filter_db = 0.0
 [node name="RHand0Attachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-0.0550526, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.0531201, 0.0521574, -0.733352, 1.31446, -0.00123276)
 bone_name = "r_hand0"
-bone_idx = 14
+bone_idx = 15
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -283,7 +285,7 @@ attenuation_filter_db = 0.0
 [node name="LHand0Attachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-0.0550525, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.05312, 0.0521574, 0.733352, 1.31446, -0.00123267)
 bone_name = "l_hand0"
-bone_idx = 19
+bone_idx = 20
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -305,7 +307,7 @@ attenuation_filter_db = 0.0
 [node name="Torso2Attachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-2.38456e-07, -1.22227e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -2.28187e-07, -7.52053e-10, 1.18731, 0.0142121)
 bone_name = "torso2"
-bone_idx = 10
+bone_idx = 11
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -320,7 +322,7 @@ transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.007621
 [node name="Torso1Attachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-7.16927e-07, 5.68505e-11, -1, -0.0216779, 0.999765, 1.55983e-08, 0.999765, 0.0216779, -7.16757e-07, -7.62825e-10, 0.99784, 0.0101039)
 bone_name = "torso1"
-bone_idx = 9
+bone_idx = 10
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -332,7 +334,7 @@ update_scale = false
 [node name="Torso0Attachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(-7.15047e-07, -3.20693e-09, -1, -0.0424771, 0.999097, 2.71691e-08, 0.999097, 0.0424771, -7.14538e-07, 0, 0.760188, 0)
 bone_name = "torso0"
-bone_idx = 8
+bone_idx = 9
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
