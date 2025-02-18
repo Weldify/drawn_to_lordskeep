@@ -215,19 +215,19 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.58896e-07, -1.4881e-07, -0.999824, -0.027285, 0.999486, -1.44413e-07, 0.999484, 0.0272851, -1.62892e-07, -6.57541e-08, 1.56302, -0.00862725)
+transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272847, 0.999484, -1.24411e-07, 0.999477, 0.0272849, -2.82081e-07, -5.51792e-08, 1.56302, -0.00862731)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.74924e-07, -1.47246e-07, -0.999824, 0.078047, 0.996807, -1.60446e-07, 0.996803, -0.0780474, -1.62892e-07, -1.13851e-08, 1.2545, 0.00895083)
+transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780466, 0.996802, -1.40443e-07, 0.996795, -0.0780471, -2.8208e-07, -8.99034e-09, 1.2545, 0.00895081)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.58955e-07, -3.2182e-09, -0.999824, -0.0216745, 0.999612, 1.3235e-08, 0.999606, 0.0216747, -7.58833e-07, -9.15465e-10, 1.06376, 0.0115332)
+transform = Transform3D(-7.59011e-07, -8.58041e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999612, 0.0216746, -7.58831e-07, -7.59077e-10, 1.06376, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59361e-07, -5.09366e-09, -0.999869, -0.0424729, 0.998999, 2.71655e-08, 0.998999, 0.0424729, -7.58868e-07, -3.85547e-10, 0.880303, 0.00510673)
+transform = Transform3D(-7.59325e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.998951, 0.0424707, -7.58868e-07, -3.85547e-10, 0.880303, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]

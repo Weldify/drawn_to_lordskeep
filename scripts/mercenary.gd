@@ -253,12 +253,17 @@ func take_item_effects(right_hand: bool):
 		$LHand0Attachment/Take.play()
 
 
+var mantle_goal: Vector3
 var is_mantling := false
 var mantle_started_at: float
 func try_mantle():
 	if is_mantling: return
 	is_mantling = true
 	mantle_started_at = NetworkTime.now
+	
+	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
+	mantle_goal = global_position + horizontal_look * Vector3.MODEL_FRONT * 0.5 + Vector3.UP * 1
+	
 	mantle_effects.rpc()
 
 
@@ -287,9 +292,15 @@ func _on_tick(delta: float) -> void:
 	if Input.is_action_just_pressed("mobility"):
 		try_mantle()
 	
-	if is_mantling and NetworkTime.now - mantle_started_at > 1.15:
+	## @NOTE @IMPORTANT: For animations where rootmotion matters, make sure
+	## that no rootmotion is applied while it is blending!!!
+	## The root motion won't be fully applied otherwise!!
+	
+	## @NOTE: The timing here is hardcoded to match
+	## With the end pose of the root bone which affects root motion
+	if is_mantling and NetworkTime.now - mantle_started_at > 1.2667:
 		is_mantling = false
-		mantle_stop_effects.rpc($Model.global_position)
+		mantle_stop_effects.rpc(mantle_goal)
 	
 	
 	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
