@@ -40,10 +40,15 @@ func _ready():
 		_init_steam()
 		
 	
-	var outskirts := preload("res://scenes/outskirts_district.tscn").instantiate()
-	$/root/world/Districts.add_child(outskirts, true)
-	
-	outskirts.generate_next_district()
+	# Test area
+	if true and OS.has_feature("editor"):
+		var testing_area := preload("res://scenes/testing_area.tscn").instantiate()
+		$/root/world/Districts.add_child(testing_area, true)
+	else:
+		var outskirts := preload("res://scenes/outskirts_district.tscn").instantiate()
+		$/root/world/Districts.add_child(outskirts, true)
+		
+		outskirts.generate_next_district()
 	
 	_spawn_mercenary_for_peer(1)
 	
