@@ -16,7 +16,7 @@
 
 [sub_resource type="Environment" id="Environment_ryup7"]
 background_mode = 1
-background_color = Color(0.252028, 0.252028, 0.252028, 1)
+background_color = Color(0.25098, 0.25098, 0.25098, 1)
 ssao_intensity = 8.0
 ssao_detail = 5.0
 ssao_horizon = 0.5
