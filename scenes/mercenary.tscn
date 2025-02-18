@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=52 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_c8xrr"]
@@ -30,6 +30,7 @@
 [ext_resource type="AnimationNodeBlendTree" uid="uid://d06wpdpvdxpwf" path="res://models/mercenary/regular_blendtree.res" id="21_8xrqa"]
 [ext_resource type="Animation" uid="uid://bp6nuh8ybd84c" path="res://models/mercenary/knockdown.res" id="21_dgshc"]
 [ext_resource type="Animation" uid="uid://cnc84vxjl8kw1" path="res://models/mercenary/grabbed_chest_stab.res" id="23_i7i1f"]
+[ext_resource type="Animation" uid="uid://cfvvjlrxrwbhn" path="res://models/mercenary/mantle_medium.res" id="24_apj5i"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -47,6 +48,7 @@ _data = {
 &"look_down": ExtResource("14_p6ykb"),
 &"look_up": ExtResource("13_5h5rc"),
 &"lower_idle_crouch": ExtResource("10_6cnxl"),
+&"mantle_medium": ExtResource("24_apj5i"),
 &"upper_idle": ExtResource("11_couci"),
 &"walk_ff": ExtResource("12_yb78r"),
 &"walk_fl": ExtResource("18_aqvki"),
@@ -65,6 +67,9 @@ animation = &"grabbed_chest_stab"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dgshc"]
 animation = &"knockdown"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_apj5i"]
+animation = &"mantle_medium"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8xrqa"]
 advance_mode = 2
@@ -87,14 +92,22 @@ advance_expression = "get_node_or_null(grab_point_path) == null"
 advance_mode = 2
 advance_expression = "get_node_or_null(grab_point_path) != null"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bpalt"]
+xfade_time = 0.2
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8xrqa"]
 states/grabbed_chest_stab/node = SubResource("AnimationNodeAnimation_i7i1f")
-states/grabbed_chest_stab/position = Vector2(386, 236)
+states/grabbed_chest_stab/position = Vector2(723, 190)
 states/knockdown/node = SubResource("AnimationNodeAnimation_dgshc")
-states/knockdown/position = Vector2(577, 177)
+states/knockdown/position = Vector2(674, 105)
+states/mantle_medium/node = SubResource("AnimationNodeAnimation_apj5i")
+states/mantle_medium/position = Vector2(410, 250)
 states/regular_blendtree/node = ExtResource("21_8xrqa")
 states/regular_blendtree/position = Vector2(366, 100)
-transitions = ["Start", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "regular_blendtree", "knockdown", SubResource("AnimationNodeStateMachineTransition_dgshc"), "knockdown", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_c8xrr"), "grabbed_chest_stab", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_apj5i"), "regular_blendtree", "grabbed_chest_stab", SubResource("AnimationNodeStateMachineTransition_i7i1f")]
+transitions = ["Start", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "regular_blendtree", "knockdown", SubResource("AnimationNodeStateMachineTransition_dgshc"), "knockdown", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_c8xrr"), "grabbed_chest_stab", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_apj5i"), "regular_blendtree", "grabbed_chest_stab", SubResource("AnimationNodeStateMachineTransition_i7i1f"), "mantle_medium", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_bpalt")]
+graph_offset = Vector2(-106, 32)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8xrqa"]
 resource_local_to_scene = true
@@ -177,7 +190,6 @@ shape = SubResource("CapsuleShape3D_6cnxl")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")
-callback_mode_process = 2
 tree_root = SubResource("AnimationNodeStateMachine_8xrqa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
@@ -189,7 +201,7 @@ parameters/regular_blendtree/Add2/add_amount = 1.0
 "parameters/regular_blendtree/Right hand/holdtype/blend_position" = 0
 "parameters/regular_blendtree/Right hand timescale/scale" = 1.0
 "parameters/regular_blendtree/Upper body + lower body/add_amount" = 1.0
-parameters/regular_blendtree/crouchness/blend_amount = 1.0
+parameters/regular_blendtree/crouchness/blend_amount = 0.0
 "parameters/regular_blendtree/horizontal speed (crouching)/blend_position" = 0
 "parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
 "parameters/regular_blendtree/horizontal speed (standing)/blend_position" = 0
@@ -201,19 +213,19 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.78596e-07, -1.3207e-07, -0.999832, -0.0272856, 0.999509, -1.24412e-07, 0.999509, 0.0272856, -2.82083e-07, -5.51792e-08, 1.56302, -0.00862731)
+transform = Transform3D(-1.58896e-07, -1.48811e-07, -0.999826, -0.0272852, 0.999491, -1.44414e-07, 0.99949, 0.0272852, -1.62892e-07, -6.57541e-08, 1.56302, -0.00862725)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.92191e-07, -1.18009e-07, -0.999846, 0.0780472, 0.996892, -1.40446e-07, 0.996803, -0.0780542, -2.82087e-07, -8.99034e-09, 1.2545, 0.00895081)
+transform = Transform3D(-1.74924e-07, -1.47248e-07, -0.999829, 0.0780471, 0.99682, -1.60446e-07, 0.996803, -0.0780484, -1.62893e-07, -1.13851e-08, 1.2545, 0.00895083)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.58961e-07, -8.58064e-10, -0.99984, -0.0216732, 0.999637, 1.55958e-08, 0.999546, 0.0216752, -7.58846e-07, -7.59077e-10, 1.06376, 0.0115332)
+transform = Transform3D(-7.58948e-07, -3.21821e-09, -0.999827, -0.0216743, 0.999618, 1.3235e-08, 0.999597, 0.0216748, -7.58836e-07, -9.15465e-10, 1.06376, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59411e-07, -5.094e-09, -1, -0.0424757, 0.999065, 2.71691e-08, 0.999065, 0.0424757, -7.58967e-07, -3.85547e-10, 0.880303, 0.00510673)
+transform = Transform3D(-7.59373e-07, -5.09369e-09, -0.999903, -0.0424736, 0.999005, 2.71665e-08, 0.999014, 0.0424732, -7.58893e-07, -3.85547e-10, 0.880303, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
@@ -328,5 +340,9 @@ external_skeleton = NodePath("../Model/Skeleton3D")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.120223, 0)
 remote_path = NodePath("../../Hitbox/Torso0")
 update_scale = false
+
+[node name="RootMotionView" type="RootMotionView" parent="."]
+animation_path = NodePath("../AnimationTree")
+zero_y = false
 
 [editable path="Model"]

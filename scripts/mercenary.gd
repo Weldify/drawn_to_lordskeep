@@ -262,6 +262,11 @@ func _on_tick(delta: float) -> void:
 	
 	trying_to_use = G.mouse_unlockers.is_empty() and Input.is_action_pressed("use")
 	
+	if Input.is_action_pressed("mobility"):
+		var playback: AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/playback")
+		playback.travel("mantle_medium")
+		pass
+	
 	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
 		if Input.is_action_pressed("left_action"):
 			left_throw_power = min(1, left_throw_power + delta)
