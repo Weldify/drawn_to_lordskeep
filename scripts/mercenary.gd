@@ -89,7 +89,7 @@ func _ready() -> void:
 	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.MERCENARY_PROCESS_PRIORITY
 	
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 	
 	if !is_multiplayer_authority(): return
 	crouchness = 0
@@ -264,7 +264,7 @@ var mantle_started_at: float
 func try_mantle():
 	if is_mantling: return
 	is_mantling = true
-	mantle_started_at = NetworkTime.now
+	mantle_started_at = Net.now
 	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	mantle_goal = global_position + horizontal_look * Vector3.MODEL_FRONT * 0.5 + Vector3.UP * 1
@@ -303,7 +303,7 @@ func _on_tick(delta: float) -> void:
 	
 	## @NOTE: The timing here is hardcoded to match
 	## With the end pose of the root bone which affects root motion
-	if is_mantling and NetworkTime.now - mantle_started_at > 1.2667:
+	if is_mantling and Net.now - mantle_started_at > 1.2667:
 		is_mantling = false
 		mantle_stop_effects.rpc()
 	
@@ -410,8 +410,8 @@ func can_uncrouch() -> bool:
 
 var last_footstep_was_at := 0.0
 func play_footstep() -> void:
-	if !is_grounded or NetworkTime.now - last_footstep_was_at < 0.1: return
-	last_footstep_was_at = NetworkTime.now
+	if !is_grounded or Net.now - last_footstep_was_at < 0.1: return
+	last_footstep_was_at = Net.now
 	
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()

@@ -28,7 +28,7 @@ var original_hit_detector_position: Vector3
 
 func _ready():
 	$NetSynchronizer.configure()
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 
 
 func try_start_swing_damage():
@@ -97,7 +97,7 @@ func try_activate():
 	
 	if user.active_action or user.health <= 0: return
 	user.active_action = self
-	activated_at = NetworkTime.now
+	activated_at = Net.now
 	
 	swing_effects.rpc()
 
@@ -107,14 +107,14 @@ func stop():
 	user.active_action = null
 	is_damaging = false
 	
-	user.action_cooldown_ends_at = NetworkTime.now + 2
+	user.action_cooldown_ends_at = Net.now + 2
 
 
 func _on_tick(_delta: float):
 	do_hitboxes()
 	if user.active_action != self: return
 	
-	var elapsed := NetworkTime.now - activated_at
+	var elapsed := Net.now - activated_at
 	if elapsed > damage_start_time: try_start_swing_damage()
 	if elapsed > finish_time: stop()
 

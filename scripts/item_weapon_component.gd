@@ -29,7 +29,7 @@ func _ready() -> void:
 	# but it won't get called for someone who joined the game later.
 	_holder_changed()
 	
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 
 
 func _holder_changed():

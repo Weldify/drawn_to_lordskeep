@@ -43,7 +43,7 @@ var holder_info: Array = ["", true] :
 func _ready() -> void:
 	assert(get_parent() == $/root/world/Items, "DO NOT SPAWN ITEMS OUTSIDE OF ITEMS IDIOT!")
 	
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 	$NetSynchronizer.configure()
 	
 	holder_changed.connect(_on_holder_changed)

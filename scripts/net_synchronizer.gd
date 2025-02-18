@@ -87,8 +87,8 @@ func configure():
 
 
 func _ready():
-	NetworkTime.before_tick.connect(_before_tick)
-	NetworkTime.after_tick.connect(_after_tick)
+	Net.before_tick.connect(_before_tick)
+	Net.after_tick.connect(_after_tick)
 	
 	multiplayer.peer_connected.connect(_on_peer_connected)
 

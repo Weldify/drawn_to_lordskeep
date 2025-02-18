@@ -83,7 +83,7 @@ func reset_all_multiplayer_things():
 	for item in $Items.get_children(): item.free()
 	for enemy in $Enemies.get_children(): enemy.free()
 	
-	NetworkTime.restart()
+	Net.restart()
 
 
 func _spawn_mercenary_for_peer(peer_id: int) -> void:

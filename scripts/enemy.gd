@@ -43,7 +43,7 @@ func _ready() -> void:
 	process_priority = G.ENEMY_PROCESS_PRIORITY
 	
 	$NetSynchronizer.configure()
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 
 
 func _on_tick(delta: float) -> void:
@@ -53,8 +53,8 @@ func _on_tick(delta: float) -> void:
 	
 	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)
 	
-	if !is_instance_valid(active_action) and NetworkTime.now > should_change_point_of_interest_at:
-		should_change_point_of_interest_at = NetworkTime.now + randf_range(2, 6)
+	if !is_instance_valid(active_action) and Net.now > should_change_point_of_interest_at:
+		should_change_point_of_interest_at = Net.now + randf_range(2, 6)
 		
 		var angle := randf_range(-PI, PI)
 		var distance := randf_range(2, 5)
@@ -65,8 +65,8 @@ func _on_tick(delta: float) -> void:
 		point_of_interest_target = target
 	
 	
-	if NetworkTime.now > should_change_direction_at:
-		should_change_direction_at = NetworkTime.now + randf_range(1, 2)
+	if Net.now > should_change_direction_at:
+		should_change_direction_at = Net.now + randf_range(1, 2)
 		
 		var angle := randf_range(-PI, PI)
 		walk_direction = Vector3(cos(angle), 0, sin(angle))
@@ -92,7 +92,7 @@ func _do_actions():
 	var child_count := $Actions.get_child_count()
 	if child_count == 0: return
 	
-	if NetworkTime.now < action_cooldown_ends_at or active_action: return
+	if Net.now < action_cooldown_ends_at or active_action: return
 	
 	if _next_action_index_to_try > child_count-1:
 		_next_action_index_to_try = 0
@@ -116,8 +116,8 @@ var point_of_interest_target: Vector3:
 
 var last_footstep_was_at := 0.0
 func play_footstep() -> void:
-	if !is_grounded or NetworkTime.now - last_footstep_was_at < 0.1: return
-	last_footstep_was_at = NetworkTime.now
+	if !is_grounded or Net.now - last_footstep_was_at < 0.1: return
+	last_footstep_was_at = Net.now
 	
 	$Footsteps.volume_linear = remap(velocity.length(), 0, 2, 0, 0.5)
 	$Footsteps.play()

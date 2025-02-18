@@ -25,7 +25,7 @@ boot_splash/show_image=false
 
 G="*res://scripts/g.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
-NetworkTime="*res://scripts/network_time.gd"
+Net="*res://scripts/net.gd"
 Settings="*res://scenes/settings.tscn"
 
 [display]

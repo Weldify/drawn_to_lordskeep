@@ -40,7 +40,7 @@ var original_hit_detector_position: Vector3
 
 func _ready():
 	$NetSynchronizer.configure()
-	NetworkTime.on_tick.connect(_on_tick)
+	Net.on_tick.connect(_on_tick)
 
 
 func try_start_swing_damage():
@@ -111,7 +111,7 @@ var _grab_started_at := 0.0
 func _try_grab(mercenary: Mercenary):
 	if _grabbing: return
 	_grabbing = true
-	_grab_started_at = NetworkTime.now
+	_grab_started_at = Net.now
 	block_look_at = true
 	
 	_stop_damage()
@@ -136,7 +136,7 @@ func try_activate():
 	_grabbed_mercenary = null
 	block_look_at = false
 	
-	activated_at = NetworkTime.now
+	activated_at = Net.now
 	swing_effects.rpc()
 
 
@@ -152,7 +152,7 @@ func stop():
 		_grabbed_mercenary.grab_throw.rpc_id(_grabbed_mercenary.get_multiplayer_authority(), throw_velocity, user.look_pitch + grab_throw_look_angle)
 	
 	user.active_action = null
-	user.action_cooldown_ends_at = NetworkTime.now + 2
+	user.action_cooldown_ends_at = Net.now + 2
 
 
 func _stop_damage():
@@ -165,10 +165,10 @@ func _on_tick(_delta: float):
 	if user.active_action != self: return
 	
 	if _grabbing:
-		var elapsed := NetworkTime.now - _grab_started_at
+		var elapsed := Net.now - _grab_started_at
 		if elapsed > grab_finish_time: stop()
 	else:
-		var elapsed := NetworkTime.now - activated_at
+		var elapsed := Net.now - activated_at
 		if elapsed > swing_damage_start_time: try_start_swing_damage()
 		if elapsed > swing_damage_finish_time: _stop_damage()
 		if elapsed > swing_finish_time: stop()
