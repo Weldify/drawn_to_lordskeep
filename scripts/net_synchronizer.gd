@@ -39,9 +39,7 @@ var _delayed_snapshots: Array[PendingSnapshot]
 
 func snap(property: NodePath, value):
 	# So that you can run this in shared code without thinking!
-	if is_multiplayer_authority(): 
-		_set_value(property, value)
-		return
+	if is_multiplayer_authority(): return
 	
 	var property_index := -1
 	for i in _properties.size():

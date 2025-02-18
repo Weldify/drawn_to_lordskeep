@@ -1,8 +1,8 @@
 extends Node3D
 
 const ITERATIONS := 5
-const STEP := 0.02
-const BASE_RADIUS := 0.12
+const STEP := 0.005
+const BASE_RADIUS := 0.06
 
 var smooth_insideness := 0.0
 
@@ -12,12 +12,12 @@ var smooth_insideness := 0.0
 func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	
-	caster.global_position = camera.global_position
 	
 	const sub_per_step := 1.0 / float(ITERATIONS)
 	var insideness := 1.0
 	for i in ITERATIONS:
 		caster.shape.radius = BASE_RADIUS + i * STEP
+		caster.global_position = camera.global_position - camera.basis.z * caster.shape.radius
 		caster.force_shapecast_update()
 		if caster.is_colliding():
 			break

@@ -41,7 +41,7 @@ func _ready():
 		
 	
 	# Test area
-	if true and OS.has_feature("editor"):
+	if false and OS.has_feature("editor"):
 		var testing_area := preload("res://scenes/testing_area.tscn").instantiate()
 		$/root/world/Districts.add_child(testing_area, true)
 	else:
@@ -58,7 +58,7 @@ func _ready():
 	DiscordRPC.refresh()
 	
 
-	if false:
+	if true:
 		var debug_spearman := preload("res://scenes/spearman.tscn").instantiate()
 		$/root/world/Enemies.add_child(debug_spearman, true)
 		

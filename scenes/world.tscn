@@ -225,8 +225,7 @@ outline_color = Color(0, 0, 0, 1)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 1)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_e3hyu"]
-resource_local_to_scene = true
+[sub_resource type="SphereShape3D" id="SphereShape3D_jhx03"]
 radius = 0.12
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o8fc1"]
@@ -360,6 +359,7 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(2, 2)
+mouse_filter = 2
 texture = ExtResource("15_hiqwa")
 
 [node name="HurtEffects" type="Node" parent="." node_paths=PackedStringArray("hurt_radial", "world_env")]
@@ -373,7 +373,7 @@ script = ExtResource("11_e3hyu")
 [node name="ShapeCast3D" type="ShapeCast3D" parent="EyeBlocker"]
 top_level = true
 enabled = false
-shape = SubResource("SphereShape3D_e3hyu")
+shape = SubResource("SphereShape3D_jhx03")
 exclude_parent = false
 target_position = Vector3(0, 0, 0)
 max_results = 1
@@ -385,6 +385,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("12_jhx03")
 expand_mode = 1
 

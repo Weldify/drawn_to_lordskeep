@@ -17,11 +17,12 @@ modifier = NodePath("../Skeleton3D/LookAtModifier3D")
 [node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" index="0"]
 target_node = NodePath("../..")
 bone_name = "head"
-bone = 11
-forward_axis = 1
-origin_from = 2
-origin_external_node = NodePath("")
-origin_offset = Vector3(0, -1.6, 0)
+bone = 12
+forward_axis = 0
+origin_offset = Vector3(0, 0.26, 0)
+duration = 0.5
+transition_type = 7
+ease_type = 1
 use_angle_limitation = true
 symmetry_limitation = true
 primary_limit_angle = 1.39626

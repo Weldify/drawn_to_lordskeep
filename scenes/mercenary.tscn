@@ -143,6 +143,7 @@ streams_count = 1
 stream_0/stream = ExtResource("21_6cnxl")
 
 [node name="Mercenary" type="CharacterBody3D"]
+top_level = true
 collision_layer = 2
 floor_snap_length = 0.4
 script = ExtResource("1_m6yd2")
@@ -169,7 +170,6 @@ script = ExtResource("3_2rkhb")
 script = ExtResource("3_2rkhb")
 
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
-top_level = true
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 deterministic = true
@@ -219,7 +219,7 @@ transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272847, 0.999
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780466, 0.996802, -1.40443e-07, 0.996795, -0.0780471, -2.8208e-07, -8.99034e-09, 1.2545, 0.00895081)
+transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780466, 0.996803, -1.40443e-07, 0.996795, -0.0780472, -2.8208e-07, -8.99034e-09, 1.2545, 0.00895081)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]

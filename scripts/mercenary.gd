@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Mercenary
 
+# @BUG: PITCH AND YAW ARE SWAPPED. IM stupid. Let's change this sometime!
+
 const SATCHEL_CAST_HEIGHT = 1.2
 const STANDING_HEIGHT = 1.75
 const CROUCHING_HEIGHT = 1.0
@@ -28,10 +30,13 @@ var grab_point_path: NodePath :
 		grab_point_path = v
 		
 		if !v:
-			print("Gluck")
-			## @TODO: CRUTCH!!
-			## @BUG: This doesn't properly set the position of client peers!
-			position = $Model.global_position
+			var pos: Vector3 = $Model.global_position
+			position = pos
+			$Interpolator.snap(":position", pos)
+			$ClientSynchronizer.snap(":position", pos)
+			
+			if _grab_throw_after_finish: _try_apply_grab_throw(_grab_throw_velocity, _grab_throw_pitch)
+
 
 var right_hand_item_name: String
 var left_hand_item_name: String
@@ -274,10 +279,10 @@ func mantle_effects():
 
 
 @rpc("authority", "call_local", "unreliable")
-func mantle_stop_effects(mantle_end_position: Vector3):
-	global_position = mantle_end_position
-	$Interpolator.snap(":position", mantle_end_position)
-	$ClientSynchronizer.snap(":position", mantle_end_position)
+func mantle_stop_effects():
+	position = $Model.global_position
+	$Interpolator.snap(":position", position)
+	$ClientSynchronizer.snap(":position", position)
 
 
 func _on_tick(delta: float) -> void:
@@ -300,7 +305,7 @@ func _on_tick(delta: float) -> void:
 	## With the end pose of the root bone which affects root motion
 	if is_mantling and NetworkTime.now - mantle_started_at > 1.2667:
 		is_mantling = false
-		mantle_stop_effects.rpc(mantle_goal)
+		mantle_stop_effects.rpc()
 	
 	
 	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
@@ -347,9 +352,15 @@ func _try_apply_grab_throw(power: Vector3, pitch: float):
 		return
 	
 	_grab_throw_after_finish = false
-	velocity = power
+	
 	look_pitch = pitch
-	look_yaw = 0
+	$ClientSynchronizer.snap(":look_pitch", look_pitch)
+	if !is_multiplayer_authority(): $Interpolator.snap(":look_pitch", look_pitch)
+	
+	velocity = power
+	print("Applied")
+	$ClientSynchronizer.snap(":velocity", velocity)
+	$Interpolator.snap(":velocity", velocity)
 
 
 func _do_movement(delta: float):
@@ -438,7 +449,7 @@ func evaluate_animations(delta: float):
 	
 	
 	if is_mantling:
-		model_offset += horizontal_look * $AnimationTree.get_root_motion_position()
+		model_offset += $AnimationTree.get_root_motion_position()
 	else:
 		model_offset = Vector3.ZERO
 	
@@ -449,7 +460,7 @@ func evaluate_animations(delta: float):
 		var bone_trans: Transform3D = $Model/Skeleton3D.get_bone_global_pose(bone_idx)
 		$Model.global_transform = grab_point.global_transform * bone_trans.inverse()
 	else:
-		$Model.global_transform = horizontal_look.translated(global_position + model_offset)
+		$Model.transform = horizontal_look.translated_local(model_offset)
 	
 	$AnimationTree.advance(delta)
 
