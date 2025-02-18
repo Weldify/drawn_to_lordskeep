@@ -36,6 +36,32 @@ var _last_state: Array
 var _last_tick := 0
 var _delayed_snapshots: Array[PendingSnapshot]
 
+
+func snap(property: NodePath, value):
+	# So that you can run this in shared code without thinking!
+	if is_multiplayer_authority(): 
+		_set_value(property, value)
+		return
+	
+	var property_index := -1
+	for i in _properties.size():
+		if _properties[i].path == property:
+			property_index = i
+			break
+	
+	assert(property_index != -1)
+	
+	for snapshot in _delayed_snapshots:
+		for change_index in snapshot.changes.size():
+			var change: Array = snapshot.changes[change_index]
+			var prop_index = change[0]
+			if prop_index == property_index:
+				snapshot.changes.remove_at(change_index)
+				break
+	
+	_set_value(property, value)
+
+
 func configure():
 	_root = get_parent()
 	_last_tick = 0
@@ -76,7 +102,10 @@ func _on_peer_connected(_peer: int):
 
 func _before_tick():
 	if is_multiplayer_authority(): return
-	
+	_apply_delayed_changes()
+
+
+func _apply_delayed_changes():
 	var extra_snapshots := _delayed_snapshots.size() - _SNAPSHOT_DELAY_TICKS
 	if extra_snapshots < 1: return
 

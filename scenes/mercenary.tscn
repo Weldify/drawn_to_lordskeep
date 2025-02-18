@@ -149,12 +149,12 @@ script = ExtResource("1_m6yd2")
 
 [node name="ServerSynchronizer" type="Node" parent="."]
 script = ExtResource("2_c8xrr")
-networked_properties = Array[StringName]([&":right_hand_item_name", &":left_hand_item_name", &":satchel_name", &":health", &":grab_point_path", &":grab_height_offset", &":is_mantling"])
+networked_properties = Array[StringName]([&":right_hand_item_name", &":left_hand_item_name", &":satchel_name", &":health", &":grab_point_path", &":grab_height_offset"])
 metadata/_custom_type_script = ExtResource("2_c8xrr")
 
 [node name="ClientSynchronizer" type="Node" parent="."]
 script = ExtResource("2_c8xrr")
-networked_properties = Array[StringName]([&":look_pitch UNRELIABLE DELAYED", &":look_yaw UNRELIABLE DELAYED", &":position UNRELIABLE DELAYED", &":crouchness UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":trying_to_use"])
+networked_properties = Array[StringName]([&":look_pitch UNRELIABLE DELAYED", &":look_yaw UNRELIABLE DELAYED", &":position UNRELIABLE DELAYED", &":crouchness UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":trying_to_use", &":is_mantling"])
 metadata/_custom_type_script = ExtResource("2_c8xrr")
 
 [node name="Interpolator" type="Node" parent="."]

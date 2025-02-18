@@ -268,6 +268,13 @@ func mantle_effects():
 	playback.travel("mantle_medium")
 
 
+@rpc("authority", "call_local", "unreliable")
+func mantle_stop_effects(mantle_end_position: Vector3):
+	global_position = mantle_end_position
+	$Interpolator.snap(":position", mantle_end_position)
+	$ClientSynchronizer.snap(":position", mantle_end_position)
+
+
 func _on_tick(delta: float) -> void:
 	if multiplayer.is_server():
 		if trying_to_use:
@@ -282,8 +289,8 @@ func _on_tick(delta: float) -> void:
 	
 	if is_mantling and NetworkTime.now - mantle_started_at > 1.15:
 		is_mantling = false
-		global_position = $Model.global_position
-		$Interpolator.snap(":position")
+		mantle_stop_effects.rpc($Model.global_position)
+	
 	
 	if Input.is_action_pressed("drop") and G.mouse_unlockers.is_empty():
 		if Input.is_action_pressed("left_action"):

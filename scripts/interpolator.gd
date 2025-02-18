@@ -36,13 +36,11 @@ func apply() -> void:
 		node.set_indexed(path.get_as_property_path(), lerp(a, b, fraction))
 
 
-func snap(path: NodePath) -> void:
+func snap(path: NodePath, value) -> void:
 	assert(_from.has(path))
 	
-	var parent := get_parent()
-	var node := parent.get_node(path)
-	_to[path] = node.get_indexed(path.get_as_property_path())
-	_from[path] = _to[path]
+	_from[path] = value
+	_to[path] = value
 
 
 func _ready() -> void:
