@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b8fq6pdoch6od"
-path="res://.godot/imported/swing.wav-9ecbee6a6cfdfe80a49cb5c314358635.sample"
+path="res://.godot/imported/REPLACE_ASAP_swing.wav-d64f80d8897c752b8d6642d14ded11b6.sample"
 
 [deps]
 
-source_file="res://sounds/swing.wav"
-dest_files=["res://.godot/imported/swing.wav-9ecbee6a6cfdfe80a49cb5c314358635.sample"]
+source_file="res://sounds/REPLACE_ASAP_swing.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_swing.wav-d64f80d8897c752b8d6642d14ded11b6.sample"]
 
 [params]
 

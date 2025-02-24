@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dhr7k1sm80qlv"]
 
 [ext_resource type="Shader" uid="uid://4iyes1rt7deh" path="res://maps/textures/water.gdshader" id="1_5wga7"]
-[ext_resource type="Texture2D" uid="uid://c8a6i0uxckuck" path="res://maps/textures/water.png" id="2_rpwtc"]
+[ext_resource type="Texture2D" uid="uid://c8a6i0uxckuck" path="res://maps/textures/REPLACE_ASAP_water.png" id="2_rpwtc"]
 
 [resource]
 render_priority = 0

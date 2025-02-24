@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://c3v8nlxywqyqa"]
 
-[ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/clash.wav" id="1_8fqm1"]
+[ext_resource type="AudioStream" uid="uid://dkkwwurrolc2o" path="res://sounds/REPLACE_ASAP_clash.wav" id="1_8fqm1"]
 [ext_resource type="Script" uid="uid://mhiq62s42a0" path="res://scripts/item_weapon_component.gd" id="1_8qe33"]
-[ext_resource type="AudioStream" uid="uid://c063r8wnxd3ak" path="res://sounds/parry.wav" id="2_8qe33"]
+[ext_resource type="AudioStream" uid="uid://c063r8wnxd3ak" path="res://sounds/REPLACE_ASAP_parry.wav" id="2_8qe33"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_ilgqc"]
-[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="3_yxk4n"]
+[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/REPLACE_ASAP_swing.wav" id="3_yxk4n"]
 [ext_resource type="AudioStream" uid="uid://eeke6pi5ko7x" path="res://sounds/parry_swing.wav" id="4_kbh2r"]
 [ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="5_3n3ri"]
 [ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="6_gvmlv"]

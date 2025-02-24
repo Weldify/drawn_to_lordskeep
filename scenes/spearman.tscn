@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://bk18ju17dkdg2" path="res://addons/proton_trail/proton_trail.gd" id="11_t5mya"]
 [ext_resource type="Animation" uid="uid://d23rrl1m40pyr" path="res://models/tall_axe_guy/stab_lunge.res" id="12_1q64m"]
 [ext_resource type="Material" uid="uid://c3jhvcexel6he" path="res://models/mace/trail.tres" id="12_dk0sx"]
-[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/swing.wav" id="13_1q64m"]
+[ext_resource type="AudioStream" uid="uid://b8fq6pdoch6od" path="res://sounds/REPLACE_ASAP_swing.wav" id="13_1q64m"]
 [ext_resource type="Animation" uid="uid://c74haa3qog3yj" path="res://models/tall_axe_guy/stab_throw.res" id="14_53kvo"]
 [ext_resource type="PackedScene" uid="uid://cjt3bt14ih7ca" path="res://models/tall_axe/tall_axe.blend" id="14_esba6"]
 

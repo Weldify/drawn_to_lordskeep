@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dxm76a0vfpyya"]
 
-[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/damage_blunt.wav" id="1_poybr"]
+[ext_resource type="AudioStream" uid="uid://mm4njwwa4p4r" path="res://sounds/REPLACE_ASAP_damage_blunt.wav" id="1_poybr"]
 
 [sub_resource type="Curve" id="Curve_o3ebs"]
 _data = [Vector2(0, 1), 0.0, -0.113329, 0, 0, Vector2(1, 0), -2.97892, 0.0, 0, 0]

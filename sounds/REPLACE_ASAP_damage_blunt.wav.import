@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://mm4njwwa4p4r"
-path="res://.godot/imported/damage_blunt.wav-1768dcedefb115627bb6168b75adc728.sample"
+path="res://.godot/imported/REPLACE_ASAP_damage_blunt.wav-8dae04a23377944fa7d06dd312ad9e52.sample"
 
 [deps]
 
-source_file="res://sounds/damage_blunt.wav"
-dest_files=["res://.godot/imported/damage_blunt.wav-1768dcedefb115627bb6168b75adc728.sample"]
+source_file="res://sounds/REPLACE_ASAP_damage_blunt.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_damage_blunt.wav-8dae04a23377944fa7d06dd312ad9e52.sample"]
 
 [params]
 

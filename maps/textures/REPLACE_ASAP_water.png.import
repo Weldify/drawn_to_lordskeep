@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8a6i0uxckuck"
-path.s3tc="res://.godot/imported/water.png-e559613916d4131025541b0c712962fe.s3tc.ctex"
+path.s3tc="res://.godot/imported/REPLACE_ASAP_water.png-38da90d628c091cc827672f9b65e6f94.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://maps/textures/water.png"
-dest_files=["res://.godot/imported/water.png-e559613916d4131025541b0c712962fe.s3tc.ctex"]
+source_file="res://maps/textures/REPLACE_ASAP_water.png"
+dest_files=["res://.godot/imported/REPLACE_ASAP_water.png-38da90d628c091cc827672f9b65e6f94.s3tc.ctex"]
 
 [params]
 

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cf3r3qlira3sd"
-path="res://.godot/imported/eye_blocker_full.wav-2edcc105a4ebb6ab377d00f62acdc61f.sample"
+path="res://.godot/imported/REPLACE_ASAP_eye_blocker_full.wav-b0de74e132af007b07348e2fa864f2b0.sample"
 
 [deps]
 
-source_file="res://sounds/eye_blocker_full.wav"
-dest_files=["res://.godot/imported/eye_blocker_full.wav-2edcc105a4ebb6ab377d00f62acdc61f.sample"]
+source_file="res://sounds/REPLACE_ASAP_eye_blocker_full.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_eye_blocker_full.wav-b0de74e132af007b07348e2fa864f2b0.sample"]
 
 [params]
 

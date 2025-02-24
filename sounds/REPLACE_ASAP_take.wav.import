@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cbugxrgkapnjm"
-path="res://.godot/imported/take.wav-6b1e6c6f5d8dec63b3a8dc8f16f6e9b5.sample"
+path="res://.godot/imported/REPLACE_ASAP_take.wav-49daf4b4f2362c47890646265d7ecbbb.sample"
 
 [deps]
 
-source_file="res://sounds/take.wav"
-dest_files=["res://.godot/imported/take.wav-6b1e6c6f5d8dec63b3a8dc8f16f6e9b5.sample"]
+source_file="res://sounds/REPLACE_ASAP_take.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_take.wav-49daf4b4f2362c47890646265d7ecbbb.sample"]
 
 [params]
 

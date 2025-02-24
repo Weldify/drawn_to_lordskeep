@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dutty0g3mdv7a"]
 
-[ext_resource type="AudioStream" uid="uid://ddeojv5yv3qmm" path="res://sounds/damage_sharp.wav" id="1_x65lg"]
+[ext_resource type="AudioStream" uid="uid://ddeojv5yv3qmm" path="res://sounds/REPLACE_ASAP_damage_sharp.wav" id="1_x65lg"]
 
 [sub_resource type="Curve" id="Curve_o3ebs"]
 _data = [Vector2(0, 1), 0.0, -0.113329, 0, 0, Vector2(1, 0), -2.97892, 0.0, 0, 0]

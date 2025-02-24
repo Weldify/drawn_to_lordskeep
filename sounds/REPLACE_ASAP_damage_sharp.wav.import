@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ddeojv5yv3qmm"
-path="res://.godot/imported/damage_sharp.wav-426237f4219d753c10c22dabf4378e3f.sample"
+path="res://.godot/imported/REPLACE_ASAP_damage_sharp.wav-4a77e77b5e528d0a69449a863d3ae5e6.sample"
 
 [deps]
 
-source_file="res://sounds/damage_sharp.wav"
-dest_files=["res://.godot/imported/damage_sharp.wav-426237f4219d753c10c22dabf4378e3f.sample"]
+source_file="res://sounds/REPLACE_ASAP_damage_sharp.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_damage_sharp.wav-4a77e77b5e528d0a69449a863d3ae5e6.sample"]
 
 [params]
 

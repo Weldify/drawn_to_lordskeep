@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dkkwwurrolc2o"
-path="res://.godot/imported/clash.wav-9c52138854e5da0e0aad584b0cf89f07.sample"
+path="res://.godot/imported/REPLACE_ASAP_clash.wav-01723ddc0f3a278e12c06bacfd467e46.sample"
 
 [deps]
 
-source_file="res://sounds/clash.wav"
-dest_files=["res://.godot/imported/clash.wav-9c52138854e5da0e0aad584b0cf89f07.sample"]
+source_file="res://sounds/REPLACE_ASAP_clash.wav"
+dest_files=["res://.godot/imported/REPLACE_ASAP_clash.wav-01723ddc0f3a278e12c06bacfd467e46.sample"]
 
 [params]
 

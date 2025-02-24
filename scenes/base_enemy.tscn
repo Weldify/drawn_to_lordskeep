@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bou27x03gtprt" path="res://scripts/enemy.gd" id="1_2kb2m"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_kegi0"]
 [ext_resource type="Script" uid="uid://cod6hn12hn8g" path="res://scripts/interpolator.gd" id="3_64ljx"]
-[ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/foot_step0.wav" id="4_tonni"]
-[ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/foot_step1.wav" id="5_j4o54"]
-[ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/foot_step2.wav" id="6_0gk8p"]
+[ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/REPLACE_ASAP_foot_step0.wav" id="4_tonni"]
+[ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/REPLACE_ASAP_foot_step1.wav" id="5_j4o54"]
+[ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/REPLACE_ASAP_foot_step2.wav" id="6_0gk8p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2kb2m"]
 radius = 0.4

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bysdh8fnb6sr5" path="res://scripts/eye_blocker.gd" id="11_e3hyu"]
 [ext_resource type="Texture2D" uid="uid://bsv2ul5wbfvx1" path="res://sprites/eye_blocker.png" id="12_jhx03"]
 [ext_resource type="Script" uid="uid://bjfxf2r111i3x" path="res://scripts/fallen_things_deleter.gd" id="12_q5onr"]
-[ext_resource type="AudioStream" uid="uid://cf3r3qlira3sd" path="res://sounds/eye_blocker_full.wav" id="13_jhx03"]
+[ext_resource type="AudioStream" uid="uid://cf3r3qlira3sd" path="res://sounds/REPLACE_ASAP_eye_blocker_full.wav" id="13_jhx03"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 [ext_resource type="FontFile" uid="uid://cgssk0x0gww2c" path="res://fonts/Macondo-Regular.ttf" id="29_k83mh"]
