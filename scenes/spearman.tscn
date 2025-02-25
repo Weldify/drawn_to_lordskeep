@@ -99,9 +99,6 @@ grab_finish_time = 2.2
 grab_point = NodePath("../../RHold/GrabPoint")
 grab_throw_velocity = Vector3(0, 2, -5)
 
-[node name="PointOfInterest" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 1.12964, 0.517547)
-
 [node name="AnimationTree" parent="." index="5"]
 root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeStateMachine_hp4xw")

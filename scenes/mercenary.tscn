@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="3_2rkhb"]
 [ext_resource type="Animation" uid="uid://ck0moiw8hr0ox" path="res://models/mercenary/RESET.res" id="4_ij2o5"]
 [ext_resource type="Animation" uid="uid://cu2igi0ieyhs8" path="res://models/mercenary/both_hold_none.res" id="5_5h5rc"]
+[ext_resource type="Script" uid="uid://bktyx4i3wfwo0" path="res://scripts/enemy_targetable.gd" id="5_bpalt"]
 [ext_resource type="PackedScene" uid="uid://c14fsiugubcvw" path="res://models/mercenary/mercenary.blend" id="5_qqtx7"]
 [ext_resource type="Animation" uid="uid://b6caetionqcgp" path="res://models/mercenary/both_hold_weapon.res" id="6_p6ykb"]
 [ext_resource type="Animation" uid="uid://8hgoyj7jhfhg" path="res://models/mercenary/both_swing.res" id="7_5f0r2"]
@@ -31,7 +32,6 @@
 [ext_resource type="Animation" uid="uid://bp6nuh8ybd84c" path="res://models/mercenary/knockdown.res" id="21_dgshc"]
 [ext_resource type="Animation" uid="uid://cnc84vxjl8kw1" path="res://models/mercenary/grabbed_chest_stab.res" id="23_i7i1f"]
 [ext_resource type="Animation" uid="uid://cfvvjlrxrwbhn" path="res://models/mercenary/mantle_medium.res" id="24_apj5i"]
-[ext_resource type="Script" uid="uid://c0vxv6r3d0yg7" path="res://scripts/creature_spot_point.gd" id="26_bpalt"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -170,6 +170,11 @@ script = ExtResource("3_2rkhb")
 [node name="LeftHandAnimEvents" type="Node" parent="."]
 script = ExtResource("3_2rkhb")
 
+[node name="EnemyTargetable" type="Node" parent="." node_paths=PackedStringArray("spot_points", "look_at_point") groups=["enemy_targetable"]]
+script = ExtResource("5_bpalt")
+spot_points = [NodePath("../HeadAttachment/Eyes")]
+look_at_point = NodePath("../HeadAttachment/Eyes")
+
 [node name="Model" parent="." instance=ExtResource("5_qqtx7")]
 
 [node name="AnimationPlayer" parent="Model" index="1"]
@@ -232,7 +237,7 @@ transform = Transform3D(-7.59325e-07, -5.0934e-09, -0.999869, -0.0424709, 0.9989
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-2.208e-07, -1.3423e-07, -1, -0.0437891, 0.999041, -1.24433e-07, 0.999041, 0.0437891, -2.26467e-07, -2.75097e-08, 1.35708, -0.0176538)
+transform = Transform3D(-1.05809e-07, -1.49215e-07, -1, -0.0437892, 0.999041, -1.44439e-07, 0.999041, 0.0437892, -1.12242e-07, -3.49956e-08, 1.35708, -0.0176537)
 bone_name = "head"
 bone_idx = 12
 use_external_skeleton = true
@@ -243,11 +248,9 @@ transform = Transform3D(0.999864, -0.0165101, 0, 0.0165101, 0.999864, 1.9984e-14
 remote_path = NodePath("../../Hitbox/Head")
 update_scale = false
 
-[node name="Eyes" type="Node3D" parent="HeadAttachment" node_paths=PackedStringArray("target") groups=["creature_spot_point"]]
+[node name="Eyes" type="Node3D" parent="HeadAttachment"]
 process_priority = 2
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.104693, 0.249147, -4.27925e-08)
-script = ExtResource("26_bpalt")
-target = NodePath("../..")
 
 [node name="UseRay" type="RayCast3D" parent="HeadAttachment/Eyes"]
 enabled = false
@@ -264,7 +267,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550526, -0.997822, 0.036341, 0.0501134, -0.0391115, -0.997977, 0.997225, -0.0531201, 0.0521574, -0.733352, 1.31446, -0.00123276)
+transform = Transform3D(0.209695, 0.0240306, 0.977472, -0.0550523, -0.997822, 0.0363411, 0.976216, -0.0614326, -0.207915, -0.176535, 0.736061, -0.00122331)
 bone_name = "r_hand0"
 bone_idx = 15
 use_external_skeleton = true
@@ -286,7 +289,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0550525, 0.997822, -0.0363407, -0.0501134, -0.0391113, -0.997977, -0.997225, -0.05312, 0.0521574, 0.733352, 1.31446, -0.00123267)
+transform = Transform3D(0.209695, -0.0240301, -0.977472, 0.0550524, -0.997822, 0.0363407, -0.976216, -0.0614326, -0.207915, 0.176536, 0.73606, -0.0012233)
 bone_name = "l_hand0"
 bone_idx = 20
 use_external_skeleton = true
@@ -308,7 +311,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="Torso2Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-2.38456e-07, -1.22227e-07, -1, 0.0780586, 0.996949, -1.40467e-07, 0.996949, -0.0780586, -2.28187e-07, -7.52053e-10, 1.18731, 0.0142121)
+transform = Transform3D(-1.26141e-07, -1.51088e-07, -1, 0.0780585, 0.996949, -1.60474e-07, 0.996949, -0.0780585, -1.13963e-07, -1.20154e-09, 1.18731, 0.0142121)
 bone_name = "torso2"
 bone_idx = 11
 use_external_skeleton = true
@@ -323,7 +326,7 @@ update_scale = false
 transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.00762183, 0.38637, -0.385322, 0.028445, 0.103528, -0.0754887, 0.0437575, 0.0096081)
 
 [node name="Torso1Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-7.16927e-07, 5.68505e-11, -1, -0.0216779, 0.999765, 1.55983e-08, 0.999765, 0.0216779, -7.16757e-07, -7.62825e-10, 0.99784, 0.0101039)
+transform = Transform3D(-7.17398e-07, -2.31499e-09, -1, -0.021678, 0.999765, 1.32373e-08, 0.999765, 0.021678, -7.1728e-07, -7.62825e-10, 0.99784, 0.0101039)
 bone_name = "torso1"
 bone_idx = 10
 use_external_skeleton = true

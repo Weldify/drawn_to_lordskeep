@@ -25,7 +25,14 @@ var look_at_active: bool :
 
 
 var should_change_point_of_interest_at := 0.0
-@onready var point_of_interest_node := $PointOfInterest
+@onready var point_of_interest_node: Node3D :
+	set(v):
+		if point_of_interest_node == v: return
+		point_of_interest_node = v
+		
+		for modifier in look_at_modifiers:
+			modifier.target_node = v.get_path() if v else ^""
+
 
 var should_change_direction_at := 0.0
 var walk_direction: Vector3
@@ -41,6 +48,8 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
+	point_of_interest_node = $LookInterest
+	
 	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.ENEMY_PROCESS_PRIORITY
 	
@@ -53,13 +62,7 @@ func _ready() -> void:
 
 
 var patrol_node: AIPatrolNode
-
-##: @TODO @TODO @TODO: @TODO FUCKING
-## Define fucking spot points DIRECTLY ON THE FUCKING
-## PLAYER. AS AN @EXPORT.
-## SO MUCH SIMPLER!
-var aggro_target: Node3D
-
+var aggro_target_path: NodePath
 
 var vision_block_params: PhysicsRayQueryParameters3D
 
@@ -78,57 +81,82 @@ func can_see_position(pos: Vector3) -> bool:
 	var block_result := space_state.intersect_ray(vision_block_params)
 	return block_result.is_empty()
 
-func _do_vision_target_detection():
-	if !eyes or is_instance_valid(aggro_target): return
-	
-	for spot_point: CreatureSpotPoint in get_tree().get_nodes_in_group("creature_spot_point"):
-		if !can_see_position(spot_point.global_position): continue
+
+func can_see_any_spot_points(targetable: EnemyTargetable) -> bool:
+	for spot_point in targetable.spot_points:
+		if can_see_position(spot_point.global_position): return true
 		
-		aggro_target = spot_point.creature
-		break
+	return false
 
 
-func _on_tick(delta: float) -> void:
-	if !multiplayer.is_server(): return
+func _do_vision_target_detection():
+	if !eyes or get_node_or_null(aggro_target_path): return
 	
-	_do_vision_target_detection()
-	_do_actions()
+	var found := false
+	for enemy_targetable: EnemyTargetable in get_tree().get_nodes_in_group("enemy_targetable"):
+		if can_see_any_spot_points(enemy_targetable):
+			aggro_target_path = enemy_targetable.get_path()
+			break
+
+
+func figure_out_target_position() -> Vector3:
+	var aggro_target: EnemyTargetable = get_node_or_null(aggro_target_path)
+	if aggro_target:
+		return aggro_target.get_parent().global_position
 	
-	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)
+	if is_instance_valid(patrol_node):
+		return patrol_node.global_position
 	
-	if $Navigator.is_navigation_finished() and patrol_node and patrol_node.next:
-		patrol_node = patrol_node.next
+	return global_position
+
+
+func _try_take_over_nearest_patrol_route():
+	assert(!is_instance_valid(patrol_node) and !get_node_or_null(aggro_target_path))
+	
+	$PatrolNodeFinder.force_shapecast_update()
+	if $PatrolNodeFinder.is_colliding():
+		patrol_node = $PatrolNodeFinder.get_collider(0)
+		print("Found patrol node!")
 		$Navigator.target_position = patrol_node.global_position
+
+
+var look_interest: Vector3 :
+	set(v):
+		if look_interest == v: return
+		look_interest = v
+		$LookInterest.global_position = v
+		
+		## @NOTE: Crutch to make look interest changes smooth
+		if point_of_interest_node == $LookInterest:
+			point_of_interest_node = null
+			point_of_interest_node = $LookInterest
+
+
+func _before_nav_target_figured_out():
+	var aggro_target: EnemyTargetable = get_node_or_null(aggro_target_path)
 	
+	if aggro_target and !can_see_any_spot_points(aggro_target):
+		aggro_target_path = ^""
+		aggro_target = null
 	
+	if is_instance_valid(aggro_target):
+		patrol_node = null
+	
+	if !is_instance_valid(patrol_node) and !aggro_target:
+		_try_take_over_nearest_patrol_route()
+
+
+func _after_nav_target_figured_out():
 	if !$Navigator.is_navigation_finished():
 		var nav_target: Vector3 = $Navigator.get_next_path_position()
 		walk_direction = (nav_target - global_position * Vector3(1, 0, 1)).normalized()
 	
-	if !patrol_node:
-		$PatrolNodeFinder.force_shapecast_update()
-		if $PatrolNodeFinder.is_colliding():
-			patrol_node = $PatrolNodeFinder.get_collider(0)
-			print("Found patrol node!")
-			$Navigator.target_position = patrol_node.global_position
-	
-	if !is_instance_valid(active_action) and Net.now > should_change_point_of_interest_at:
-		should_change_point_of_interest_at = Net.now + randf_range(1, 4)
-		
-		var angle := look_pitch + randf_range(-PI/4, PI/4)
-		var offset := Vector3(sin(angle), randf_range(-0.25, 0), cos(angle)) * randf_range(1, 3)
-		var target := eyes.global_position + offset
-		
-		point_of_interest_target = target
-		print("Changed poi")
-	
-	
-	#if Net.now > should_change_direction_at:
-		#should_change_direction_at = Net.now + randf_range(1, 2)
-		#
-		#var angle := randf_range(-PI, PI)
-		#walk_direction = Vector3(cos(angle), 0, sin(angle))
-	
+	if is_instance_valid(patrol_node) and $Navigator.is_navigation_finished() and is_instance_valid(patrol_node.next):
+		patrol_node = patrol_node.next
+		$Navigator.target_position = patrol_node.global_position
+
+
+func _do_movement(delta: float):
 	is_grounded = is_on_floor()
 	
 	if is_grounded:
@@ -141,6 +169,32 @@ func _on_tick(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	move_and_slide()
+
+
+func _on_tick(delta: float) -> void:
+	if !multiplayer.is_server(): return
+	
+	_do_vision_target_detection()
+	_do_actions()
+	
+	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)
+	
+	if health > 0:
+		_before_nav_target_figured_out()
+		$Navigator.target_position = figure_out_target_position()
+		_after_nav_target_figured_out()
+	
+		if !is_instance_valid(active_action) and Net.now > should_change_point_of_interest_at:
+			should_change_point_of_interest_at = Net.now + randf_range(1, 4)
+			
+			var angle := look_pitch + randf_range(-PI/4, PI/4)
+			var offset := Vector3(sin(angle), randf_range(-0.25, 0), cos(angle)) * randf_range(1, 3)
+			var target := eyes.global_position + offset
+			
+			look_interest = target
+			print("Changed poi")
+	
+	_do_movement(delta)
 
 
 var action_cooldown_ends_at := 0.0
@@ -161,17 +215,6 @@ func _do_actions():
 	_next_action_index_to_try += 1
 
 
-var point_of_interest_target: Vector3:
-	set(v):
-		if v == point_of_interest_target: return
-		point_of_interest_target = v
-		
-		point_of_interest_node.global_position = point_of_interest_target
-		for modifier in look_at_modifiers:
-			modifier.target_node = ""
-			modifier.target_node = point_of_interest_node.get_path()
-
-
 var last_footstep_was_at := 0.0
 func play_footstep() -> void:
 	if !is_grounded or Net.now - last_footstep_was_at < 0.1: return
@@ -182,6 +225,25 @@ func play_footstep() -> void:
 
 
 func _evaluate_animations(delta: float):
+	var aggro_target: EnemyTargetable = get_node_or_null(aggro_target_path)
+	if aggro_target:
+		point_of_interest_node = aggro_target.look_at_point
+	else:
+		point_of_interest_node = $LookInterest
+	
+	if health > 0:
+		var goal: float
+		
+		# Should we face the point of interest or our move direction?
+		var face_look_interest := aggro_target != null
+		if face_look_interest:
+			var diff = point_of_interest_node.global_position - global_position
+			goal = atan2(diff.x, diff.z)
+		else:
+			goal = atan2(velocity.x, velocity.z)
+		
+		look_pitch = lerp_angle(look_pitch, goal, delta * 5)
+	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
@@ -207,14 +269,3 @@ func _evaluate_animations(delta: float):
 func _process(delta: float) -> void:
 	$Interpolator.apply()
 	_evaluate_animations(delta)
-	
-	if health > 0:
-		var goal := atan2(velocity.x, velocity.z)
-		
-		# Should we face the point of interest or our move direction?
-		var face_poi := false
-		if face_poi:
-			var diff = point_of_interest_target - global_position
-			goal = atan2(diff.x, diff.z)
-		
-		look_pitch = lerp_angle(look_pitch, goal, delta * 5)

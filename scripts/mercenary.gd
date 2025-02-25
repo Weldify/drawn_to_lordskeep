@@ -7,9 +7,6 @@ const SATCHEL_CAST_HEIGHT = 1.2
 const STANDING_HEIGHT = 1.75
 const CROUCHING_HEIGHT = 1.0
 
-## Filled by spot points themselves... Maybe theres a simpler way to do spot points??
-var spot_points: Array[CreatureSpotPoint]
-
 var is_grounded := false
 
 # Client owned

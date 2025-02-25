@@ -31,7 +31,7 @@ vision_spot_block_layers = 1
 
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_kegi0")
-networked_properties = Array[StringName]([&":position UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":point_of_interest_target", &":health", &":look_at_active"])
+networked_properties = Array[StringName]([&":position UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":look_interest", &":health", &":look_at_active", &":aggro_target_path"])
 metadata/_custom_type_script = "uid://c6dsf65nsvdek"
 
 [node name="Interpolator" type="Node" parent="."]
@@ -39,7 +39,7 @@ script = ExtResource("3_64ljx")
 default_properties = Array[StringName]([&":position", &":velocity"])
 metadata/_custom_type_script = "uid://cod6hn12hn8g"
 
-[node name="PointOfInterest" type="Node3D" parent="."]
+[node name="LookInterest" type="Node3D" parent="."]
 top_level = true
 
 [node name="Collider" type="CollisionShape3D" parent="."]
