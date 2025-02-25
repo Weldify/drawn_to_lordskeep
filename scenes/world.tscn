@@ -30,7 +30,6 @@ sdfgi_min_cell_size = 0.25
 sdfgi_cascade0_distance = 16.0
 sdfgi_max_distance = 128.0
 sdfgi_y_scale = 2
-volumetric_fog_enabled = true
 volumetric_fog_density = 0.1
 volumetric_fog_temporal_reprojection_enabled = false
 adjustment_enabled = true

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" load_steps=3 format=3 uid="uid://dox6dstsdla8g"]
+
+[ext_resource type="PackedScene" uid="uid://cbt43sqwps23h" path="res://scenes/ai_patrol_node.tscn" id="1_tpsw1"]
+[ext_resource type="Script" uid="uid://b0sr30fsnd3l4" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_yvjig"]
+
+[resource]
+script = ExtResource("1_yvjig")
+scene_file = ExtResource("1_tpsw1")
+apply_rotation_on_map_build = true
+classname = "ai_patrol_node"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {
+"target": "",
+"targetname": ""
+}
+class_property_descriptions = {}
+auto_apply_to_matching_node_properties = false
+meta_properties = {
+"color": Color(0, 0.8, 0, 1),
+"size": AABB(-4, -4, 0, 4, 4, 8)
+}
+node_class = ""
+name_property = ""

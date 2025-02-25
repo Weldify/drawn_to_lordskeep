@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDFile" load_steps=6 format=3 uid="uid://eyvv46ttwok2"]
+[gd_resource type="Resource" script_class="FuncGodotFGDFile" load_steps=7 format=3 uid="uid://eyvv46ttwok2"]
 
 [ext_resource type="Resource" uid="uid://nayxb8n7see2" path="res://addons/func_godot/fgd/phong_base.tres" id="1_a6rc0"]
 [ext_resource type="Resource" uid="uid://4n87fiqnu6lt" path="res://map_integration/geo_convex_no_occluder.tres" id="4_13vr7"]
-[ext_resource type="Script" uid="uid://pavcanww4etc" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="7_aqq8m"]
+[ext_resource type="Resource" uid="uid://dox6dstsdla8g" path="res://map_integration/ai_patrol_node.tres" id="5_xpjfp"]
+[ext_resource type="Script" uid="uid://liccnph4yud6" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="7_aqq8m"]
 [ext_resource type="Resource" uid="uid://owx4hqvr7q14" path="res://map_integration/worldspawn.tres" id="8_ppkbc"]
 [ext_resource type="Resource" uid="uid://cvmmsf3a837je" path="res://map_integration/geo_convex.tres" id="9_ppkbc"]
 
@@ -12,4 +13,4 @@ export_file = false
 target_map_editor = 1
 fgd_name = "drawn_to_lordskeep"
 base_fgd_files = Array[Resource]([])
-entity_definitions = Array[Resource]([ExtResource("1_a6rc0"), ExtResource("8_ppkbc"), ExtResource("9_ppkbc"), ExtResource("4_13vr7")])
+entity_definitions = Array[Resource]([ExtResource("1_a6rc0"), ExtResource("8_ppkbc"), ExtResource("9_ppkbc"), ExtResource("4_13vr7"), ExtResource("5_xpjfp")])

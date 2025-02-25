@@ -29,7 +29,7 @@ signal unwrap_uv2_complete()
 var _map_file_internal: String = ""
 
 ## Map settings resource that defines map build scale, textures location, and more.
-@export var map_settings: FuncGodotMapSettings = load("res://addons/func_godot/func_godot_default_map_settings.tres")
+@export var map_settings: FuncGodotMapSettings = load(ProjectSettings.get_setting("func_godot/default_map_settings", "res://addons/func_godot/func_godot_default_map_settings.tres"))
 
 @export_category("Build")
 ## If true, print profiling data before and after each build step.
@@ -1089,6 +1089,8 @@ func apply_properties_and_finish() -> void:
 								properties[property] = 0
 						elif prop_default is Resource:
 							properties[property] = prop_default.resource_path
+						elif prop_default is NodePath or prop_default is Object or prop_default == null:
+							properties[property] = ""
 						# Everything else
 						else:
 							properties[property] = prop_default

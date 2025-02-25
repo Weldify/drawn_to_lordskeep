@@ -2165,7 +2165,7 @@ district_border = NodePath("FuncGodotMap/entity_86_func_district_border")
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_sv3lo")
 networked_properties = Array[StringName]([&":border_closed", &":transform"])
-metadata/_custom_type_script = ExtResource("2_sv3lo")
+metadata/_custom_type_script = "uid://c6dsf65nsvdek"
 
 [node name="Exit" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -24)
@@ -2177,7 +2177,7 @@ navigation_mesh = SubResource("NavigationMesh_sv3lo")
 script = ExtResource("1_t83kr")
 local_map_file = "uid://6565x3m6enui"
 map_settings = ExtResource("2_tpddv")
-metadata/_custom_type_script = ExtResource("1_t83kr")
+metadata/_custom_type_script = "uid://d0c2hoau0c87i"
 
 [node name="entity_0_worldspawn" type="Node3D" parent="FuncGodotMap"]
 script = ExtResource("3_i561w")

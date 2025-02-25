@@ -114,6 +114,7 @@ mobility={
 3d_physics/layer_2="Creature"
 3d_physics/layer_3="Item"
 3d_physics/layer_4="Hitbox"
+3d_physics/layer_5="AIPatrolNode"
 
 [navigation]
 

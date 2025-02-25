@@ -34,4 +34,4 @@ meta_properties = {
 }
 node_class = "StaticBody3D"
 name_property = ""
-metadata/_custom_type_script = ExtResource("1_b4koq")
+metadata/_custom_type_script = "uid://e8hh0fktbnra"

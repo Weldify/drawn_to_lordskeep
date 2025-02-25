@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ct2u6ioagouid"]
+[gd_scene load_steps=10 format=3 uid="uid://ct2u6ioagouid"]
 
 [ext_resource type="Script" uid="uid://bou27x03gtprt" path="res://scripts/enemy.gd" id="1_2kb2m"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_kegi0"]
@@ -9,6 +9,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2kb2m"]
 radius = 0.4
+height = 1.9
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rffmh"]
 random_pitch = 1.2
@@ -17,7 +18,12 @@ stream_0/stream = ExtResource("4_tonni")
 stream_1/stream = ExtResource("5_j4o54")
 stream_2/stream = ExtResource("6_0gk8p")
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tonni"]
+height = 1.0
+radius = 4.0
+
 [node name="BaseEnemy" type="CharacterBody3D"]
+top_level = true
 script = ExtResource("1_2kb2m")
 
 [node name="Actions" type="Node" parent="."]
@@ -25,14 +31,15 @@ script = ExtResource("1_2kb2m")
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_kegi0")
 networked_properties = Array[StringName]([&":position UNRELIABLE DELAYED", &":velocity UNRELIABLE DELAYED", &":point_of_interest_target", &":health", &":look_at_active"])
-metadata/_custom_type_script = ExtResource("2_kegi0")
+metadata/_custom_type_script = "uid://c6dsf65nsvdek"
 
 [node name="Interpolator" type="Node" parent="."]
 script = ExtResource("3_64ljx")
 default_properties = Array[StringName]([&":position", &":velocity"])
-metadata/_custom_type_script = ExtResource("3_64ljx")
+metadata/_custom_type_script = "uid://cod6hn12hn8g"
 
 [node name="PointOfInterest" type="Node3D" parent="."]
+top_level = true
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -54,3 +61,19 @@ attenuation_filter_db = 0.0
 [node name="Hitbox" type="StaticBody3D" parent="."]
 collision_layer = 8
 collision_mask = 0
+
+[node name="Navigator" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.2
+target_desired_distance = 0.2
+path_height_offset = 0.2
+height = 1.9
+radius = 0.4
+debug_enabled = true
+
+[node name="PatrolNodeFinder" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+enabled = false
+shape = SubResource("CylinderShape3D_tonni")
+target_position = Vector3(0, 0, 0)
+max_results = 1
+collision_mask = 16

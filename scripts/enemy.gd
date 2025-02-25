@@ -2,6 +2,7 @@ extends CharacterBody3D
 class_name Enemy
 
 @export var look_at_modifiers: Array[LookAtModifier3D] 
+@export var eyes: Node3D
 
 var health := 1.0 :
 	set(v):
@@ -39,11 +40,16 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
+	assert(eyes, "Eyes need to be set!")
+	
 	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.ENEMY_PROCESS_PRIORITY
 	
 	$NetSynchronizer.configure()
 	Net.on_tick.connect(_on_tick)
+
+
+var patrol_node: AIPatrolNode
 
 
 func _on_tick(delta: float) -> void:
@@ -53,23 +59,38 @@ func _on_tick(delta: float) -> void:
 	
 	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)
 	
+	if $Navigator.is_navigation_finished() and patrol_node and patrol_node.next:
+		patrol_node = patrol_node.next
+		$Navigator.target_position = patrol_node.global_position
+	
+	
+	if !$Navigator.is_navigation_finished():
+		var nav_target: Vector3 = $Navigator.get_next_path_position()
+		walk_direction = (nav_target - global_position * Vector3(1, 0, 1)).normalized()
+	
+	if !patrol_node:
+		$PatrolNodeFinder.force_shapecast_update()
+		if $PatrolNodeFinder.is_colliding():
+			patrol_node = $PatrolNodeFinder.get_collider(0)
+			print("Found patrol node!")
+			$Navigator.target_position = patrol_node.global_position
+	
 	if !is_instance_valid(active_action) and Net.now > should_change_point_of_interest_at:
-		should_change_point_of_interest_at = Net.now + randf_range(2, 6)
+		should_change_point_of_interest_at = Net.now + randf_range(1, 4)
 		
-		var angle := randf_range(-PI, PI)
-		var distance := randf_range(2, 5)
-		var target := global_position + Vector3(cos(angle), 0, sin(angle))
-		target *= distance
-		target.y += randf_range(-1, 1)
+		var angle := look_pitch + randf_range(-PI/4, PI/4)
+		var offset := Vector3(sin(angle), randf_range(-0.25, 0), cos(angle)) * randf_range(1, 3)
+		var target := eyes.global_position + offset
 		
 		point_of_interest_target = target
+		print("Changed poi")
 	
 	
-	if Net.now > should_change_direction_at:
-		should_change_direction_at = Net.now + randf_range(1, 2)
-		
-		var angle := randf_range(-PI, PI)
-		walk_direction = Vector3(cos(angle), 0, sin(angle))
+	#if Net.now > should_change_direction_at:
+		#should_change_direction_at = Net.now + randf_range(1, 2)
+		#
+		#var angle := randf_range(-PI, PI)
+		#walk_direction = Vector3(cos(angle), 0, sin(angle))
 	
 	is_grounded = is_on_floor()
 	
@@ -77,8 +98,8 @@ func _on_tick(delta: float) -> void:
 		var max_speed := 0.5
 		if health <= 0: max_speed = 0
 		
-		velocity = G.apply_friction(velocity, 1 * delta)
-		velocity = G.accelerate(velocity, walk_direction, 1 * delta, max_speed)
+		velocity = G.apply_friction(velocity, 3 * delta)
+		velocity = G.accelerate(velocity, walk_direction, 3 * delta, max_speed)
 	else:
 		velocity += get_gravity() * delta
 	
@@ -108,7 +129,7 @@ var point_of_interest_target: Vector3:
 		if v == point_of_interest_target: return
 		point_of_interest_target = v
 		
-		point_of_interest_node.position = point_of_interest_target
+		point_of_interest_node.global_position = point_of_interest_target
 		for modifier in look_at_modifiers:
 			modifier.target_node = ""
 			modifier.target_node = point_of_interest_node.get_path()
@@ -154,7 +175,7 @@ func _process(delta: float) -> void:
 		var goal := atan2(velocity.x, velocity.z)
 		
 		# Should we face the point of interest or our move direction?
-		var face_poi := true
+		var face_poi := false
 		if face_poi:
 			var diff = point_of_interest_target - global_position
 			goal = atan2(diff.x, diff.z)
