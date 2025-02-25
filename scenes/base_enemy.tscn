@@ -25,6 +25,7 @@ radius = 4.0
 [node name="BaseEnemy" type="CharacterBody3D"]
 top_level = true
 script = ExtResource("1_2kb2m")
+vision_spot_block_layers = 1
 
 [node name="Actions" type="Node" parent="."]
 

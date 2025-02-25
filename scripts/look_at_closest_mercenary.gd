@@ -15,5 +15,5 @@ func _process(delta: float) -> void:
 	
 	if !closest: return
 	
-	var viewpoint: Node3D = closest.get_node("HeadAttachment/Viewpoint")
-	modifier.target_node = viewpoint.get_path()
+	var eyes: Node3D = closest.get_node("HeadAttachment/Eyes")
+	modifier.target_node = eyes.get_path()

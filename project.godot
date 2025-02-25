@@ -44,6 +44,7 @@ spawnpoint=""
 cathedral_bell=""
 district_border=""
 navigation_mesh_source_group=""
+creature_spot_point="Creatures have to see this point to spot you"
 
 [input]
 

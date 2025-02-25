@@ -3,6 +3,7 @@ class_name Enemy
 
 @export var look_at_modifiers: Array[LookAtModifier3D] 
 @export var eyes: Node3D
+@export_flags_3d_physics var vision_spot_block_layers: int
 
 var health := 1.0 :
 	set(v):
@@ -40,21 +41,57 @@ func handle_hit(weapon, pos: Vector3, normal: Vector3):
 
 
 func _ready() -> void:
-	assert(eyes, "Eyes need to be set!")
-	
 	$AnimationTree.callback_mode_process = AnimationTree.ANIMATION_PROCESS_MANUAL
 	process_priority = G.ENEMY_PROCESS_PRIORITY
 	
 	$NetSynchronizer.configure()
 	Net.on_tick.connect(_on_tick)
+	
+	if multiplayer.is_server():
+		vision_block_params = PhysicsRayQueryParameters3D.new()
+		vision_block_params.collision_mask = vision_spot_block_layers
 
 
 var patrol_node: AIPatrolNode
+
+##: @TODO @TODO @TODO: @TODO FUCKING
+## Define fucking spot points DIRECTLY ON THE FUCKING
+## PLAYER. AS AN @EXPORT.
+## SO MUCH SIMPLER!
+var aggro_target: Node3D
+
+
+var vision_block_params: PhysicsRayQueryParameters3D
+
+func can_see_position(pos: Vector3) -> bool:
+	if !eyes: return false
+	
+	var dir_to := eyes.global_position.direction_to(pos)
+	var forward := -eyes.global_basis.z
+	if forward.dot(dir_to) < 0.5: return false
+	
+	var space_state := get_world_3d().direct_space_state
+	
+	vision_block_params.from = eyes.global_position
+	vision_block_params.to = pos
+	
+	var block_result := space_state.intersect_ray(vision_block_params)
+	return block_result.is_empty()
+
+func _do_vision_target_detection():
+	if !eyes or is_instance_valid(aggro_target): return
+	
+	for spot_point: CreatureSpotPoint in get_tree().get_nodes_in_group("creature_spot_point"):
+		if !can_see_position(spot_point.global_position): continue
+		
+		aggro_target = spot_point.creature
+		break
 
 
 func _on_tick(delta: float) -> void:
 	if !multiplayer.is_server(): return
 	
+	_do_vision_target_detection()
 	_do_actions()
 	
 	look_at_active = health > 0 and (!active_action or !active_action.block_look_at)

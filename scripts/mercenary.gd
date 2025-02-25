@@ -7,6 +7,9 @@ const SATCHEL_CAST_HEIGHT = 1.2
 const STANDING_HEIGHT = 1.75
 const CROUCHING_HEIGHT = 1.0
 
+## Filled by spot points themselves... Maybe theres a simpler way to do spot points??
+var spot_points: Array[CreatureSpotPoint]
+
 var is_grounded := false
 
 # Client owned
@@ -154,7 +157,7 @@ func drop_item(is_right_hand: bool, throw_power: float):
 	
 	item.holder_info = ["", true]
 	
-	item.linear_velocity = velocity - $HeadAttachment/Viewpoint.global_basis.z * throw_power * 10
+	item.linear_velocity = velocity - $HeadAttachment/Eyes.global_basis.z * throw_power * 10
 	item.angular_velocity = item.quaternion * item.spin_axis * throw_power * 20
 
 
@@ -224,7 +227,7 @@ func place_satchel():
 func use() -> void:
 	assert(multiplayer.is_server())
 	
-	var use_ray: RayCast3D = $HeadAttachment/Viewpoint/UseRay
+	var use_ray: RayCast3D = $HeadAttachment/Eyes/UseRay
 	use_ray.force_raycast_update()
 	
 	var item := use_ray.get_collider()
@@ -478,4 +481,4 @@ func _process(delta: float) -> void:
 	$HeadAttachment.on_skeleton_update()
 	
 	var camera := get_viewport().get_camera_3d()
-	camera.global_transform = $HeadAttachment/Viewpoint.global_transform
+	camera.global_transform = $HeadAttachment/Eyes.global_transform
