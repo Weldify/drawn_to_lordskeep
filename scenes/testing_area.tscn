@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://cyo5tmlp2jyks"]
+[gd_scene load_steps=25 format=4 uid="uid://cyo5tmlp2jyks"]
 
 [ext_resource type="Script" uid="uid://cv63xwfwvkfb1" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_dkpym"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_7dpvd"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="4_467br"]
 [ext_resource type="PackedScene" uid="uid://cbt43sqwps23h" path="res://scenes/ai_patrol_node.tscn" id="5_amuii"]
 [ext_resource type="Script" uid="uid://d2pph521oblvt" path="res://scripts/enemy_spawn.gd" id="5_ujok3"]
+[ext_resource type="PackedScene" uid="uid://bq0ka5lcbppjc" path="res://scenes/warbler/warbler.blend" id="7_467br"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmyom"]
 albedo_texture = ExtResource("4_467br")
@@ -240,3 +241,6 @@ navigation_mesh = SubResource("NavigationMesh_dkpym")
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.619607, -4.76837e-07, 2.08443)
 script = ExtResource("5_ujok3")
+
+[node name="warbler" parent="." instance=ExtResource("7_467br")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91656, 0.00681964, 2.40152)
