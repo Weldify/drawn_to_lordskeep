@@ -432,7 +432,9 @@ func evaluate_animations(delta: float):
 	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (crouching)/blend_position", walk_speed)
 	
 	# @TODO: The *1.1 is a crutch to speed up the walk animations a bit, lets do that directly in the animtree using custom timelines!
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed * 1.1)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (arm sway multiplier)/scale", walk_speed)
+	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (arm sway blend)/blend_position", walk_speed)
 	
 	$AnimationTree.set("parameters/regular_blendtree/crouchness/blend_amount", crouchness)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=54 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_c8xrr"]
@@ -32,10 +32,12 @@
 [ext_resource type="Animation" uid="uid://bp6nuh8ybd84c" path="res://models/mercenary/knockdown.res" id="21_dgshc"]
 [ext_resource type="Animation" uid="uid://cnc84vxjl8kw1" path="res://models/mercenary/grabbed_chest_stab.res" id="23_i7i1f"]
 [ext_resource type="Animation" uid="uid://cfvvjlrxrwbhn" path="res://models/mercenary/mantle_medium.res" id="24_apj5i"]
+[ext_resource type="Animation" uid="uid://cab1y01itcj25" path="res://models/mercenary/arms_walk_additive.res" id="26_p2esp"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
 &"RESET": ExtResource("4_ij2o5"),
+&"arms_walk_additive": ExtResource("26_p2esp"),
 &"both_blow_horn": ExtResource("20_8xrqa"),
 &"both_hold_horn": ExtResource("19_cqwup"),
 &"both_hold_none": ExtResource("5_5h5rc"),
@@ -202,6 +204,7 @@ tree_root = SubResource("AnimationNodeStateMachine_8xrqa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
 parameters/regular_blendtree/Add2/add_amount = 1.0
+"parameters/regular_blendtree/Add2 2/add_amount" = 1.0
 "parameters/regular_blendtree/Arms + vertical look/add_amount" = 1.0
 "parameters/regular_blendtree/Left hand/holdtype/blend_position" = 0
 "parameters/regular_blendtree/Left hand timescale/scale" = 1.0
@@ -210,9 +213,11 @@ parameters/regular_blendtree/Add2/add_amount = 1.0
 "parameters/regular_blendtree/Right hand timescale/scale" = 1.0
 "parameters/regular_blendtree/Upper body + lower body/add_amount" = 1.0
 parameters/regular_blendtree/crouchness/blend_amount = 0.0
+"parameters/regular_blendtree/horizontal speed (arm sway blend)/blend_position" = 2.086
+"parameters/regular_blendtree/horizontal speed (arm sway multiplier)/scale" = 1.0
 "parameters/regular_blendtree/horizontal speed (crouching)/blend_position" = 0
 "parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
-"parameters/regular_blendtree/horizontal speed (standing)/blend_position" = 0
+"parameters/regular_blendtree/horizontal speed (standing)/blend_position" = 2.07086
 "parameters/regular_blendtree/horizontal speed (standing)/1/blend_position" = Vector2(0, 0)
 parameters/regular_blendtree/look_alpha/blend_position = 0.0
 
@@ -221,23 +226,23 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.58894e-07, -1.4881e-07, -0.999828, -0.0272848, 0.999484, -1.44414e-07, 0.999477, 0.027285, -1.62893e-07, -6.57541e-08, 1.56302, -0.00862725)
+transform = Transform3D(6.9414e-05, 2.39712e-05, -0.999828, -0.027216, 0.999485, 2.20723e-05, 0.999479, 0.0272162, 7.00393e-05, 1.52933e-05, 1.56302, -0.00863762)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-1.74923e-07, -1.47245e-07, -0.999823, 0.0780464, 0.996803, -1.60445e-07, 0.996795, -0.0780471, -1.62892e-07, -1.13851e-08, 1.2545, 0.00895083)
+transform = Transform3D(7.13784e-05, 1.28258e-05, -0.999823, 0.0780316, 0.996804, 1.83567e-05, 0.996796, -0.0780322, 7.01581e-05, 1.01086e-05, 1.2545, 0.0089531)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.5896e-07, -3.21819e-09, -0.99982, -0.0216747, 0.99961, 1.32349e-08, 0.999612, 0.0216746, -7.58831e-07, -9.15465e-10, 1.06376, 0.0115332)
+transform = Transform3D(7.13266e-05, 1.84294e-05, -0.99982, -0.0216781, 0.99961, 1.68782e-05, 0.999613, 0.021678, 7.17074e-05, 6.96617e-06, 1.06376, 0.0115341)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59325e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.998951, 0.0424707, -7.58868e-07, -3.85547e-10, 0.880303, 0.00510673)
+transform = Transform3D(7.12992e-05, 1.95974e-05, -0.999869, -0.0424689, 0.998947, 1.65516e-05, 0.99895, 0.0424688, 7.20685e-05, 3.44521e-06, 0.880303, 0.00510759)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.05809e-07, -1.49215e-07, -1, -0.0437892, 0.999041, -1.44439e-07, 0.999041, 0.0437892, -1.12242e-07, -3.49956e-08, 1.35708, -0.0176537)
+transform = Transform3D(6.90623e-05, 2.51195e-05, -1, -0.0437204, 0.999044, 2.20761e-05, 0.999044, 0.0437204, 7.00942e-05, 1.01153e-05, 1.35708, -0.0176499)
 bone_name = "head"
 bone_idx = 12
 use_external_skeleton = true
@@ -267,7 +272,7 @@ max_polyphony = 2
 attenuation_filter_db = 0.0
 
 [node name="RHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, 0.0240306, 0.977472, -0.0550523, -0.997822, 0.0363411, 0.976216, -0.0614326, -0.207915, -0.176535, 0.736061, -0.00122331)
+transform = Transform3D(-0.0549099, -0.997833, 0.0362401, 0.0500668, -0.0390007, -0.997984, 0.997235, -0.0529848, 0.0520998, -0.733341, 1.31451, -0.00118203)
 bone_name = "r_hand0"
 bone_idx = 15
 use_external_skeleton = true
@@ -289,7 +294,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LHand0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.209695, -0.0240301, -0.977472, 0.0550524, -0.997822, 0.0363407, -0.976216, -0.0614326, -0.207915, 0.176536, 0.73606, -0.0012233)
+transform = Transform3D(-0.0551028, 0.997819, -0.0363482, -0.0501586, -0.0391237, -0.997975, -0.99722, -0.0531681, 0.0522051, 0.733362, 1.31444, -0.00131305)
 bone_name = "l_hand0"
 bone_idx = 20
 use_external_skeleton = true
@@ -311,7 +316,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="Torso2Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-1.26141e-07, -1.51088e-07, -1, 0.0780585, 0.996949, -1.60474e-07, 0.996949, -0.0780585, -1.13963e-07, -1.20154e-09, 1.18731, 0.0142121)
+transform = Transform3D(7.13773e-05, 1.28286e-05, -1, 0.0780436, 0.99695, 1.836e-05, 0.99695, -0.0780436, 7.01582e-05, 9.24394e-06, 1.18731, 0.0142134)
 bone_name = "torso2"
 bone_idx = 11
 use_external_skeleton = true
@@ -326,7 +331,7 @@ update_scale = false
 transform = Transform3D(-0.0294485, -0.398915, -1.09356e-08, 0.103247, -0.00762183, 0.38637, -0.385322, 0.028445, 0.103528, -0.0754887, 0.0437575, 0.0096081)
 
 [node name="Torso1Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-7.17398e-07, -2.31499e-09, -1, -0.021678, 0.999765, 1.32373e-08, 0.999765, 0.021678, -7.1728e-07, -7.62825e-10, 0.99784, 0.0101039)
+transform = Transform3D(7.13402e-05, 1.84323e-05, -1, -0.0216814, 0.999765, 1.68812e-05, 0.999765, 0.0216814, 7.17228e-05, 5.75083e-06, 0.99784, 0.0101045)
 bone_name = "torso1"
 bone_idx = 10
 use_external_skeleton = true
@@ -338,7 +343,7 @@ remote_path = NodePath("../../Hitbox/Torso1")
 update_scale = false
 
 [node name="Torso0Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-7.15047e-07, -3.20693e-09, -1, -0.0424771, 0.999097, 2.71691e-08, 0.999097, 0.0424771, -7.14538e-07, 0, 0.760188, 0)
+transform = Transform3D(7.12621e-05, 1.95983e-05, -1, -0.0424752, 0.999097, 1.65537e-05, 0.999097, 0.0424752, 7.203e-05, 1.08905e-06, 0.760188, 1.08897e-06)
 bone_name = "torso0"
 bone_idx = 9
 use_external_skeleton = true
