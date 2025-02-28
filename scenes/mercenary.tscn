@@ -212,7 +212,7 @@ parameters/regular_blendtree/Add2/add_amount = 1.0
 "parameters/regular_blendtree/Right hand/holdtype/blend_position" = 0
 "parameters/regular_blendtree/Right hand timescale/scale" = 1.0
 "parameters/regular_blendtree/Upper body + lower body/add_amount" = 1.0
-parameters/regular_blendtree/crouchness/blend_amount = 0.0
+parameters/regular_blendtree/crouchness/blend_amount = 1.0
 "parameters/regular_blendtree/horizontal speed (arm sway blend)/blend_position" = 2.086
 "parameters/regular_blendtree/horizontal speed (arm sway multiplier)/scale" = 1.0
 "parameters/regular_blendtree/horizontal speed (crouching)/blend_position" = 0
@@ -226,19 +226,19 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272845, 0.999483, -1.24411e-07, 0.999477, 0.0272847, -2.82081e-07, -5.51792e-08, 1.55149, -0.0086274)
+transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272845, 0.999482, -1.24411e-07, 0.999476, 0.0272847, -2.82081e-07, -5.51792e-08, 0.968253, -0.0086274)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780468, 0.996803, -1.40443e-07, 0.996795, -0.0780474, -2.8208e-07, -8.99032e-09, 1.24298, 0.00895079)
+transform = Transform3D(-2.92188e-07, -1.17999e-07, -0.999823, 0.0780467, 0.996803, -1.40443e-07, 0.996794, -0.0780474, -2.8208e-07, -8.99032e-09, 0.659739, 0.00895079)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59012e-07, -8.5797e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999613, 0.0216745, -7.58831e-07, -7.59072e-10, 1.05223, 0.0115332)
+transform = Transform3D(-7.59012e-07, -8.5797e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999614, 0.0216745, -7.58831e-07, -7.59072e-10, 0.468997, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59324e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.99895, 0.0424707, -7.58868e-07, -3.85547e-10, 0.868777, 0.00510673)
+transform = Transform3D(-7.59324e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.99895, 0.0424707, -7.58868e-07, -3.85547e-10, 0.28554, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]

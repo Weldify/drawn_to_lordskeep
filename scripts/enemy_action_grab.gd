@@ -129,8 +129,6 @@ func _grab_effects():
 
 
 func try_activate():
-	if true: return
-	
 	if user.active_action or user.health <= 0: return
 	user.active_action = self
 	_finished_damaging = false
