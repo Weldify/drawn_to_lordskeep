@@ -1,5 +1,8 @@
-Uses sound effects by Atelier Magicae. License:
+Uses sound effects by Atelier Magicae:
 	Creator of Assets: Atelier Magicae || Bunnixia || Rin Hinasaki
 	Terms of Use:  You may use this for commercial, non-commercial, and personal uses. Do not redistribute.
 
 	Please credit us as Atelier Magicae!  
+
+Uses base mesh by decodigo for humanoid models:
+	This work is based on "Low-poly Male Base Mesh" (https://sketchfab.com/3d-models/low-poly-male-base-mesh-7b9411ff0c624321baf4caac014bc0bd) by decodigo (https://sketchfab.com/decodigo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
