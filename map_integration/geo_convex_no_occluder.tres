@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=3 format=3 uid="uid://4n87fiqnu6lt"]
 
 [ext_resource type="Resource" uid="uid://nayxb8n7see2" path="res://addons/func_godot/fgd/phong_base.tres" id="1_4rpjl"]
-[ext_resource type="Script" uid="uid://e8hh0fktbnra" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_e6ggy"]
+[ext_resource type="Script" uid="uid://5thisb2t0j0h" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_e6ggy"]
 
 [resource]
 script = ExtResource("1_e6ggy")

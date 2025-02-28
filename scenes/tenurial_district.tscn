@@ -1,6 +1,6 @@
 [gd_scene load_steps=262 format=4 uid="uid://dxc46pvynj4xq"]
 
-[ext_resource type="Script" uid="uid://d0c2hoau0c87i" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_t83kr"]
+[ext_resource type="Script" uid="uid://cv63xwfwvkfb1" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_t83kr"]
 [ext_resource type="Script" uid="uid://b5sb5txnc5dg0" path="res://scripts/district.gd" id="1_wajts"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_sv3lo"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_tpddv"]

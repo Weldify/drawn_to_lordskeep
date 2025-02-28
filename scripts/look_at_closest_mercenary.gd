@@ -4,7 +4,7 @@ extends Node
 @export var modifier: LookAtModifier3D
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var closest: Mercenary
 	var closest_distance := INF
 	for mercenary: Mercenary in $/root/world/Mercenaries.get_children():

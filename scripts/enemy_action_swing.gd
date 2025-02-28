@@ -93,7 +93,7 @@ func mercenary_hit_detected(_target_path: NodePath, position: Vector3, normal: V
 
 
 func try_activate():
-	return
+	if true: return
 	
 	if user.active_action or user.health <= 0: return
 	user.active_action = self

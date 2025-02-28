@@ -92,7 +92,6 @@ func can_see_any_spot_points(targetable: EnemyTargetable) -> bool:
 func _do_vision_target_detection():
 	if !eyes or get_node_or_null(aggro_target_path): return
 	
-	var found := false
 	for enemy_targetable: EnemyTargetable in get_tree().get_nodes_in_group("enemy_targetable"):
 		if can_see_any_spot_points(enemy_targetable):
 			aggro_target_path = enemy_targetable.get_path()

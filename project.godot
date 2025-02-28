@@ -38,6 +38,10 @@ window/vsync/vsync_mode=0
 
 enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/func_godot/plugin.cfg", "res://addons/proton_trail/plugin.cfg", "res://addons/wigglebone/plugin.cfg")
 
+[func_godot]
+
+default_map_settings="uid://e1r0bmmm8ymi"
+
 [global_group]
 
 spawnpoint=""

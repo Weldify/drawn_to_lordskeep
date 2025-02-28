@@ -129,7 +129,7 @@ func _grab_effects():
 
 
 func try_activate():
-	return
+	if true: return
 	
 	if user.active_action or user.health <= 0: return
 	user.active_action = self

@@ -3,13 +3,15 @@
 [ext_resource type="Script" uid="uid://cv63xwfwvkfb1" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_dkpym"]
 [ext_resource type="Resource" uid="uid://e1r0bmmm8ymi" path="res://map_integration/map_settings.tres" id="2_7dpvd"]
 [ext_resource type="Script" uid="uid://dpwlgd0rgdcvd" path="res://scripts/worldspawn.gd" id="3_mmyom"]
-[ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="4_467br"]
 [ext_resource type="PackedScene" uid="uid://cbt43sqwps23h" path="res://scenes/ai_patrol_node.tscn" id="5_amuii"]
 [ext_resource type="Script" uid="uid://d2pph521oblvt" path="res://scripts/enemy_spawn.gd" id="5_ujok3"]
 [ext_resource type="PackedScene" uid="uid://bq0ka5lcbppjc" path="res://scenes/warbler/warbler.blend" id="7_467br"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mmyom"]
+load_path = "res://.godot/imported/default_texture.png-145fbd5fef7f63ace60797fecb133a19.ctex"
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmyom"]
-albedo_texture = ExtResource("4_467br")
+albedo_texture = SubResource("CompressedTexture2D_mmyom")
 metallic_specular = 0.0
 texture_filter = 2
 

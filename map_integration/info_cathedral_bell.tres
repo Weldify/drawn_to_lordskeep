@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=3 format=3 uid="uid://8dl8piv8yycp"]
 
-[ext_resource type="Script" uid="uid://rkwl4q2xvgpf" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_0ej1f"]
+[ext_resource type="Script" uid="uid://dvbgrk8r0hgmu" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_0ej1f"]
 [ext_resource type="PackedScene" uid="uid://bc1c70gqqdbrm" path="res://scenes/cathedral_bell.tscn" id="2_shyaq"]
 
 [resource]

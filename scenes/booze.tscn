@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://chqyy74rkrt2t" path="res://scenes/base_item.tscn" id="1_73vqd"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lqcfk"]
-load_path = "res://.godot/imported/mug.png-60f70eb71fad47a8d01b8bb312ee0157.s3tc.ctex"
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_asegs"]
 height = 0.485
