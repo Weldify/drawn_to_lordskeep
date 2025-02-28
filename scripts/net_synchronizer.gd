@@ -26,7 +26,7 @@ class PropertyInfo:
 	var delayed := false
 
 
-class PendingSnapshot:
+class DelayedSnapshot:
 	var tick: int
 	var changes: Array
 
@@ -37,7 +37,7 @@ var _should_send_full_snapshot := false
 var _last_state: Array
 
 var _last_tick := 0
-var _delayed_snapshots: Array[PendingSnapshot]
+var _delayed_snapshots: Array[DelayedSnapshot]
 
 
 func snap(property: NodePath, value):
@@ -102,8 +102,8 @@ func _on_peer_connected(_peer: int):
 
 
 func _before_tick():
-	if is_multiplayer_authority(): return
-	_apply_delayed_changes()
+	if !is_multiplayer_authority(): 
+		_apply_delayed_changes()
 
 
 func _apply_delayed_changes():
@@ -118,7 +118,7 @@ func _apply_delayed_changes():
 		ticks_to_process = _delayed_snapshots.size()
 
 	for i in ticks_to_process:
-		var snapshot: PendingSnapshot = _delayed_snapshots.pop_front()
+		var snapshot: DelayedSnapshot = _delayed_snapshots.pop_front()
 		_last_tick = snapshot.tick
 		
 		
@@ -168,7 +168,7 @@ func _receive_changes(tick: int, changes: Array[Array]):
 	## so this information is irrelevant to us.
 	if tick <= _last_tick: return
 	
-	var snapshot: PendingSnapshot
+	var snapshot: DelayedSnapshot
 	var insertion_index := 0
 	
 	for i in _delayed_snapshots.size():
@@ -184,14 +184,18 @@ func _receive_changes(tick: int, changes: Array[Array]):
 			insertion_index = i + 1
 	
 	if !snapshot:
-		snapshot = PendingSnapshot.new()
+		snapshot = DelayedSnapshot.new()
 		snapshot.tick = tick
 		_delayed_snapshots.insert(insertion_index, snapshot)
 	
 	for change in changes:
 		var property_index: int = change[0]
 		var info := _properties[property_index]
-		if info.delayed:
+		
+		# @NOTE: _last_tick == 0 means this is the first snapshot we are receiving,
+		# we don't delay it because otherwise the properties will be stuck with default
+		# values until it is processed, which is worse than being stuck with relevant values.
+		if info.delayed and _last_tick != 0:
 			snapshot.changes.append(change)
 		else:
 			_set_value(info.path, change[1])
