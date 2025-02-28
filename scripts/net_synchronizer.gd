@@ -14,8 +14,11 @@ class_name NetSynchronizer
 @export var networked_properties: Array[StringName] 
 
 
-const _SNAPSHOT_DELAY_TICKS = 2
+# This used to be 2 at 30 tickrate, but let's try 1 for 20.
+const _SNAPSHOT_DELAY_TICKS = 1
 
+## If there are more than this amount of  snapshots in the delayed queue, process all of them.
+const _TOO_MANY_DELAYED_SNAPSHOTS = 3
 
 class PropertyInfo:
 	var path: NodePath
@@ -104,16 +107,15 @@ func _before_tick():
 
 
 func _apply_delayed_changes():
-	var extra_snapshots := _delayed_snapshots.size() - _SNAPSHOT_DELAY_TICKS
-	if extra_snapshots < 1: return
+	if _delayed_snapshots.is_empty(): return
 
 	var ticks_to_process := 1
 	
 	## We received too many ticks, so we probably lagged out?
 	## Process all the etxra ones.
-	if extra_snapshots > _SNAPSHOT_DELAY_TICKS: 
+	if _delayed_snapshots.size() > _TOO_MANY_DELAYED_SNAPSHOTS: 
 		push_warning("Received too many snapshots. Processing all extra ones.")
-		ticks_to_process = _SNAPSHOT_DELAY_TICKS
+		ticks_to_process = _delayed_snapshots.size()
 
 	for i in ticks_to_process:
 		var snapshot: PendingSnapshot = _delayed_snapshots.pop_front()
