@@ -426,18 +426,11 @@ func evaluate_animations(delta: float):
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
 	var walk_dir := (hor_velocity * horizontal_look).normalized()
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (standing)/blend_position", walk_speed)
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (standing)/1/blend_position", Vector2(-walk_dir.x, walk_dir.z))
 	
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (crouching)/blend_position", walk_speed)
+	$AnimationTree.set_param("horizontal_speed", walk_speed)
+	$AnimationTree.set_param("horizontal_direction", Vector2(-walk_dir.x, walk_dir.z))
+	$AnimationTree.set_param("crouchness", crouchness)
 	
-	# @TODO: The *1.1 is a crutch to speed up the walk animations a bit, lets do that directly in the animtree using custom timelines!
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (movement multiplier)/scale", walk_speed)
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (arm sway multiplier)/scale", walk_speed)
-	$AnimationTree.set("parameters/regular_blendtree/horizontal speed (arm sway blend)/blend_position", walk_speed)
-	
-	$AnimationTree.set("parameters/regular_blendtree/crouchness/blend_amount", crouchness)
-
 	var right_holdtype := G.HoldType.NONE
 	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
 	if right_item: right_holdtype = right_item.holdtype
@@ -446,8 +439,8 @@ func evaluate_animations(delta: float):
 	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
 	if left_item: left_holdtype = left_item.holdtype
 	
-	$AnimationTree.set("parameters/regular_blendtree/Right hand/holdtype/blend_position", right_holdtype)
-	$AnimationTree.set("parameters/regular_blendtree/Left hand/holdtype/blend_position", left_holdtype)
+	$AnimationTree.set_param("right_holdtype", right_holdtype)
+	$AnimationTree.set_param("left_holdtype", left_holdtype)
 	
 	
 	if is_mantling:

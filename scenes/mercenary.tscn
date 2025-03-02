@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://g33nab5xyq5h"]
+[gd_scene load_steps=55 format=3 uid="uid://g33nab5xyq5h"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_m6yd2"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_c8xrr"]
@@ -33,6 +33,7 @@
 [ext_resource type="Animation" uid="uid://cnc84vxjl8kw1" path="res://models/mercenary/grabbed_chest_stab.res" id="23_i7i1f"]
 [ext_resource type="Animation" uid="uid://cfvvjlrxrwbhn" path="res://models/mercenary/mantle_medium.res" id="24_apj5i"]
 [ext_resource type="Animation" uid="uid://cab1y01itcj25" path="res://models/mercenary/arms_walk_additive.res" id="26_p2esp"]
+[ext_resource type="Script" uid="uid://bkto7nvv6hqwj" path="res://scripts/anim_tree.gd" id="28_bxskn"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jv8dt"]
 _data = {
@@ -101,15 +102,16 @@ switch_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8xrqa"]
+"states/Regular blendtree/node" = ExtResource("21_8xrqa")
+"states/Regular blendtree/position" = Vector2(366, 100)
+states/Start/position = Vector2(199, 100)
 states/grabbed_chest_stab/node = SubResource("AnimationNodeAnimation_i7i1f")
 states/grabbed_chest_stab/position = Vector2(723, 190)
 states/knockdown/node = SubResource("AnimationNodeAnimation_dgshc")
 states/knockdown/position = Vector2(674, 105)
 states/mantle_medium/node = SubResource("AnimationNodeAnimation_apj5i")
 states/mantle_medium/position = Vector2(410, 250)
-states/regular_blendtree/node = ExtResource("21_8xrqa")
-states/regular_blendtree/position = Vector2(366, 100)
-transitions = ["Start", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "regular_blendtree", "knockdown", SubResource("AnimationNodeStateMachineTransition_dgshc"), "knockdown", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_c8xrr"), "grabbed_chest_stab", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_apj5i"), "regular_blendtree", "grabbed_chest_stab", SubResource("AnimationNodeStateMachineTransition_i7i1f"), "mantle_medium", "regular_blendtree", SubResource("AnimationNodeStateMachineTransition_bpalt")]
+transitions = ["Start", "Regular blendtree", SubResource("AnimationNodeStateMachineTransition_8xrqa"), "Regular blendtree", "knockdown", SubResource("AnimationNodeStateMachineTransition_dgshc"), "knockdown", "Regular blendtree", SubResource("AnimationNodeStateMachineTransition_c8xrr"), "grabbed_chest_stab", "Regular blendtree", SubResource("AnimationNodeStateMachineTransition_apj5i"), "Regular blendtree", "grabbed_chest_stab", SubResource("AnimationNodeStateMachineTransition_i7i1f"), "mantle_medium", "Regular blendtree", SubResource("AnimationNodeStateMachineTransition_bpalt")]
 graph_offset = Vector2(-106, 32)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8xrqa"]
@@ -203,42 +205,73 @@ root_motion_local = false
 tree_root = SubResource("AnimationNodeStateMachine_8xrqa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
-parameters/regular_blendtree/Add2/add_amount = 1.0
-"parameters/regular_blendtree/Add2 2/add_amount" = 1.0
-"parameters/regular_blendtree/Arms + vertical look/add_amount" = 1.0
-"parameters/regular_blendtree/Left hand/holdtype/blend_position" = 0
-"parameters/regular_blendtree/Left hand timescale/scale" = 1.0
-"parameters/regular_blendtree/Right arm + left arm/add_amount" = 1.0
-"parameters/regular_blendtree/Right hand/holdtype/blend_position" = 0
-"parameters/regular_blendtree/Right hand timescale/scale" = 1.0
-"parameters/regular_blendtree/Upper body + lower body/add_amount" = 1.0
-parameters/regular_blendtree/crouchness/blend_amount = 1.0
-"parameters/regular_blendtree/horizontal speed (arm sway blend)/blend_position" = 2.086
-"parameters/regular_blendtree/horizontal speed (arm sway multiplier)/scale" = 1.0
-"parameters/regular_blendtree/horizontal speed (crouching)/blend_position" = 0
-"parameters/regular_blendtree/horizontal speed (movement multiplier)/scale" = 1.0
-"parameters/regular_blendtree/horizontal speed (standing)/blend_position" = 2.07086
-"parameters/regular_blendtree/horizontal speed (standing)/1/blend_position" = Vector2(0, 0)
-parameters/regular_blendtree/look_alpha/blend_position = 0.0
+"parameters/Regular blendtree/Add2/add_amount" = 1.0
+"parameters/Regular blendtree/Add2 2/add_amount" = 1.0
+"parameters/Regular blendtree/Arms + vertical look/add_amount" = 1.0
+"parameters/Regular blendtree/Left hand/Holdtype/blend_position" = 0
+"parameters/Regular blendtree/Left hand timescale/scale" = 1.0
+"parameters/Regular blendtree/Right arm + left arm/add_amount" = 1.0
+"parameters/Regular blendtree/Right hand/Holdtype/blend_position" = 1
+"parameters/Regular blendtree/Right hand timescale/scale" = 1.0
+"parameters/Regular blendtree/Upper body + lower body/add_amount" = 1.0
+"parameters/Regular blendtree/[crouchness]/blend_amount" = 0.0
+"parameters/Regular blendtree/[horizontal_speed] Arm sway blend/blend_position" = 1.755
+"parameters/Regular blendtree/[horizontal_speed] Arm sway multiplier/scale" = 1.755
+"parameters/Regular blendtree/[horizontal_speed] Crouching/blend_position" = 1.755
+"parameters/Regular blendtree/[horizontal_speed] Movement multiplier/scale" = 1.755
+"parameters/Regular blendtree/[horizontal_speed] Standing/blend_position" = 1.755
+"parameters/Regular blendtree/[horizontal_speed] Standing/1/blend_position" = Vector2(0.11, 1)
+"parameters/Regular blendtree/look_alpha/blend_position" = 0.0
+script = ExtResource("28_bxskn")
+params = Dictionary[StringName, Variant]({
+&"crouchness": 0.0,
+&"horizontal_direction": Vector2(0.11, 1),
+&"horizontal_speed": 1.755,
+&"left_holdtype": 0,
+&"right_holdtype": 1
+})
+params_reroute = "horizontal_speed=[
+	\"Regular blendtree/[horizontal_speed] Arm sway blend/blend_position\",
+	\"Regular blendtree/[horizontal_speed] Arm sway multiplier/scale\",
+	\"Regular blendtree/[horizontal_speed] Crouching/blend_position\",
+	\"Regular blendtree/[horizontal_speed] Standing/blend_position\",
+	\"Regular blendtree/[horizontal_speed] Movement multiplier/scale\",
+]
+
+horizontal_direction=[
+	\"Regular blendtree/[horizontal_speed] Standing/1/blend_position\",
+]
+
+crouchness=[
+	\"Regular blendtree/[crouchness]/blend_amount\"
+]
+
+right_holdtype=[
+	\"Regular blendtree/Right hand/Holdtype/blend_position\"
+]
+
+left_holdtype=[
+	\"Regular blendtree/Left hand/Holdtype/blend_position\"
+]"
 
 [node name="Hitbox" type="StaticBody3D" parent="."]
 collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272845, 0.999482, -1.24411e-07, 0.999476, 0.0272847, -2.82081e-07, -5.51792e-08, 0.968253, -0.0086274)
+transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272845, 0.999482, -1.24411e-07, 0.999476, 0.0272847, -2.82081e-07, -5.51792e-08, 1.56283, -0.0086274)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.92188e-07, -1.17999e-07, -0.999823, 0.0780467, 0.996803, -1.40443e-07, 0.996794, -0.0780474, -2.8208e-07, -8.99032e-09, 0.659739, 0.00895079)
+transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780467, 0.996803, -1.40443e-07, 0.996794, -0.0780474, -2.8208e-07, -8.99032e-09, 1.25431, 0.00895079)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59012e-07, -8.5797e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999614, 0.0216745, -7.58831e-07, -7.59072e-10, 0.468997, 0.0115332)
+transform = Transform3D(-7.59012e-07, -8.5797e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999614, 0.0216745, -7.58831e-07, -7.59072e-10, 1.06357, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59324e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.99895, 0.0424707, -7.58868e-07, -3.85547e-10, 0.28554, 0.00510673)
+transform = Transform3D(-7.59324e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.99895, 0.0424707, -7.58868e-07, -3.85547e-10, 0.880114, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
