@@ -211,67 +211,39 @@ anim_player = NodePath("../Model/AnimationPlayer")
 "parameters/Regular blendtree/Left hand/Holdtype/blend_position" = 0
 "parameters/Regular blendtree/Left hand timescale/scale" = 1.0
 "parameters/Regular blendtree/Right arm + left arm/add_amount" = 1.0
-"parameters/Regular blendtree/Right hand/Holdtype/blend_position" = 1
+"parameters/Regular blendtree/Right hand/Holdtype/blend_position" = 0
 "parameters/Regular blendtree/Right hand timescale/scale" = 1.0
 "parameters/Regular blendtree/Upper body + lower body/add_amount" = 1.0
-"parameters/Regular blendtree/[crouchness]/blend_amount" = 0.0
+"parameters/Regular blendtree/[crouchness]/blend_amount" = 0.12
 "parameters/Regular blendtree/[horizontal_speed] Arm sway blend/blend_position" = 1.755
 "parameters/Regular blendtree/[horizontal_speed] Arm sway multiplier/scale" = 1.755
 "parameters/Regular blendtree/[horizontal_speed] Crouching/blend_position" = 1.755
 "parameters/Regular blendtree/[horizontal_speed] Movement multiplier/scale" = 1.755
 "parameters/Regular blendtree/[horizontal_speed] Standing/blend_position" = 1.755
-"parameters/Regular blendtree/[horizontal_speed] Standing/1/blend_position" = Vector2(0.11, 1)
-"parameters/Regular blendtree/look_alpha/blend_position" = 0.0
+"parameters/Regular blendtree/[horizontal_speed] Standing/1/blend_position" = Vector2(0.005, 1)
+"parameters/Regular blendtree/[vertical_look]/blend_position" = -0.07
 script = ExtResource("28_bxskn")
-params = Dictionary[StringName, Variant]({
-&"crouchness": 0.0,
-&"horizontal_direction": Vector2(0.11, 1),
-&"horizontal_speed": 1.755,
-&"left_holdtype": 0,
-&"right_holdtype": 1
-})
-params_reroute = "horizontal_speed=[
-	\"Regular blendtree/[horizontal_speed] Arm sway blend/blend_position\",
-	\"Regular blendtree/[horizontal_speed] Arm sway multiplier/scale\",
-	\"Regular blendtree/[horizontal_speed] Crouching/blend_position\",
-	\"Regular blendtree/[horizontal_speed] Standing/blend_position\",
-	\"Regular blendtree/[horizontal_speed] Movement multiplier/scale\",
-]
-
-horizontal_direction=[
-	\"Regular blendtree/[horizontal_speed] Standing/1/blend_position\",
-]
-
-crouchness=[
-	\"Regular blendtree/[crouchness]/blend_amount\"
-]
-
-right_holdtype=[
-	\"Regular blendtree/Right hand/Holdtype/blend_position\"
-]
-
-left_holdtype=[
-	\"Regular blendtree/Left hand/Holdtype/blend_position\"
-]"
+multiparams = null
+multiparams_reroute = null
 
 [node name="Hitbox" type="StaticBody3D" parent="."]
 collision_layer = 8
 collision_mask = 0
 
 [node name="Head" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999828, -0.0272845, 0.999482, -1.24411e-07, 0.999476, 0.0272847, -2.82081e-07, -5.51792e-08, 1.56283, -0.0086274)
+transform = Transform3D(-2.78587e-07, -1.32066e-07, -0.999826, -0.0272847, 0.999482, -1.24411e-07, 0.999475, 0.0272849, -2.82081e-07, -5.51792e-08, 1.56302, -0.00862731)
 shape = SubResource("BoxShape3D_8xrqa")
 
 [node name="Torso2" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-2.92189e-07, -1.17999e-07, -0.999823, 0.0780467, 0.996803, -1.40443e-07, 0.996794, -0.0780474, -2.8208e-07, -8.99032e-09, 1.25431, 0.00895079)
+transform = Transform3D(-2.92188e-07, -1.17999e-07, -0.999823, 0.0780465, 0.996803, -1.40443e-07, 0.996794, -0.0780472, -2.8208e-07, -8.99034e-09, 1.2545, 0.00895081)
 shape = SubResource("BoxShape3D_dgshc")
 
 [node name="Torso1" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59012e-07, -8.5797e-10, -0.99982, -0.0216746, 0.99961, 1.55955e-08, 0.999614, 0.0216745, -7.58831e-07, -7.59072e-10, 1.06357, 0.0115332)
+transform = Transform3D(-7.59008e-07, -8.58044e-10, -0.999819, -0.0216745, 0.999614, 1.55955e-08, 0.999608, 0.0216747, -7.5883e-07, -7.59077e-10, 1.06376, 0.0115332)
 shape = SubResource("BoxShape3D_c8xrr")
 
 [node name="Torso0" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(-7.59324e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.99895, 0.0424707, -7.58868e-07, -3.85547e-10, 0.880114, 0.00510673)
+transform = Transform3D(-7.59325e-07, -5.0934e-09, -0.999869, -0.0424709, 0.998947, 2.71655e-08, 0.998951, 0.0424707, -7.58868e-07, -3.85547e-10, 0.880303, 0.00510673)
 shape = SubResource("BoxShape3D_i7i1f")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]

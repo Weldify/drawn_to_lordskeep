@@ -243,7 +243,7 @@ spawn_path = NodePath("../Districts")
 [node name="Districts" type="Node" parent="."]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://g33nab5xyq5h")
+_spawnable_scenes = PackedStringArray("uid://cxm0jshsmlwcg")
 spawn_path = NodePath("../Mercenaries")
 
 [node name="Mercenaries" type="Node" parent="."]

@@ -164,11 +164,11 @@ func throw_effects(right_hand: bool, power: float):
 	power = remap(power, 0.2, 1, 0, 0.8)
 	
 	if right_hand:
-		$RHand0Attachment/Throw.volume_linear = power
-		$RHand0Attachment/Throw.play()
+		$RHandAttachment/Throw.volume_linear = power
+		$RHandAttachment/Throw.play()
 	else:
-		$LHand0Attachment/Throw.volume_linear = power
-		$LHand0Attachment/Throw.play()
+		$LHandAttachment/Throw.volume_linear = power
+		$LHandAttachment/Throw.play()
 
 
 @rpc("authority", "call_local")
@@ -419,17 +419,16 @@ func play_footstep() -> void:
 
 var model_offset: Vector3
 func evaluate_animations(delta: float):
-	$AnimationTree.set("parameters/regular_blendtree/look_alpha/blend_position", remap(look_yaw, -PI/2, PI/2, -1, 1))
-	
 	var horizontal_look := Transform3D.IDENTITY.rotated(Vector3.UP, look_pitch)
 	
 	var hor_velocity := velocity * Vector3(1, 0, 1)
 	var walk_speed := hor_velocity.length()
 	var walk_dir := (hor_velocity * horizontal_look).normalized()
 	
-	$AnimationTree.set_param("horizontal_speed", walk_speed)
-	$AnimationTree.set_param("horizontal_direction", Vector2(-walk_dir.x, walk_dir.z))
-	$AnimationTree.set_param("crouchness", crouchness)
+	$AnimationTree.set_multiparam("vertical_look", remap(look_yaw, -PI/2, PI/2, -1, 1))
+	$AnimationTree.set_multiparam("horizontal_speed", walk_speed)
+	$AnimationTree.set_multiparam("horizontal_direction", Vector2(-walk_dir.x, walk_dir.z))
+	$AnimationTree.set_multiparam("crouchness", crouchness)
 	
 	var right_holdtype := G.HoldType.NONE
 	var right_item := $/root/world/Items.get_node_or_null(right_hand_item_name)
@@ -439,8 +438,8 @@ func evaluate_animations(delta: float):
 	var left_item := $/root/world/Items.get_node_or_null(left_hand_item_name)
 	if left_item: left_holdtype = left_item.holdtype
 	
-	$AnimationTree.set_param("right_holdtype", right_holdtype)
-	$AnimationTree.set_param("left_holdtype", left_holdtype)
+	$AnimationTree.set_multiparam("right_holdtype", right_holdtype)
+	$AnimationTree.set_multiparam("left_holdtype", left_holdtype)
 	
 	
 	if is_mantling:
@@ -464,7 +463,7 @@ func _process(delta: float) -> void:
 	$Interpolator.apply()
 	evaluate_animations(delta)
 	
-	$Torso2Attachment/Satchel.visible = satchel_name == ""
+	$Back1Attachment/Satchel.visible = satchel_name == ""
 	
 	if !is_multiplayer_authority(): return
 	

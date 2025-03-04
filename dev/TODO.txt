@@ -1,10 +1,5 @@
-Instead of a crosshair have your guy reach his hand out when you can interact
-
-The way new areas of the city are unlocked is
-when the night falls, the enemies break through some sort of barrier from
-another part of town, could be a gate or a fence or some other sort of thing
-
-also, we should have one way lever doors. because why not.
-
-hurt overlay should be made of particles instead of a static image
-like, thingies
+PLAN:
+1. GOAP enemy
+2. Wearable items, get rid of satchel
+3. Small new district to house the new enemies.
+4. Random item spawns

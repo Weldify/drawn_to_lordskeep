@@ -87,7 +87,7 @@ func reset_all_multiplayer_things():
 
 
 func _spawn_mercenary_for_peer(peer_id: int) -> void:
-	var mercenary := preload("res://scenes/mercenary.tscn").instantiate()
+	var mercenary := preload("res://scenes/mercenary/mercenary.tscn").instantiate()
 	
 	var node_name := str(peer_id)
 	assert($Mercenaries.get_node_or_null(node_name) == null)
