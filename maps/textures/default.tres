@@ -3,5 +3,5 @@
 [ext_resource type="Texture2D" uid="uid://bjwlnjrpe2lkr" path="res://maps/textures/default.png" id="1_tyvdl"]
 
 [resource]
+specular_mode = 2
 albedo_texture = ExtResource("1_tyvdl")
-texture_filter = 2

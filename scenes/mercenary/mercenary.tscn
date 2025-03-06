@@ -60,7 +60,7 @@ animation = &"idle"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0jky6"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_llfat"]
-graph_offset = Vector2(-481.811, 62.6864)
+graph_offset = Vector2(-496.826, 43.9359)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ch78q")
 nodes/Animation/position = Vector2(-200, 140)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_utd3i")
@@ -75,7 +75,7 @@ animation = &"crouch_idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_llfat"]
 animation = &"walk"
 use_custom_timeline = true
-timeline_length = 2.0
+timeline_length = 1.9
 stretch_time_scale = true
 start_offset = 0.0
 loop_mode = 1
@@ -85,7 +85,7 @@ loop_mode = 1
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ww2dp"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_a4qqm"]
-graph_offset = Vector2(-634.474, 71.6901)
+graph_offset = Vector2(-637.496, 95.6599)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_llfat")
 nodes/Animation/position = Vector2(-460, 120)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_0jky6")
@@ -117,7 +117,7 @@ blend_point_1/node = SubResource("AnimationNodeAnimation_ptsqj")
 blend_point_1/pos = 1.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nud0g"]
-graph_offset = Vector2(-627.419, 164.018)
+graph_offset = Vector2(-632.976, 148.002)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_gijgu")
 nodes/Add2/position = Vector2(80, 160)
 "nodes/[horizontal_speed] Idle and walk blend/node" = SubResource("AnimationNodeBlendSpace1D_4qatf")
@@ -188,7 +188,7 @@ look_at_point = NodePath("../HeadAttachment/Eyes")
 [node name="Model" parent="." instance=ExtResource("1_x6rx2")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
-bones/3/rotation = Quaternion(0.108954, 0, 0, 0.994047)
+bones/3/rotation = Quaternion(0.166123, 0, 0, 0.986105)
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 deterministic = true
@@ -210,15 +210,15 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
 parameters/Regular/Add2/add_amount = 1.0
 "parameters/Regular/[horizontal_speed] Idle and walk blend/blend_position" = 0.0
-"parameters/Regular/[horizontal_speed] Idle and walk blend/0/[crouchness]/blend_amount" = 0.0
-"parameters/Regular/[horizontal_speed] Idle and walk blend/1/[crouchness]/blend_amount" = 0.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/0/[crouchness]/blend_amount" = 1.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/1/[crouchness]/blend_amount" = 0.9895
 "parameters/Regular/[horizontal_speed] Idle and walk blend/1/[horizontal_speed] Walk multiplier/scale" = 0.0
-"parameters/Regular/[vertical_look]/blend_position" = -0.139
+"parameters/Regular/[vertical_look]/blend_position" = -0.2125
 script = ExtResource("3_ptsqj")
 multiparams = Dictionary[StringName, Variant]({
-&"crouchness": 0.0,
+&"crouchness": 0.9895,
 &"horizontal_speed": 0.0,
-&"vertical_look": -0.139
+&"vertical_look": -0.2125
 })
 multiparams_reroute = "vertical_look=[
 	\"Regular/[vertical_look]/blend_position\"
@@ -239,7 +239,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_iodry")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.976258, -0.21661, 0, 0.21661, 0.976258, 0, 1.49321, 0)
+transform = Transform3D(1, 0, 0, 0, 0.944806, -0.32763, 0, 0.32763, 0.944806, 0, 0.9, 0)
 bone_name = "neck"
 bone_idx = 3
 use_external_skeleton = true
@@ -256,7 +256,7 @@ collision_mask = 5
 hit_back_faces = false
 
 [node name="Back1Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.843207, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 bone_name = "torso"
 bone_idx = 2
 use_external_skeleton = true
@@ -266,7 +266,7 @@ external_skeleton = NodePath("../Model/Skeleton3D")
 transform = Transform3D(0.386371, 0, -0.103528, 0.103528, -1.74846e-08, 0.38637, -4.52534e-09, -0.4, -1.68888e-08, -5.96046e-08, 0.458274, -0.0931515)
 
 [node name="RHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.999835, -0.00938523, -0.0155527, 0.00886103, -0.999401, 0.0334374, -0.0158572, 0.033294, 0.99932, -0.162814, 1.14461, -0.0283211)
+transform = Transform3D(-0.998102, -0.0593141, -0.0165689, 0.0565924, -0.989484, 0.133108, -0.0242899, 0.131918, 0.990963, -0.165661, 0.553947, -0.046176)
 bone_name = "r_arm1"
 bone_idx = 9
 use_external_skeleton = true
@@ -288,7 +288,7 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.999835, 0.00938523, 0.0155527, -0.00886103, -0.999401, 0.0334374, 0.0158572, 0.033294, 0.99932, 0.162814, 1.14461, -0.0283211)
+transform = Transform3D(-0.995206, 0.0614695, 0.0760751, -0.0506876, -0.989366, 0.13633, 0.0836463, 0.13182, 0.987738, 0.164907, 0.553902, -0.0461412)
 bone_name = "l_arm1"
 bone_idx = 11
 use_external_skeleton = true
