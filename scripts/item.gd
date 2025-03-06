@@ -123,4 +123,4 @@ func transform_to_holder_if_valid():
 	attachment.on_skeleton_update()
 	
 	var offset: Transform3D = ($RightHoldOffset if is_in_right_hand else $LeftHoldOffset).transform.inverse()
-	global_transform = attachment.global_transform * offset
+	global_transform = attachment.get_node("Node3D").global_transform * offset

@@ -7,3 +7,4 @@ transparency = 1
 diffuse_mode = 3
 specular_mode = 2
 albedo_texture = ExtResource("1_ro8ql")
+grow = true
