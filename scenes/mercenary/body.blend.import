@@ -7232,9 +7232,28 @@ _subresources={
 }
 },
 "materials": {
+"face": {
+"use_external/enabled": true,
+"use_external/path": "uid://clu0p8njsqjwr"
+},
 "skin": {
 "use_external/enabled": true,
 "use_external/path": "uid://cv16i8mpc3pm5"
+}
+},
+"meshes": {
+"body_Cylinder_002": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 2,
+"lods/normal_merge_angle": 60.0,
+"save_to_file/enabled": false,
+"save_to_file/path": ""
+}
+},
+"nodes": {
+"PATH:Skeleton3D/face_pane/face_pane": {
+"mesh_instance/cast_shadow": 0
 }
 }
 }
@@ -7245,7 +7264,7 @@ blender/nodes/cameras=true
 blender/nodes/custom_properties=true
 blender/nodes/modifiers=1
 blender/meshes/colors=false
-blender/meshes/uvs=false
+blender/meshes/uvs=true
 blender/meshes/normals=true
 blender/meshes/export_geometry_nodes_instances=false
 blender/meshes/tangents=true
