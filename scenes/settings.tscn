@@ -112,7 +112,7 @@ theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
 layout_mode = 2
 text = "Interpolation delay"
 
-[node name="InterpolationDelayBox" type="SpinBox" parent="TabContainer/Settings/Grid"]
+[node name="InterpolationDelay" type="SpinBox" parent="TabContainer/Settings/Grid"]
 layout_mode = 2
 tooltip_text = "Increasing this setting will help when other players/enemies/objects appear \"jittery\". This is because your internet is unstable."
 min_value = 1.0
@@ -120,6 +120,23 @@ max_value = 3.0
 value = 1.0
 rounded = true
 suffix = "ticks"
+
+[node name="Label5" type="Label" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+text = "MSAA"
+
+[node name="MsaaLevel" type="OptionButton" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+selected = 3
+item_count = 4
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "2x"
+popup/item_1/id = 1
+popup/item_2/text = "4x"
+popup/item_2/id = 2
+popup/item_3/text = "8x"
+popup/item_3/id = 3
 
 [node name="Save" type="Button" parent="TabContainer/Settings"]
 layout_mode = 2
@@ -131,5 +148,6 @@ text = "Save"
 [connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeSlider" to="." method="_update_volume"]
 [connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeBox" to="." method="_update_volume"]
 [connection signal="toggled" from="TabContainer/Settings/Grid/Fullscreen" to="." method="_update_fullscreen"]
-[connection signal="value_changed" from="TabContainer/Settings/Grid/InterpolationDelayBox" to="." method="_update_interpolation_delay"]
+[connection signal="value_changed" from="TabContainer/Settings/Grid/InterpolationDelay" to="." method="_update_interpolation_delay"]
+[connection signal="item_selected" from="TabContainer/Settings/Grid/MsaaLevel" to="." method="_update_msaa_level"]
 [connection signal="pressed" from="TabContainer/Settings/Save" to="." method="_on_save_pressed"]
