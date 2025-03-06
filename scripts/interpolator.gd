@@ -14,8 +14,12 @@ var properties: Array[StringName]
 
 var _from: Dictionary
 var _to: Dictionary
-var _paths: Array[NodePath]
 
+class PropertyInfo:
+	var path: NodePath
+	var lerp_as_angle := false # For floats
+
+var _config: Array[PropertyInfo]
 var _ticked := false
 
 
@@ -26,14 +30,20 @@ func apply() -> void:
 	
 	var parent := get_parent()
 	var fraction := Engine.get_physics_interpolation_fraction()
-	for path in _from:
-		if !_to.has(path): continue
+	for info in _config:
+		if !_from.has(info.path) or !_to.has(info.path): continue
 		
-		var node := parent.get_node(path)
-		var a = _from[path]
-		var b = _to[path]
+		var node := parent.get_node(info.path)
+		var a = _from[info.path]
+		var b = _to[info.path]
 		
-		node.set_indexed(path.get_as_property_path(), lerp(a, b, fraction))
+		var result
+		if info.lerp_as_angle:
+			result = lerp_angle(a, b, fraction)
+		else:
+			result = lerp(a, b, fraction)
+		
+		node.set_indexed(info.path.get_as_property_path(), result)
 
 
 func snap(path: NodePath, value) -> void:
@@ -56,11 +66,22 @@ func _physics_process(_delta: float) -> void:
 func reconfigure() -> void:
 	_from.clear()
 	_to.clear()
-	_paths.clear()
+	_config.clear()
 	
-	for path_name in properties:
-		var path := NodePath(path_name)
-		_paths.append(path)
+	for prop in properties:
+		var args := prop.split(" ")
+		
+		var property := PropertyInfo.new()
+		property.path = NodePath(args[0])
+		
+		args.remove_at(0) # Index 0 is path, everything else is args
+		for arg in args:
+			if arg == "ANGLE":
+				property.lerp_as_angle = true
+				print("Lerp ass angle")
+			else: assert(false, "What the fuck did you give me?")
+		
+		_config.append(property)
 	
 	_update_to()
 
@@ -84,6 +105,6 @@ func _record() -> void:
 func _update_to() -> void:
 	var parent := get_parent()
 	
-	for path in _paths:
-		var node := parent.get_node(path)
-		_to[path] = node.get_indexed(path.get_as_property_path())
+	for info in _config:
+		var node := parent.get_node(info.path)
+		_to[info.path] = node.get_indexed(info.path.get_as_property_path())

@@ -80,8 +80,8 @@ func _enter_tree() -> void:
 	$ClientSynchronizer.configure()
 	
 	if !is_multiplayer_authority():
-		$Interpolator.properties.append(":look_pitch")
-		$Interpolator.properties.append(":look_yaw")
+		$Interpolator.properties.append(":look_pitch ANGLE")
+		$Interpolator.properties.append(":look_yaw ANGLE")
 		$Interpolator.reconfigure()
 
 
