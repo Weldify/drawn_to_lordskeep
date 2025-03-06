@@ -3,5 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://bjwlnjrpe2lkr" path="res://maps/textures/default.png" id="1_tyvdl"]
 
 [resource]
+diffuse_mode = 3
 specular_mode = 2
 albedo_texture = ExtResource("1_tyvdl")

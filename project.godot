@@ -46,6 +46,13 @@ district_border=""
 navigation_mesh_source_group=""
 enemy_targetable=""
 
+[importer_defaults]
+
+texture={
+&"compress/high_quality": true,
+&"compress/mode": 2
+}
+
 [input]
 
 forward={
@@ -140,5 +147,4 @@ common/physics_interpolation=true
 lights_and_shadows/directional_shadow/size=8192
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
-anti_aliasing/quality/msaa_3d=3
 occlusion_culling/use_occlusion_culling=true

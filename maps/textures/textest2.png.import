@@ -2,21 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbcg1fxr1n8u4"
-path="res://.godot/imported/hurt_overlay_particle.png-c18febf0df1cdfb39050e713e1882c5b.ctex"
+uid="uid://c22roghwpkh32"
+path.bptc="res://.godot/imported/textest2.png-7fdb579008bb78a568fb9f0457a3bc41.bptc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://sprites/hurt_overlay_particle.png"
-dest_files=["res://.godot/imported/hurt_overlay_particle.png-c18febf0df1cdfb39050e713e1882c5b.ctex"]
+source_file="res://maps/textures/textest2.png"
+dest_files=["res://.godot/imported/textest2.png-7fdb579008bb78a568fb9f0457a3bc41.bptc.ctex"]
 
 [params]
 
-compress/mode=0
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
