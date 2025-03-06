@@ -79,10 +79,13 @@ func _enter_tree() -> void:
 	$ClientSynchronizer.set_multiplayer_authority(peer_id)
 	$ClientSynchronizer.configure()
 	
-	if !is_multiplayer_authority():
+	if is_multiplayer_authority():
+		$Interpolator.active = true
+	else:
 		$Interpolator.properties.append(":look_pitch ANGLE")
 		$Interpolator.properties.append(":look_yaw ANGLE")
 		$Interpolator.reconfigure()
+		$ClientSynchronizer.reset_your_interpolation.connect($Interpolator.restart)
 
 
 func _ready() -> void:

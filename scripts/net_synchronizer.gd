@@ -11,14 +11,18 @@ class_name NetSynchronizer
 # @NOTE: Make sure to update your networked properties during .on_tick instead of _physics_process
 # Otherwise you might delay replication by 1 tick.
 
-@export var networked_properties: Array[StringName] 
+@export var networked_properties: Array[StringName]
 
 
-# This used to be 2 at 30 tickrate, but let's try 1 for 20.
-const _SNAPSHOT_DELAY_TICKS = 1
+## If you're doing interpolation and call this,
+## the properties will snap to the correct values when the first snapshot is received,
+## instead of "floating" toward them from default values.
+signal reset_your_interpolation()
+
+const _DELAYED_SNAPSHOTS_NEEDED_FOR_APPLYING := 2
 
 ## If there are more than this amount of  snapshots in the delayed queue, process all of them.
-const _TOO_MANY_DELAYED_SNAPSHOTS = 3
+const _TOO_MANY_DELAYED_SNAPSHOTS := 3
 
 class PropertyInfo:
 	var path: NodePath
@@ -38,6 +42,7 @@ var _last_state: Array
 
 var _last_tick := 0
 var _delayed_snapshots: Array[DelayedSnapshot]
+var _applied_at_least_one_delayed_snapshot := false
 
 
 func snap(property: NodePath, value):
@@ -107,7 +112,7 @@ func _before_tick():
 
 
 func _apply_delayed_changes():
-	if _delayed_snapshots.is_empty(): return
+	if _delayed_snapshots.size() < _DELAYED_SNAPSHOTS_NEEDED_FOR_APPLYING: return
 
 	var ticks_to_process := 1
 	
@@ -128,6 +133,8 @@ func _apply_delayed_changes():
 			
 			var info := _properties[index]
 			_set_value(info.path, value)
+	
+	_applied_at_least_one_delayed_snapshot = true
 
 
 func _after_tick():
@@ -199,6 +206,12 @@ func _receive_changes(tick: int, changes: Array[Array]):
 			snapshot.changes.append(change)
 		else:
 			_set_value(info.path, change[1])
+	
+	# These changes are for the first snapshot, either from the
+	# reliable rpc or unreliable extra, we want to reset interpolation
+	# regardless since these are meant to arrive more or less at the same time.
+	if _last_tick == 0 and !_applied_at_least_one_delayed_snapshot:
+		reset_your_interpolation.emit()
 
 
 func _get_value(path: NodePath):

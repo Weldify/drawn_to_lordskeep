@@ -2,6 +2,8 @@ extends Node
 class_name Interpolator
 
 @export var default_properties: Array[StringName]
+@export var active := true
+
 
 ## @NOTE: We can't just directly use the @export property above...
 ## Because for whatever reason modifying it carries over to 
@@ -24,6 +26,8 @@ var _ticked := false
 
 
 func apply() -> void:
+	if !active: return
+	
 	if _ticked:
 		_ticked = false
 		_record()
@@ -64,8 +68,6 @@ func _physics_process(_delta: float) -> void:
 
 
 func reconfigure() -> void:
-	_from.clear()
-	_to.clear()
 	_config.clear()
 	
 	for prop in properties:
@@ -78,11 +80,22 @@ func reconfigure() -> void:
 		for arg in args:
 			if arg == "ANGLE":
 				property.lerp_as_angle = true
-				print("Lerp ass angle")
 			else: assert(false, "What the fuck did you give me?")
 		
 		_config.append(property)
 	
+	if active:
+		restart()
+
+
+func restart():
+	active = true
+	# This is stale and it's not guaranteed that we will tick again
+	# before the next frame.
+	_ticked = false
+	
+	_from.clear()
+	_to.clear()
 	_update_to()
 
 

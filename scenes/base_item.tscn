@@ -22,7 +22,7 @@ script = ExtResource("1_g4pv6")
 [node name="NetSynchronizer" type="Node" parent="."]
 script = ExtResource("2_kdhv7")
 networked_properties = Array[StringName]([&":transform UNRELIABLE DELAYED", &":spin_speed UNRELIABLE", &":holder_info"])
-metadata/_custom_type_script = ExtResource("2_kdhv7")
+metadata/_custom_type_script = "uid://c6dsf65nsvdek"
 
 [node name="RightHoldOffset" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 4.37114e-08, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, -4.37114e-08, 0.0383395, 1.52724e-08, 0.0566442)

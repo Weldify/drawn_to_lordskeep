@@ -45,6 +45,7 @@ func _ready() -> void:
 	
 	Net.on_tick.connect(_on_tick)
 	$NetSynchronizer.configure()
+	$NetSynchronizer.reset_your_interpolation.connect(reset_physics_interpolation)
 	
 	holder_changed.connect(_on_holder_changed)
 	_on_holder_changed()
