@@ -1,16 +1,19 @@
-[gd_scene load_steps=29 format=3 uid="uid://cxm0jshsmlwcg"]
+[gd_scene load_steps=43 format=3 uid="uid://cxm0jshsmlwcg"]
 
 [ext_resource type="Script" uid="uid://pk0xdmbw4k8f" path="res://scripts/mercenary.gd" id="1_iodry"]
 [ext_resource type="PackedScene" uid="uid://uns0jhgng5g7" path="res://scenes/mercenary/body.blend" id="1_x6rx2"]
-[ext_resource type="Animation" uid="uid://df7b75lmpoqiv" path="res://scenes/mercenary/anim_RESET.res" id="2_0bd4o"]
 [ext_resource type="Script" uid="uid://c6dsf65nsvdek" path="res://scripts/net_synchronizer.gd" id="2_nhp5y"]
 [ext_resource type="Script" uid="uid://ddo7hj477un6q" path="res://scripts/mercenary_hand_anim_events.gd" id="2_wd1cb"]
 [ext_resource type="Script" uid="uid://cod6hn12hn8g" path="res://scripts/interpolator.gd" id="3_od5xh"]
 [ext_resource type="Script" uid="uid://bkto7nvv6hqwj" path="res://scripts/anim_tree.gd" id="3_ptsqj"]
 [ext_resource type="Script" uid="uid://bktyx4i3wfwo0" path="res://scripts/enemy_targetable.gd" id="4_mi1ul"]
+[ext_resource type="Animation" uid="uid://bfp2faacqtjch" path="res://scenes/mercenary/anims/crouch_idle.res" id="7_8n2cc"]
 [ext_resource type="PackedScene" uid="uid://nyc28i4n7308" path="res://models/satchel/satchel.blend" id="7_od5xh"]
+[ext_resource type="Animation" uid="uid://dr0q56ihmiba2" path="res://scenes/mercenary/anims/RESET.res" id="8_nmnka"]
 [ext_resource type="AudioStream" uid="uid://cvxok8ojx1557" path="res://sounds/throw.wav" id="9_2csfb"]
+[ext_resource type="Animation" uid="uid://d3cadqeggg327" path="res://scenes/mercenary/anims/walk.res" id="9_4qatf"]
 [ext_resource type="AudioStream" uid="uid://cbugxrgkapnjm" path="res://sounds/REPLACE_ASAP_take.wav" id="10_7ogl0"]
+[ext_resource type="Animation" uid="uid://c0c3so3xgn2gg" path="res://scenes/mercenary/anims/idle.res" id="10_nmnka"]
 [ext_resource type="AudioStream" uid="uid://dlxa2poyr20sn" path="res://sounds/REPLACE_ASAP_foot_step0.wav" id="11_k4a0w"]
 [ext_resource type="AudioStream" uid="uid://d1jbyeh3ptgfb" path="res://sounds/REPLACE_ASAP_foot_step1.wav" id="12_wd1cb"]
 [ext_resource type="AudioStream" uid="uid://nig86e7snljx" path="res://sounds/REPLACE_ASAP_foot_step2.wav" id="13_gijgu"]
@@ -19,43 +22,87 @@
 tracks/0/type = "rotation_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skeleton3D:back0")
+tracks/0/path = NodePath("Skeleton3D:neck")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.309837, 1.27876e-07, -4.57042e-08, 0.95079)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Skeleton3D:back1")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.382009, -2.77711e-07, 6.38047e-08, 0.924158)
+tracks/0/keys = PackedFloat32Array(0, 1, 0.707107, 0, 0, 0.707107)
 
 [sub_resource type="Animation" id="Animation_0bd4o"]
 tracks/0/type = "rotation_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skeleton3D:back0")
+tracks/0/path = NodePath("Skeleton3D:neck")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, -0.453222, 1.2274e-07, 5.81041e-08, 0.891397)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Skeleton3D:back1")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, -0.383357, -2.41488e-07, -1.51254e-07, 0.9236)
+tracks/0/keys = PackedFloat32Array(0, 1, -0.707107, 0, 0, 0.707107)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iodry"]
 _data = {
-&"RESET": ExtResource("2_0bd4o"),
+&"RESET": ExtResource("8_nmnka"),
+&"crouch_idle": ExtResource("7_8n2cc"),
+&"idle": ExtResource("10_nmnka"),
 &"look_down": SubResource("Animation_ptsqj"),
-&"look_up": SubResource("Animation_0bd4o")
+&"look_up": SubResource("Animation_0bd4o"),
+&"walk": ExtResource("9_4qatf")
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k4a0w"]
 size = Vector3(0.8, 0.2, 0.6)
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_gijgu"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_utd3i"]
+animation = &"crouch_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ch78q"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0jky6"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_llfat"]
+graph_offset = Vector2(-481.811, 62.6864)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ch78q")
+nodes/Animation/position = Vector2(-200, 140)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_utd3i")
+"nodes/Animation 2/position" = Vector2(-200, 320)
+"nodes/[crouchness]/node" = SubResource("AnimationNodeBlend2_0jky6")
+"nodes/[crouchness]/position" = Vector2(-20, 140)
+node_connections = [&"[crouchness]", 0, &"Animation", &"[crouchness]", 1, &"Animation 2", &"output", 0, &"[crouchness]"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0jky6"]
+animation = &"crouch_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_llfat"]
+animation = &"walk"
+use_custom_timeline = true
+timeline_length = 2.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_a4qqm"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ww2dp"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_a4qqm"]
+graph_offset = Vector2(-634.474, 71.6901)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_llfat")
+nodes/Animation/position = Vector2(-460, 120)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_0jky6")
+"nodes/Animation 2/position" = Vector2(-460, 300)
+"nodes/[crouchness]/node" = SubResource("AnimationNodeBlend2_a4qqm")
+"nodes/[crouchness]/position" = Vector2(-260, 180)
+"nodes/[horizontal_speed] Walk multiplier/node" = SubResource("AnimationNodeTimeScale_ww2dp")
+"nodes/[horizontal_speed] Walk multiplier/position" = Vector2(-60, 140)
+node_connections = [&"[crouchness]", 0, &"Animation", &"[crouchness]", 1, &"Animation 2", &"[horizontal_speed] Walk multiplier", 0, &"[crouchness]", &"output", 0, &"[horizontal_speed] Walk multiplier"]
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_4qatf"]
+blend_point_0/node = SubResource("AnimationNodeBlendTree_llfat")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeBlendTree_a4qqm")
+blend_point_1/pos = 2.0
+min_space = 0.0
+max_space = 2.0
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0bd4o"]
 animation = &"look_down"
@@ -70,10 +117,14 @@ blend_point_1/node = SubResource("AnimationNodeAnimation_ptsqj")
 blend_point_1/pos = 1.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nud0g"]
-graph_offset = Vector2(-492.459, 228.59)
+graph_offset = Vector2(-627.419, 164.018)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_gijgu")
+nodes/Add2/position = Vector2(80, 160)
+"nodes/[horizontal_speed] Idle and walk blend/node" = SubResource("AnimationNodeBlendSpace1D_4qatf")
+"nodes/[horizontal_speed] Idle and walk blend/position" = Vector2(-480, 200)
 "nodes/[vertical_look]/node" = SubResource("AnimationNodeBlendSpace1D_iodry")
-"nodes/[vertical_look]/position" = Vector2(-95.9569, 216.737)
-node_connections = [&"output", 0, &"[vertical_look]"]
+"nodes/[vertical_look]/position" = Vector2(-120, 320)
+node_connections = [&"Add2", 0, &"[horizontal_speed] Idle and walk blend", &"Add2", 1, &"[vertical_look]", &"output", 0, &"Add2"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nhp5y"]
 advance_mode = 2
@@ -85,7 +136,7 @@ transitions = ["Start", "Regular", SubResource("AnimationNodeStateMachineTransit
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iodry"]
 radius = 0.4
-height = 1.75
+height = 1.8
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l01sp"]
 random_pitch = 1.1
@@ -137,8 +188,7 @@ look_at_point = NodePath("../HeadAttachment/Eyes")
 [node name="Model" parent="." instance=ExtResource("1_x6rx2")]
 
 [node name="Skeleton3D" parent="Model" index="0"]
-bones/3/rotation = Quaternion(-0.0775995, 1.28285e-07, 2.92562e-08, 0.996985)
-bones/4/rotation = Quaternion(-0.000729501, -2.6284e-07, -9.11417e-08, 1)
+bones/3/rotation = Quaternion(0.108954, 0, 0, 0.994047)
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 deterministic = true
@@ -158,50 +208,67 @@ root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeStateMachine_od5xh")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Model/AnimationPlayer")
-"parameters/Regular/[vertical_look]/blend_position" = 0.0
+parameters/Regular/Add2/add_amount = 1.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/blend_position" = 0.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/0/[crouchness]/blend_amount" = 0.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/1/[crouchness]/blend_amount" = 0.0
+"parameters/Regular/[horizontal_speed] Idle and walk blend/1/[horizontal_speed] Walk multiplier/scale" = 0.0
+"parameters/Regular/[vertical_look]/blend_position" = -0.139
 script = ExtResource("3_ptsqj")
 multiparams = Dictionary[StringName, Variant]({
-&"vertical_look": 0.0
+&"crouchness": 0.0,
+&"horizontal_speed": 0.0,
+&"vertical_look": -0.139
 })
 multiparams_reroute = "vertical_look=[
 	\"Regular/[vertical_look]/blend_position\"
+]
+
+horizontal_speed=[
+	\"Regular/[horizontal_speed] Idle and walk blend/blend_position\", 
+	\"Regular/[horizontal_speed] Idle and walk blend/1/[horizontal_speed] Walk multiplier/scale\",
+]
+
+crouchness=[
+	\"Regular/[horizontal_speed] Idle and walk blend/0/[crouchness]/blend_amount\",
+	\"Regular/[horizontal_speed] Idle and walk blend/1/[crouchness]/blend_amount\",
 ]"
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_iodry")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, -7.49838e-09, -2.24455e-07, -2.01065e-08, 0.99244, -0.122733, 2.23679e-07, 0.122733, 0.99244, -4.66031e-09, 1.39466, -0.0303439)
+transform = Transform3D(1, 0, 0, 0, 0.976258, -0.21661, 0, 0.21661, 0.976258, 0, 1.49321, 0)
 bone_name = "neck"
-bone_idx = 5
+bone_idx = 3
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="Eyes" type="Node3D" parent="HeadAttachment"]
 process_priority = 2
-transform = Transform3D(-1, 1.06542e-08, 8.67711e-08, 0, 0.992546, -0.121869, -8.74228e-08, -0.121869, -0.992546, 0, 0.218, 0.099)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.55671e-09, 0.2, 0.075)
 
 [node name="UseRay" type="RayCast3D" parent="HeadAttachment/Eyes"]
 enabled = false
-target_position = Vector3(0, 0, -0.7)
+target_position = Vector3(0, 0, -1)
 collision_mask = 5
 hit_back_faces = false
 
 [node name="Back1Attachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, 1.04055e-07, -2.74405e-07, -7.4246e-08, 0.994315, 0.106475, 2.83924e-07, -0.106475, 0.994315, -1.94251e-08, 1.25357, -0.0152358)
-bone_name = "back1"
-bone_idx = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.843207, 0)
+bone_name = "torso"
+bone_idx = 2
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
 [node name="Satchel" parent="Back1Attachment" instance=ExtResource("7_od5xh")]
-transform = Transform3D(0.386371, 0, -0.103528, 0.103528, -1.74846e-08, 0.38637, -4.52534e-09, -0.4, -1.68888e-08, 3.72753e-10, -4.27441e-09, -0.0824258)
+transform = Transform3D(0.386371, 0, -0.103528, 0.103528, -1.74846e-08, 0.38637, -4.52534e-09, -0.4, -1.68888e-08, -5.96046e-08, 0.458274, -0.0931515)
 
 [node name="RHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.058388, -0.998293, -0.0010612, -0.00106034, -0.00100097, 0.999999, -0.998293, 0.058389, -0.00100012, -0.622313, 1.3164, -0.0384384)
-bone_name = "r_hand"
-bone_idx = 8
+transform = Transform3D(-0.999835, -0.00938523, -0.0155527, 0.00886103, -0.999401, 0.0334374, -0.0158572, 0.033294, 0.99932, -0.162814, 1.14461, -0.0283211)
+bone_name = "r_arm1"
+bone_idx = 9
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -221,9 +288,9 @@ max_distance = 2.0
 attenuation_filter_db = 0.0
 
 [node name="LHandAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.0583884, 0.998293, 0.00106108, 0.00106034, -0.0010009, 0.999999, 0.998293, 0.0583895, -0.00100013, 0.622313, 1.3164, -0.0384381)
-bone_name = "l_hand"
-bone_idx = 16
+transform = Transform3D(-0.999835, 0.00938523, 0.0155527, -0.00886103, -0.999401, 0.0334374, 0.0158572, 0.033294, 0.99932, 0.162814, 1.14461, -0.0283211)
+bone_name = "l_arm1"
+bone_idx = 11
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
@@ -249,5 +316,8 @@ unit_size = 1.0
 max_distance = 8.0
 max_polyphony = 2
 attenuation_filter_db = 0.0
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.603925, 0.690671, 0)
 
 [editable path="Model"]

@@ -1,0 +1,25 @@
+	Bearers / Hexborn (derogatory)
+
+	People born with supernatural powers.
+The powers can be anything, but known examples include teleportation,
+subtle mind control, telepathy, shapeshifting, of which they may bear
+mutliple or all of the above.
+
+	Due to the unpredictable and powerful nature of their abilities,
+Children exhibiting signs of being a bearer are either immediately exterminated
+or in rare cases bargained off and used in practical applications.
+
+	A lot of effort is put towards making the commonfolk resent bearers via laws,
+posters and word of mouth. Most people view bearers as malicious and cowardly.
+	* CATCH THE COWARD -- LIFT THE HEX! *
+	* TO HELL WITH YOU -- HEXBORN! *
+
+	Hexborn children almost never go unnoticed, as they are curious and 
+don't understand the repercussions of using their "gifts". However, even if they 
+do manage to hide their abilities well enough, their unsociable and withdrawn 
+character is sure to get them exposed. They are known to covertly try
+whispering to themselves.
+
+	(TODO: Bearer personas)
+	(TODO: Bestow runes)
+	(TODO: The whisperer, as a separate file)

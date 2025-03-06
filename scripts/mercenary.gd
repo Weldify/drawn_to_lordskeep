@@ -253,9 +253,9 @@ func take_item_effects(right_hand: bool):
 	assert(multiplayer.get_remote_sender_id() == 1)
 	
 	if right_hand:
-		$RHand0Attachment/Take.play()
+		$RHandAttachment/Take.play()
 	else:
-		$LHand0Attachment/Take.play()
+		$LHandAttachment/Take.play()
 
 
 var mantle_goal: Vector3
