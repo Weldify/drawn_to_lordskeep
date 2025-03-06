@@ -187,6 +187,9 @@ look_at_point = NodePath("../HeadAttachment/Eyes")
 
 [node name="Model" parent="." instance=ExtResource("1_x6rx2")]
 
+[node name="Skeleton3D" parent="Model" index="0"]
+bones/3/rotation = Quaternion(0.166123, 0, 0, 0.986105)
+
 [node name="face_pane" parent="Model/Skeleton3D" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.19209e-07, 0)
 
@@ -239,7 +242,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_iodry")
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 0.944806, -0.32763, 0, 0.32763, 0.944806, 0, 1.5, 0)
 bone_name = "neck"
 bone_idx = 3
 use_external_skeleton = true
@@ -293,7 +296,7 @@ transform = Transform3D(1, -6.38378e-15, 7.10543e-15, 1.24345e-14, 1, 0, -7.1054
 [node name="LHandAttachment" type="BoneAttachment3D" parent="."]
 transform = Transform3D(1.53672e-07, 0.999898, -0.0142843, -1, 1.5886e-07, -4.76979e-08, -4.56231e-08, 0.0142843, 0.999898, 0.45, 1.45, -0.00499998)
 bone_name = "l_arm1"
-bone_idx = 11
+bone_idx = 12
 use_external_skeleton = true
 external_skeleton = NodePath("../Model/Skeleton3D")
 
