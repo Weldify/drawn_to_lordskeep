@@ -24,10 +24,11 @@ offset_top = -20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 use_hidden_tabs_for_min_size = true
 
 [node name="Menu" type="VBoxContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 alignment = 1
 metadata/_tab_index = 0
@@ -52,7 +53,6 @@ size_flags_vertical = 4
 text = "Exit to desktop"
 
 [node name="Settings" type="VBoxContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -108,6 +108,19 @@ size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
 
+[node name="Label4" type="Label" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+text = "Interpolation delay"
+
+[node name="InterpolationDelayBox" type="SpinBox" parent="TabContainer/Settings/Grid"]
+layout_mode = 2
+tooltip_text = "Increasing this setting will help when other players/enemies/objects appear \"jittery\". This is because your internet is unstable."
+min_value = 1.0
+max_value = 3.0
+value = 1.0
+rounded = true
+suffix = "ticks"
+
 [node name="Save" type="Button" parent="TabContainer/Settings"]
 layout_mode = 2
 text = "Save"
@@ -118,4 +131,5 @@ text = "Save"
 [connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeSlider" to="." method="_update_volume"]
 [connection signal="value_changed" from="TabContainer/Settings/Grid/HBoxContainer2/VolumeBox" to="." method="_update_volume"]
 [connection signal="toggled" from="TabContainer/Settings/Grid/Fullscreen" to="." method="_update_fullscreen"]
+[connection signal="value_changed" from="TabContainer/Settings/Grid/InterpolationDelayBox" to="." method="_update_interpolation_delay"]
 [connection signal="pressed" from="TabContainer/Settings/Save" to="." method="_on_save_pressed"]

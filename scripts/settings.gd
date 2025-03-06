@@ -27,23 +27,44 @@ extends Control
 			
 		$TabContainer/Settings/Grid/Fullscreen.set_pressed_no_signal(v)
 
+
+@export var interpolation_delay: int :
+	set(v):
+		interpolation_delay = v
+		NetSynchronizer.snapshot_delay_ticks = interpolation_delay
+
+
+const variables: PackedStringArray = [
+	"look_sensitivity",
+	"volume",
+	"fullscreen",
+	"snapshot_delay_ticks"
+]
+
+static var defaults: Dictionary[StringName, Variant] = {
+	"look_sensitivity": 0.2,
+	"volume": 0.25,
+	"fullscreen": true,
+	"snapshot_delay_ticks": NetSynchronizer.snapshot_delay_ticks
+}
+
 var _config_file: ConfigFile = ConfigFile.new()
 
 func load_settings():
 	_config_file.load("data/game.settings")
 	
-	look_sensitivity = _config_file.get_value("", "look_sensitivity", 0.2) 
-	volume = _config_file.get_value("", "volume", 0.25)
-	fullscreen = _config_file.get_value("", "fullscreen", true)
+	for variable_name in variables:
+		var value = _config_file.get_value("", variable_name, defaults.get(variable_name))
+		set(variable_name, value)
 
 
 func save_settings():
 	var game_dir := DirAccess.open("")
 	game_dir.make_dir("data")
 	
-	_config_file.set_value("", "look_sensitivity", look_sensitivity)
-	_config_file.set_value("", "volume", volume)
-	_config_file.set_value("", "fullscreen", fullscreen)
+	for variable_name in variables:
+		var value = get(variable_name)
+		_config_file.set_value("", variable_name, value)
 	
 	var status := _config_file.save("data/game.settings")
 	if status != OK:
@@ -73,6 +94,10 @@ func _update_volume(new_value: float):
 
 func _update_fullscreen(new_value: bool):
 	fullscreen = new_value
+
+
+func _update_interpolation_delay(v: float):
+	interpolation_delay = v as int
 
 
 func _on_save_pressed() -> void:

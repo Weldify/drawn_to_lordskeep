@@ -19,10 +19,13 @@ class_name NetSynchronizer
 ## instead of "floating" toward them from default values.
 signal reset_your_interpolation()
 
-const _DELAYED_SNAPSHOTS_NEEDED_FOR_APPLYING := 2
+## @NOTE: We support setting this at runtime and have this as an option in settings.
+static var snapshot_delay_ticks := 1
 
-## If there are more than this amount of  snapshots in the delayed queue, process all of them.
-const _TOO_MANY_DELAYED_SNAPSHOTS := 3
+## If the amount of snapshots is 
+## num_snapshots - delayed_snapshots_needed_for_applying > this
+## Then we will process everything so that we don't run out of sync!
+const DELAYED_SNAPSHOTS_SPILL := 2
 
 class PropertyInfo:
 	var path: NodePath
@@ -112,20 +115,19 @@ func _before_tick():
 
 
 func _apply_delayed_changes():
-	if _delayed_snapshots.size() < _DELAYED_SNAPSHOTS_NEEDED_FOR_APPLYING: return
+	if _delayed_snapshots.size() < snapshot_delay_ticks: return
 
 	var ticks_to_process := 1
 	
 	## We received too many ticks, so we probably lagged out?
-	## Process all the etxra ones.
-	if _delayed_snapshots.size() > _TOO_MANY_DELAYED_SNAPSHOTS: 
+	## Process all the extra ones so we don't fall behind.
+	if _delayed_snapshots.size() - snapshot_delay_ticks > DELAYED_SNAPSHOTS_SPILL: 
 		push_warning("Received too many snapshots. Processing all extra ones.")
 		ticks_to_process = _delayed_snapshots.size()
 
 	for i in ticks_to_process:
 		var snapshot: DelayedSnapshot = _delayed_snapshots.pop_front()
 		_last_tick = snapshot.tick
-		
 		
 		for change in snapshot.changes:
 			var index: int = change[0]
