@@ -95,10 +95,9 @@ func _ready() -> void:
 	}
 	
 	$TabContainer.current_tab = 1
-	visible = false
-	G.ui_affecting_mouse_set_visible(self, true)
-	
 	load_settings()
+	
+	visible = false
 
 
 func _process(_delta: float) -> void:

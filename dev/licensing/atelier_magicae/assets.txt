@@ -1,2 +1,3 @@
-Unholy UI - Souls (12) | used in subtitles_appear.wav
-BNA_UI6 	       | used in multiplayer_horn.wav
+Unholy UI - Souls (12) | used in sounds/subtitles_appear.wav
+BNA_UI6 	       | used in sounds/multiplayer_horn.wav
+BNA_UI14	       | used in sounds/intro_sequence_exit.wav
