@@ -40,6 +40,7 @@ var msaa_level: Viewport.MSAA :
 	set(v):
 		msaa_level = v
 		get_viewport().msaa_3d = v
+		
 		print("Set msaa")
 		$TabContainer/Settings/Grid/MsaaLevel.selected = v
 

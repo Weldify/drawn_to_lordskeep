@@ -14,6 +14,8 @@ var look_pitch: float
 var look_yaw: float
 var trying_to_use := false
 
+var wants_to_crouch := false
+
 var crouchness: float :
 	set(v):
 		crouchness = v
@@ -375,7 +377,10 @@ func _do_movement(delta: float):
 	if _grab_throw_after_finish:
 		_try_apply_grab_throw(_grab_throw_velocity, _grab_throw_pitch)
 	
-	if Input.is_action_pressed("crouch"):
+	if Input.is_action_just_pressed("crouch"):
+		wants_to_crouch = !wants_to_crouch
+	
+	if wants_to_crouch:
 		crouchness = move_toward(crouchness, 1.0, delta * 5)
 	elif can_uncrouch():
 		crouchness = move_toward(crouchness, 0.0, delta * 5)

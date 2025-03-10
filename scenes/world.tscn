@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bpcal5m0bxtpi"]
+[gd_scene load_steps=37 format=3 uid="uid://bpcal5m0bxtpi"]
 
 [ext_resource type="Script" uid="uid://ctihmu4a26ffx" path="res://scripts/world.gd" id="1_ioo17"]
 [ext_resource type="Material" uid="uid://yr7saub7qdbg" path="res://sprites/hurt_overlay_particle.tres" id="3_w7kh3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bsv2ul5wbfvx1" path="res://sprites/eye_blocker.png" id="12_jhx03"]
 [ext_resource type="Script" uid="uid://bjfxf2r111i3x" path="res://scripts/fallen_things_deleter.gd" id="12_q5onr"]
 [ext_resource type="AudioStream" uid="uid://cf3r3qlira3sd" path="res://sounds/REPLACE_ASAP_eye_blocker_full.wav" id="13_jhx03"]
+[ext_resource type="Script" uid="uid://lclgoq8dmnxt" path="res://scripts/mercenary_glyph.gd" id="14_o8fc1"]
 [ext_resource type="Texture2D" uid="uid://cevv5sgy32g0b" path="res://sprites/crosshair.png" id="15_hiqwa"]
 [ext_resource type="AudioStream" uid="uid://o2odrctghg78" path="res://sounds/wind_ambience.wav" id="22_wukud"]
 [ext_resource type="FontFile" uid="uid://cgssk0x0gww2c" path="res://fonts/Macondo-Regular.ttf" id="29_k83mh"]
@@ -232,6 +233,18 @@ random_pitch = 1.3
 streams_count = 1
 stream_0/stream = ExtResource("13_jhx03")
 
+[sub_resource type="PrismMesh" id="PrismMesh_jhx03"]
+
+[sub_resource type="Gradient" id="Gradient_o8fc1"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xo05s"]
+gradient = SubResource("Gradient_o8fc1")
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [node name="world" type="Node"]
 physics_interpolation_mode = 2
 script = ExtResource("1_ioo17")
@@ -273,6 +286,7 @@ environment = SubResource("Environment_ryup7")
 
 [node name="Sunlight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.924206, 0.0988412, 0.36888, -0.336147, 0.668958, 0.662948, -0.181239, -0.736699, 0.65148, 0, 3.57483, 4.54588)
+layers = 3
 shadow_enabled = true
 directional_shadow_mode = 1
 
@@ -395,3 +409,49 @@ expand_mode = 1
 stream = SubResource("AudioStreamRandomizer_o8fc1")
 volume_db = -12.0
 pitch_scale = 0.9
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.71807)
+mesh = SubResource("PrismMesh_jhx03")
+
+[node name="MercenaryGlyph" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 0.047
+anchor_bottom = 0.083
+offset_right = 28.92
+offset_bottom = 0.159996
+script = ExtResource("14_o8fc1")
+
+[node name="TextureRect" type="TextureRect" parent="MercenaryGlyph"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.875
+anchor_right = 0.9
+anchor_bottom = 1.025
+grow_horizontal = 2
+grow_vertical = 0
+texture = SubResource("GradientTexture2D_xo05s")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="MercenaryGlyph"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="MercenaryGlyph/ViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(59, 40)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="MercenaryGlyph/ViewportContainer/SubViewport"]
+cull_mask = 2
+projection = 1
+size = 2.0
+far = 10.0
